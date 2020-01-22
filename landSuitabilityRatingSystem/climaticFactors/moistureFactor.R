@@ -11,7 +11,7 @@ moistureFactor <- function(...){
   #The graph in figure 3.1 on page 8 reaches 0 point deduction at 0mm which gives the following formula:
   #pointDeduction <- 70 * A / -500
   #But the text says that it reaches 0 point deduction at -150mm which gives the following formula:
-  pointDeduction <- 0.2 * A - 30
+  pointDeduction <- A / -5 - 30
 
   #Return the point deduction number
   return(pointDeduction)

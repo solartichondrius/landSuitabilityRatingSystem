@@ -15,6 +15,11 @@ excessFallMoisture <- function(...){
     percentDeduction <- 10 #then set it to be equal to 10%
   }
 
+  #By default the LSRS calculator inserts a value of “-50” which equates to a zero % deduction
+  if(A==-50) { #so if the value is -50
+    percentDeduction <- 0 #set the percent deduction to 0
+  }
+
   #Return the percent deduction
   return(percentDeduction)
 
