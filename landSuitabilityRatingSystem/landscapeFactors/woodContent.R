@@ -1,28 +1,13 @@
 # Title     : Wood Content
 # Objective : Calculate percent deduction for wood content in organic soils
 # Created by: CurtisTh
-# Created on: 2020-01-21
+# Created on: 2020-01-22
 
-woodContent <- function(vol, depth){ #wood content by volume (vol) and depth within the organic soil profile (depth)
-
-  if(depth <= 40){
-    if(vol <= 1){
-      percentDeduction <- 0
-    } else if(vol <= 2 | vol > 10){
-      percentDeduction <- vol * 2.5
-    } else if(vol <= 10){
-      percentDeduction <- vol * 2
-    }
-  } else {
-    if(vol <= 2){
-      percentDeduction <- 0
-    } else if(vol <= 10){
-      percentDeduction <- vol
-    } else {
-      percentDeduction <- vol * 1.25
-    }
+woodContent <- function(surface,subsurface){ #surface and subsurface wood content by percent volume
+  percentDeduction <- 2*surface + subsurface
+  if(percentDeduction>25) percentDeduction <- 25 #maximum deduction allowed is 25 so if its more than 25 set it to 25
+  if(surface == -9 | subsurface == -9){
+    percentDeduction <- 0 #If -9 (no value / unknown) appears in the Agrasid database, then use0 for calculating deduction -- this will lead to a 0 deduction being determined.
   }
-
   return(percentDeduction)
-
 }
