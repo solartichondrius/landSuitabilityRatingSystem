@@ -19,10 +19,10 @@ plotGraph(createDataFrame(excessFallMoisture,0,100),"Percent deduction for P-PE 
 plotGraph(createDataFrame(fallFrost,0,30),"Percent deduction for early frost","Percent Deduction","Days before Average Fall Frost")
 
 #Figure 6.2: Deductions related to slope gradient for all landscape types in Region 1 and for landscapes with complex slopes in Region 2.
-plotGraph(createDataFrame(complexSlope,0,60),"Deductions related to slope gradient for all landscape types in Region 1 and for landscapes with complex slopes in Region 2.","Deduction Points","Percent Slope")
+plotGraph(createDataFrame(region1AllSlopesAndRegion2ComplexSlopes,0,70),"Deductions related to slope gradient for all landscape types in Region 1 and for landscapes with complex slopes in Region 2.","Deduction Points","Percent Slope")
 
 #Figure 6.3: Deductions related to slope gradient for landscapes with simple slopes in Region 2.
-plotGraph(createDataFrame(simpleSlope,0,60),"Deductions related to slope gradient for landscapes with simple slopes in Region 2.","Deduction Points","Percent Slope")
+plotGraph(createDataFrame(region2SimpleSlope,0,70),"Deductions related to slope gradient for landscapes with simple slopes in Region 2.","Deduction Points","Percent Slope")
 
 #Figure 6.4 Deductions for surface stoniness.
 plotGraph(createDataFrame(stoniness,0,2),"Deductions for surface stoniness.","Percent Deduction","Annual Removal(cubic m/ha)")
