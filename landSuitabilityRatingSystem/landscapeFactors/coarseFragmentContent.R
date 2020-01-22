@@ -4,13 +4,6 @@
 # Created on: 2020-01-21
 
 coarseFragmentContent <- function(vol){ # % Volume
-
-  if(vol < 30){
-    percentDeduction <- 3/4 * vol - 7.5
-  } else {
-    percentDeduction <- vol / 2
-  }
-
+  percentDeduction <- vol*0.96285714 - 0.0057142857*vol^2 -9
   return(percentDeduction)
-
 }
