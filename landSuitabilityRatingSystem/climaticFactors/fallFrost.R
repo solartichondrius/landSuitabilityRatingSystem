@@ -13,6 +13,8 @@ fallFrost <- function(DBAFF){
     percentDeduction <- 10 #then set it to be equal to 10%
   }
 
+  if(percentDeduction<0) percentDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
+
   #Return the percent deduction
   return(percentDeduction)
 

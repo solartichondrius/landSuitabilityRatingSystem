@@ -49,6 +49,8 @@ flooding <- function(inundationPeriod,usableGrowingSeasonLength,frenquency){
     }
   }
 
+  if(percentDeduction<0) percentDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
+
   return(percentDeduction)
 
 }

@@ -21,6 +21,8 @@ slope <- function(percentSlope,region,simpleOrComplex){
     pointDeduction <- region1AllSlopesAndRegion2ComplexSlopes(percentSlope)
   }
 
+  if(pointDeduction<0) pointDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
+
   return(pointDeduction)
 
 }

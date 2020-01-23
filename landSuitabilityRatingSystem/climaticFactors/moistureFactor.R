@@ -12,6 +12,8 @@ moistureFactor <- function(...){
   #pointDeduction <- 70 * A / -500
   #But the text says that it reaches 0 point deduction at -150mm which gives the following formula:
   pointDeduction <- A / -5 - 30
+  
+  if(pointDeduction<0) pointDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
 
   #Return the point deduction number
   return(pointDeduction)
