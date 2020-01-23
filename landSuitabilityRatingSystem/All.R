@@ -35,6 +35,8 @@ source("soilFactors/organicSurface.R",echo=TRUE)
 source("soilFactors/reaction.R",echo=TRUE)
 source("soilFactors/salinity.R",echo=TRUE)
 source("soilFactors/sodicity.R",echo=TRUE)
+source("soilFactors/soilRatingClass.R",echo=TRUE)
+source("soilFactors/soilRatingPoints.R",echo=TRUE)
 source("soilFactors/soilTemperature.R",echo=TRUE)
 
 #source("test.R",echo=TRUE)

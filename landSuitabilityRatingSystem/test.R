@@ -3,4 +3,4 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-csvResults("O:/Temporary/lsrs/test_data/climate1981x10_CCCS_baseline_0.csv","C:/Users/CurtisTh/Documents/testResults.csv")
+csvResults("O:/Temporary/lsrs/test_data/ab_vector/climate1981x10_CCCS_baseline.csv","C:/Users/CurtisTh/Documents/climate1981x10_CCCS_baseline_testResults.csv")

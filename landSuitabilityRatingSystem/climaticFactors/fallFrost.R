@@ -6,7 +6,7 @@
 fallFrost <- function(DBAFF){
 
   #calculate the percent deduction based on the days before average fall frost (DBAFF)
-  percentDeduction <-  10 * DBAFF / 30
+  percentDeduction <-  DBAFF / 3
 
   #individual modifiers should not exceed 10% deduction
   if(percentDeduction > 10){ #so if the percent deduction is more than 10%

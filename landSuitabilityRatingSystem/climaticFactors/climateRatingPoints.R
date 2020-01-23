@@ -5,8 +5,10 @@
 
 climateRatingPoints <- function(PPE,springPPE,fallPPE,EGDD,DBAFF){
 
-  A <- 100 - moistureFactor(PPE)
-  H <- 100 - temperatureFactor(EGDD)
+  moistureDeduction <- moistureFactor(PPE)
+  temperatureDeduction <- temperatureFactor(EGDD)
+  A <- 100 - moistureDeduction
+  H <- 100 - temperatureDeduction
 
   #basic climatic rating (BCR) is the lower of A or H
   if(A < H){ #so if A is smaller than H
@@ -22,5 +24,5 @@ climateRatingPoints <- function(PPE,springPPE,fallPPE,EGDD,DBAFF){
   modificationDeduction <- (springMoisture + fallMoisture + fallFrost) * basicClimateRating
   finalClimateRating <- basicClimateRating - modificationDeduction
 
-  return(c(finalClimateRating,A,H)) #return the final climate rating and the moisture and temperature factor deductions
+  return(c(finalClimateRating,moistureDeduction,temperatureDeduction)) #return the final climate rating and the moisture and temperature factor deductions
 }
