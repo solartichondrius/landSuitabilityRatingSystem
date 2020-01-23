@@ -11,5 +11,9 @@ landscapeRatingPoints <- function(region,percentSlope,landscapeType,annualRemova
   a <- (P + p + J) / 100
   b <- T * a
   c <- T - b
-  #need to find the interim soil rating before the next step can be done
+  K <- pattern / 100
+  I <- flooding / 100
+  d <- (K+I)*c
+  L <- a - b - d
+  return(c(L,P,p,J,K,I))
 }
