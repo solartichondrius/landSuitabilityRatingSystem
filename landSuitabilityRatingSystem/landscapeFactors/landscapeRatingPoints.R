@@ -3,6 +3,11 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
+source("landscapeFactors/topography.R")
+source("landscapeFactors/stoniness.R")
+source("landscapeFactors/woodContent.R")
+source("landscapeFactors/flooding.R")
+
 landscapeRatingPoints <- function(region,ps,lt,s,cf,woodContent,pattern,flooding){
   T <- 100 - tRating(region,ps,lt)
   P <- pRating(s, cf)

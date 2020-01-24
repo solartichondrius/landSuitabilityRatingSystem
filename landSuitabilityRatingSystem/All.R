@@ -18,12 +18,8 @@ source("climaticFactors/fallFrost.R",echo=TRUE)
 source("climaticFactors/moistureFactor.R",echo=TRUE)
 source("climaticFactors/temperatureFactor.R",echo=TRUE)
 
-source("landscapeFactors/flooding.R",echo=TRUE)
+
 source("landscapeFactors/landscapeRatingClass.R",echo=TRUE)
-source("landscapeFactors/landscapeRatingPoints.R",echo=TRUE)
-source("landscapeFactors/topography.R",echo=TRUE)
-source("landscapeFactors/stoniness.R",echo=TRUE)
-source("landscapeFactors/woodContent.R",echo=TRUE)
 
 source("soilFactors/organicMatterContent.R",echo=TRUE)
 source("soilFactors/organicSurface.R",echo=TRUE)
