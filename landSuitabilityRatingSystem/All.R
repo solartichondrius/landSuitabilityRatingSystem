@@ -3,8 +3,6 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-setwd("C:/Users/CurtisTh/PycharmProjects/untitled1/landSuitabilityRatingSystem")
-
 source("createDataFrame.R",echo=TRUE)
 source("csvResults.R",echo=TRUE)
 source("plotGraph.R",echo=TRUE)
@@ -20,13 +18,10 @@ source("climaticFactors/fallFrost.R",echo=TRUE)
 source("climaticFactors/moistureFactor.R",echo=TRUE)
 source("climaticFactors/temperatureFactor.R",echo=TRUE)
 
-source("landscapeFactors/coarseFragmentContent.R",echo=TRUE)
 source("landscapeFactors/flooding.R",echo=TRUE)
 source("landscapeFactors/landscapeRatingClass.R",echo=TRUE)
 source("landscapeFactors/landscapeRatingPoints.R",echo=TRUE)
-source("landscapeFactors/region1AllSlopesAndRegion2ComplexSlopes.R",echo=TRUE)
-source("landscapeFactors/region2SimpleSlope.R",echo=TRUE)
-source("landscapeFactors/slope.R",echo=TRUE)
+source("landscapeFactors/topography.R",echo=TRUE)
 source("landscapeFactors/stoniness.R",echo=TRUE)
 source("landscapeFactors/woodContent.R",echo=TRUE)
 

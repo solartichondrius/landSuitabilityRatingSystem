@@ -3,12 +3,11 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingPoints <- function(region,ps,lt,annualRemoval,coarseFragments,woodContent,pattern,flooding){
-  T <- 100 - topography(region,ps,lt)
-  P <- stoniness(annualRemoval)
-  p <- coarseFragmentContent(coarseFragments)
+landscapeRatingPoints <- function(region,ps,lt,s,cf,woodContent,pattern,flooding){
+  T <- 100 - tRating(region,ps,lt)
+  P <- pRating(s, cf)
   J <- woodContent(woodContent)
-  a <- (P + p + J) / 100
+  a <- (P + J) / 100
   b <- T * a
   c <- T - b
   K <- pattern / 100
