@@ -4,7 +4,7 @@
 # Created on: 2020-01-21
 
 landscapeRatingPoints <- function(region,percentSlope,landscapeType,annualRemoval,coarseFragments,woodContent,pattern,flooding){
-  T <- 100 - tRating(region,percentSlope,landscapeType)
+  T <- 100 - topography(region,percentSlope,landscapeType)
   P <- stoniness(annualRemoval)
   p <- coarseFragmentContent(coarseFragments)
   J <- woodContent(woodContent)
