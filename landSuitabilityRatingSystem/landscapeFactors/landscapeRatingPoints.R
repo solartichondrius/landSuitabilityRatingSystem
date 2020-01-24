@@ -3,8 +3,8 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingPoints <- function(region,percentSlope,landscapeType,annualRemoval,coarseFragments,woodContent,pattern,flooding){
-  T <- 100 - slope(percentSlope,region,landscapeType)
+landscapeRatingPoints <- function(region,ps,lt,annualRemoval,coarseFragments,woodContent,pattern,flooding){
+  T <- 100 - topography(region,ps,lt)
   P <- stoniness(annualRemoval)
   p <- coarseFragmentContent(coarseFragments)
   J <- woodContent(woodContent)
