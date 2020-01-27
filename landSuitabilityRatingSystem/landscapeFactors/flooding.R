@@ -3,7 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-flooding <- function(inundationPeriod,usableGrowingSeasonLength,frenquency){
+flooding <- function(inundationPeriod, usableGrowingSeasonLength, frenquency){
 #This information would be specified manually. See LSRS manual. See table below. Is not currently part of the Agrasid database.
   if(frequency < 5){
     if(inundationPeriod < 2){
