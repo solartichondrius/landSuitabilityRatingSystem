@@ -11,7 +11,7 @@ source("landscapeFactors/flooding.R")
 landscapeRatingPoints <- function(region, ps, lt, s, cf,
                                   surface, subsurface, pattern, 
                                   inundationPeriod, usableGrowingSeasonLength, 
-                                  frenquency) {
+                                  frequency) {
   T <- 100 - tRating(region,ps,lt)
   P <- pRating(s, cf)
   J <- woodContent(surface, subsurface)
@@ -19,8 +19,9 @@ landscapeRatingPoints <- function(region, ps, lt, s, cf,
   b <- T * a
   c <- T - b
   K <- pattern / 100
-  I <- flooding(inundationPeriod, usableGrowingSeasonLength, frenquency) / 100
+  I <- flooding(inundationPeriod, usableGrowingSeasonLength, frequency) / 100
   d <- (K+I)*c
   L <- a - b - d
-  return(c(L,P,p,J,K,I))
+  #return(c(L,P,J,K,I))
+  return(L)
 }
