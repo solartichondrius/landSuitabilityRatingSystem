@@ -6,5 +6,5 @@
 soilRatingPoints <- function(EGDD){
   Z <- soilTemperature(EGDD)
   a <- 100 - Z
-
+  #M <-
 }
