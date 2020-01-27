@@ -3,16 +3,23 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingPoints <- function(region,percentSlope,landscapeType,annualRemoval,coarseFragments,woodContent,pattern,flooding){
-  T <- 100 - tRating(region,percentSlope,landscapeType)
-  P <- stoniness(annualRemoval)
-  p <- coarseFragmentContent(coarseFragments)
-  J <- woodContent(woodContent)
-  a <- (P + p + J) / 100
+source("landscapeFactors/topography.R")
+source("landscapeFactors/stoniness.R")
+source("landscapeFactors/woodContent.R")
+source("landscapeFactors/flooding.R")
+
+landscapeRatingPoints <- function(region, ps, lt, s, cf,
+                                  surface, subsurface, pattern, 
+                                  inundationPeriod, usableGrowingSeasonLength, 
+                                  frenquency) {
+  T <- 100 - tRating(region,ps,lt)
+  P <- pRating(s, cf)
+  J <- woodContent(surface, subsurface)
+  a <- (P + J) / 100
   b <- T * a
   c <- T - b
   K <- pattern / 100
-  I <- flooding / 100
+  I <- flooding(inundationPeriod, usableGrowingSeasonLength, frenquency) / 100
   d <- (K+I)*c
   L <- a - b - d
   return(c(L,P,p,J,K,I))

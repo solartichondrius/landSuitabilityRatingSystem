@@ -3,8 +3,16 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingClass <- function(region,percentSlope,landscapeType,annualRemoval,coarseFragments,woodContent,pattern,flooding){
-  numbers <- landscapeRatingPoints(region,percentSlope,landscapeType,annualRemoval,coarseFragments,woodContent,pattern,flooding)
+source("landscapeFactors/landscapeRatingPoints.R")
+
+landscapeRatingClass <- function(region, ps, lt, s, cf, 
+                                 surface, subsurface, pattern, 
+                                 inundationPeriod, usableGrowingSeasonLength, 
+                                 frenquency) {
+  numbers <- landscapeRatingPoints(region, ps, lt, s, cf, 
+                                   surface, subsurface, pattern, 
+                                   inundationPeriod, usableGrowingSeasonLength, 
+                                   frenquency)
   class <- pointsToClass(numbers[1])
   if(numbers[2] >= 15 | numbers[3] >= 15) class <- paste(class,"P",sep="")
   if(numbers[4] >= 15) class <- paste(class,"J",sep="")
