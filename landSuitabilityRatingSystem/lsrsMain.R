@@ -4,8 +4,8 @@
 #Read in and clean vector data and call all necessary functions.
 
 #TODO: 
-#Fix class function so it can produce more than one result.
-#Fix flooding function so it doesn't produce warnings.
+#Add climate and soil data and functions into this file to be processed
+#with the landscape data.
 
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
@@ -28,7 +28,8 @@ lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$s, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
-                       lsTable$usableGrowingSeasonLength, lsTable$frequency)
+                       lsTable$usableGrowingSeasonLength, lsTable$frequency,
+                       lsTable$points)
 
 write.csv(lsTable, file="testResults.csv", row.names=FALSE)
 
