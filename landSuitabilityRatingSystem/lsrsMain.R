@@ -2,10 +2,15 @@
 #January 24, 2020
 #Hayden McAdam
 #Read in and clean vector data and call all necessary functions.
+
+#TODO: 
+#Fix class function so it can produce more than one result.
+#Fix flooding function so it doesn't produce warnings.
+
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
 
-lsTable <- read.csv("./landscapeTest.csv")
+lsTable <- read.csv("./landscapeTest2.csv")
 
 #lsTable <- subset(lsTable, ps >= 0 & lt != "" & s >= 0 & cf >= 0)
 
@@ -15,12 +20,20 @@ lsTable$points <- landscapeRatingPoints(lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$s, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
-                       lsTable$usableGrowingSeasonLength, lsTable$frequency) + 100
+                       lsTable$usableGrowingSeasonLength, lsTable$frequency)
 
-#lsTable <- subset(lsTable, points >= 0 & points <= 100)
+lsTable <- subset(lsTable, points >= 0 & points <= 100)
 
 lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$s, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency)
+
+write.csv(lsTable, file="testResults.csv", row.names=FALSE)
+
+#NOTE: I haven't seen any results from the web app that had any pattern value
+#other than 0 or a flooding value other than 1. 
+#I'm not sure if this variable is used in the calculations at all.
+#The test code has these values set to 0 or 1 respectively 
+#in all records for now.
