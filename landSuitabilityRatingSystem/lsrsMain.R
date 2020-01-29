@@ -1,16 +1,24 @@
 #INCOMPLETE
 #January 24, 2020
 #Hayden McAdam
-#Read in and clean vector data and call all necessary functions.
+#Read in and clean vector data and call functions to calculate points for
+#climate, landscape, and soil factors.
 
 #TODO: 
 #Add climate and soil data and functions into this file to be processed
 #with the landscape data.
+#Correct column names to match the real data.
+#Calculate the region value in the topography function 
+#using slope length (Figure 6.1).
+
+library(foreign)
 
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
 
 lsTable <- read.csv("./landscapeTest2.csv")
+#lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
+#lsTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 
 #lsTable <- subset(lsTable, ps >= 0 & lt != "" & s >= 0 & cf >= 0)
 
