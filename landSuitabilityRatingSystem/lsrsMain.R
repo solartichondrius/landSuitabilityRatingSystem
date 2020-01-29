@@ -39,7 +39,7 @@ lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency,
                        lsTable$points)
 
-write.csv(lsTable, file="testResults.csv", row.names=FALSE)
+#write.csv(lsTable, file="testResults.csv", row.names=FALSE)
 
 #NOTE: I haven't seen any results from the web app that had any pattern value
 #other than 0 or a flooding value other than 1. 
