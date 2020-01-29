@@ -4,15 +4,16 @@
 # Created on: 2020-01-21
 
 source("landscapeFactors/landscapeRatingPoints.R")
+source("pointsToClass.R")
 
 landscapeRatingClass <- function(region, ps, lt, s, cf, 
                                  surface, subsurface, pattern, 
                                  inundationPeriod, usableGrowingSeasonLength, 
-                                 frenquency) {
+                                 frequency) {
   numbers <- landscapeRatingPoints(region, ps, lt, s, cf, 
                                    surface, subsurface, pattern, 
                                    inundationPeriod, usableGrowingSeasonLength, 
-                                   frenquency)
+                                   frequency)
   class <- pointsToClass(numbers[1])
   if(numbers[2] >= 15 | numbers[3] >= 15) class <- paste(class,"P",sep="")
   if(numbers[4] >= 15) class <- paste(class,"J",sep="")
