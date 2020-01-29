@@ -3,6 +3,9 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
+source("moistureFactor.R")
+source("temperatureFactor.R")
+
 climateRatingPoints <- function(PPE,springPPE,fallPPE,EGDD,DBAFF){
 
   moistureDeduction <- moistureFactor(PPE)
