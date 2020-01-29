@@ -3,6 +3,10 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
+#Load the files with the functions we will be using:
+source("createDataFrame.R",echo=TRUE)
+source("plotGraph.R",echo=TRUE)
+
 #Figure 3.1: Point Deductions for moisture index values for spring-seeded small grains
 plotGraph(createDataFrame(moistureFactor,-500,0),"Point Deductions for moisture index values for spring-seeded small grains","Point Deduction","P-PE(mm)")
 
