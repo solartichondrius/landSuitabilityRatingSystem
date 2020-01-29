@@ -4,6 +4,7 @@
 #Read in and clean vector data and call all necessary functions.
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
+source("climaticFactors/climateRatingPoints.R")
 
 #lsTable <- read.csv("./landscapeTest.csv")
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")

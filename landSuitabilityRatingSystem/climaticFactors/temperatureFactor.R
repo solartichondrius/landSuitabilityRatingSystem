@@ -3,6 +3,8 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
+source("climaticFactors/AorPPE.R")
+
 temperatureFactor <- function(EGDD){
 
   if(EGDD < 900){ #if the number of Effective Growing Degree days is less than 900 then the following formula is used to calculate the point deduction:

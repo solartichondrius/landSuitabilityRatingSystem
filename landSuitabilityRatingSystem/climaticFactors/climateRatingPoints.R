@@ -3,8 +3,11 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-source("moistureFactor.R")
-source("temperatureFactor.R")
+source("climaticFactors/moistureFactor.R")
+source("climaticFactors/temperatureFactor.R")
+source("climaticFactors/excessSpringMoisture.R")
+source("climaticFactors/excessFallMoisture.R")
+
 
 climateRatingPoints <- function(PPE,springPPE,fallPPE,EGDD,DBAFF){
 
