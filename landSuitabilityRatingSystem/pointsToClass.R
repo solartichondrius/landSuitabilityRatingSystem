@@ -4,7 +4,7 @@
 # Created on: 2020-01-21
 
 pointsToClass <- function(number){
-
+    
   if(number >= 80){
     return(1)
   } else if(number >= 60){

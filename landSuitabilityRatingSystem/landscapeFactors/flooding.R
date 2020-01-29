@@ -5,8 +5,8 @@
 
 flooding <- function(inundationPeriod, usableGrowingSeasonLength, frequency){
 #This information would be specified manually. See LSRS manual. See table below. Is not currently part of the Agrasid database.
-  if(frequency < 5){
-    if(inundationPeriod < 2){
+  if(any(frequency < 5)){
+    if(any(inundationPeriod < 2)){
       percentDeduction <- 0
     } else if(inundationPeriod <= 28){
       percentDeduction <- 5
