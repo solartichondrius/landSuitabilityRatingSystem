@@ -12,9 +12,11 @@
 #using slope length (Figure 6.1).
 
 library(foreign)
+library(plyr)
 
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
+source("landscapeFactors/landscapeRatingSubclass.R")
 
 lsTable <- read.csv("./landscapeTest2.csv")
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
@@ -38,6 +40,15 @@ lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
                        lsTable$pattern, lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency,
                        lsTable$points)
+
+subclass <- landscapeRatingSubclass(lsTable$slc, lsTable$region, lsTable$ps,
+                       lsTable$lt, lsTable$s, lsTable$cf,
+                       lsTable$surface, lsTable$subsurface,
+                       lsTable$pattern, lsTable$inundationPeriod,
+                       lsTable$usableGrowingSeasonLength, lsTable$frequency)
+
+lsTable <- join(lsTable, subclass, by=c("slc"), type="inner")
+lsTable <- subset(lsTable, select=-c(t, p, j, k, i))
 
 write.csv(lsTable, file="testResults.csv", row.names=FALSE)
 
