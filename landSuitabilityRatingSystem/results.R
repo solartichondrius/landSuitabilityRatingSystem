@@ -4,6 +4,9 @@
 # Created on: 2020-01-27
 
 results <- function(input,output){
+  #Load the files with the functions we will be using:
+  source("createDataFrame.R",echo=TRUE)
+
   climateResults(input,output)
   #landscapeResults(input,output) #not finished yet
   #soilResults(input,output) #not finished yet

@@ -4,6 +4,10 @@
 # Created on: 2020-01-27
 
 climateResults <- function(input,output,save=TRUE){
+
+  #Load the files with the functions we will be using:
+  source("climaticFactors/climateRatingClass.R",echo=TRUE)
+
   df <- read.csv(input) #put the data from the CSV file into a dataframe
   for(i in 1:nrow(df)){ #loop through every row and assign a value to the climate rating class
     df$climateRating[i] <- climateRatingClass(df$ppe[i],df$esm[i],df$efm[i],df$egdd[i],df$eff[i])
