@@ -3,15 +3,14 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-excessFallMoisture <- function(...){
+source("climaticFactors/AorPPE.R")
 
-  #Load the files with the functions we will be using:
-  source("climaticFactors/AorPPE.R",echo=TRUE)
+excessFallMoisture <- function(efm){
 
-  A <- AorPPE(...) #allows you to enter either the calculated moisture factor (A) or precipitation (P) and evapotranspiration (PE)
+  #A <- AorPPE(efm) #allows you to enter either the calculated moisture factor (A) or precipitation (P) and evapotranspiration (PE)
 
   #calculate the percent deduction based on the moisture factor (A)
-  percentDeduction <- A / 10
+  percentDeduction <- efm / 10
 
   #individual modifiers should not exceed 10% deduction
   if(percentDeduction > 10){ #so if the percent deduction is more than 10%
@@ -19,7 +18,7 @@ excessFallMoisture <- function(...){
   }
 
   #By default the LSRS calculator inserts a value of “-50” which equates to a zero % deduction
-  if(A==-50 | percentDeduction<0) { #so if the value is -50
+  if(efm==-50 | percentDeduction<0) { #so if the value is -50
     percentDeduction <- 0 #set the percent deduction to 0
   }
 
