@@ -27,5 +27,11 @@ clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
 #                        lsTable$pattern, lsTable$inundationPeriod,
 #                        lsTable$usableGrowingSeasonLength, lsTable$frequency)
 
+clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
+
 clTable$points <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm, 
                                       clTable$efm, clTable$eff)
+
+clTable <- subset(clTable, points >= 0 & points <= 100)
+
+write.csv(clTable, file="climateResults.csv", row.names=FALSE)
