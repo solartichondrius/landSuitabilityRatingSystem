@@ -3,10 +3,9 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingClass <- function(region, ps, lt, s, cf, 
-                                 surface, subsurface, pattern, 
-                                 inundationPeriod, usableGrowingSeasonLength, 
-                                 frequency, points) {
+source("pointsToClass.R")
+
+landscapeRatingClass <- function(points) {
 
   for (i in 1:length(lsTable$points)) {
     numbers <- lsTable$points[i]
