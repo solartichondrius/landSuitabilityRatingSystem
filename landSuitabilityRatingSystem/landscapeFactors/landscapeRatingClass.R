@@ -21,4 +21,5 @@ landscapeRatingClass <- function(region, ps, lt, cf,
   # if(numbers[4] >= 15) class <- paste(class,"J",sep="")
   # if(numbers[5] >= 15) class <- paste(class,"K",sep="")
   # if(numbers[6] >= 15) class <- paste(class,"I",sep="")
+  return(class)
 }

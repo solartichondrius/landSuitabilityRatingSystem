@@ -13,9 +13,7 @@
 
 library(foreign)
 
-source("landscapeFactors/landscapeRatingPoints.R")
-source("landscapeFactors/landscapeRatingClass.R")
-source("climaticFactors/climateRatingPoints.R")
+loadFiles("landscapeFactors/landscapeRatingPoints.R","landscapeFactors/landscapeRatingClass.R","climaticFactors/climateRatingPoints.R")
 
 
 
