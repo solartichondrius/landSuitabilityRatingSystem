@@ -17,4 +17,4 @@ climateRatingClass <- function(points){
   # if(numbers[2] >= 15) class <- paste(class,"A",sep="") #if the deduction points for the moisture factor (A) is 15 or greater add "A" as a subclass
   # if(numbers[3] >= 15) class <- paste(class,"H",sep="") #if the deduction points for the temperature factor (H) is 15 or greater add "H" as a subclass
   # return(class) #return the class
-}
+  }

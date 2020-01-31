@@ -3,12 +3,11 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-source("pointsToClass.R")
-
-landscapeRatingClass <- function(region, ps, lt, cf, 
+landscapeRatingClass <- function(region, ps, lt, s, cf, 
                                  surface, subsurface, pattern, 
                                  inundationPeriod, usableGrowingSeasonLength, 
                                  frequency, points) {
+
   for (i in 1:length(lsTable$points)) {
     numbers <- lsTable$points[i]
     class <- pointsToClass(numbers)
