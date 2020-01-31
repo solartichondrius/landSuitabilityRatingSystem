@@ -10,6 +10,7 @@ loadFiles("createDataFrame.R",
           "results.R")
 
 loadFiles("climaticFactors/AorPPE.R",
+          "climaticFactors/climateRating.R",
           "climaticFactors/climateRatingClass.R",
           "climaticFactors/climateRatingPoints.R",
           "climaticFactors/climateResults.R",

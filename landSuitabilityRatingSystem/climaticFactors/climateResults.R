@@ -7,7 +7,15 @@ climateResults <- function(input,output,save=TRUE){
 
   df <- read.csv(input) #put the data from the CSV file into a dataframe
   for(i in 1:nrow(df)){ #loop through every row and assign a value to the climate rating class
-    df$climateRating[i] <- climateRatingClass(df$ppe[i],df$esm[i],df$efm[i],df$egdd[i],df$eff[i])
+    results <- climateRating(df$ppe[i],df$esm[i],df$efm[i],df$egdd[i],df$eff[i])
+    df$moisturePointDeduction[i] <- results[3]
+    df$temperaturePointDeduction[i] <- results[4]
+    df$basicClimateRating[i] <- results[5]
+    df$springMoisturePercentDeduction[i] <- results[6]
+    df$fallMoisturePercentDeduction[i] <- results[7]
+    df$fallFrostPercentDeduction[i] <- results[8]
+    df$finalRatingPoints[i] <- results [2]
+    df$climateRatingClass[i] <- results[1]
     print(paste0(i/nrow(df)*100,"% complete")) #print out the current progress as a percentage
   }
   if(save==TRUE){ #if the save argument is set to TRUE (which it is by default)
