@@ -3,10 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-source("landscapeFactors/landscapeRatingPoints.R")
-#source("pointsToClass.R")
-
-landscapeRatingClass <- function(region, ps, lt, s, cf, 
+landscapeRatingClass <- function(region, ps, lt, cf, 
                                  surface, subsurface, pattern, 
                                  inundationPeriod, usableGrowingSeasonLength, 
                                  frequency, points) {
@@ -36,5 +33,4 @@ landscapeRatingClass <- function(region, ps, lt, s, cf,
   # if(numbers[4] >= 15) class <- paste(class,"J",sep="")
   # if(numbers[5] >= 15) class <- paste(class,"K",sep="")
   # if(numbers[6] >= 15) class <- paste(class,"I",sep="")
-  return(class)
 }

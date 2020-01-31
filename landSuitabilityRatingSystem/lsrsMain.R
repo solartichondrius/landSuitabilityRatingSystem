@@ -25,15 +25,15 @@ lsTable <- read.csv("./landscapeTest2.csv")
 lsTable$points <- 0
 
 lsTable$points <- landscapeRatingPoints(lsTable$region, lsTable$ps,
-                       lsTable$lt, lsTable$s, lsTable$cf,
-                       lsTable$surface, lsTable$subsurface,
-                       lsTable$pattern, lsTable$inundationPeriod,
+                       lsTable$lt, lsTable$cf,lsTable$surface, 
+                       lsTable$subsurface, lsTable$pattern, 
+                       lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency)
 
 lsTable <- subset(lsTable, points >= 0 & points <= 100)
 
 lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
-                       lsTable$lt, lsTable$s, lsTable$cf,
+                       lsTable$lt, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency,
