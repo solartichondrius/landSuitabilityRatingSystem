@@ -5,7 +5,7 @@
 #climate, landscape, and soil factors.
 
 #TODO: 
-#Add climate and soil data and functions into this file to be processed
+#Add soil data and functions into this file to be processed
 #with the landscape data.
 #Correct column names to match the real data.
 #Calculate the region value in the topography function 
@@ -13,10 +13,16 @@
 
 library(foreign)
 
-lsTable <- read.csv("./landscapeTest.csv")
-clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
+source("landscapeFactors/landscapeRatingPoints.R")
+source("landscapeFactors/landscapeRatingClass.R")
+source("climaticFactors/climateRatingPoints.R")
+source("climaticFactors/climateRatingClass.R")
 
+#Data currently being used.
+clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
 lsTable <- read.csv("./landscapeTest2.csv")
+
+#Real landscape vector data.
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
 #lsTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 
@@ -44,9 +50,11 @@ clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
 clTable$points <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm, 
                                       clTable$efm, clTable$eff)
 
-
 clTable <- subset(clTable, points >= 0 & points <= 100)
 
+clTable$class <- climateRatingClass(clTable$points)
+
+#Write the results into csv files.
 write.csv(lsTable, file="testResults.csv", row.names=FALSE)
 write.csv(clTable, file="climateResults.csv", row.names=FALSE)
 

@@ -14,12 +14,11 @@ landscapeRatingClass <- function(region, ps, lt, s, cf,
     lsTable$class[i] <- class
   }
   return(lsTable$class)
+  
   #class <- pointsToClass(lsTable$points[1])
   # class <- pointsToClass(numbers[1])
   # if(numbers[2] >= 15 | numbers[3] >= 15) class <- paste(class,"P",sep="")
   # if(numbers[4] >= 15) class <- paste(class,"J",sep="")
   # if(numbers[5] >= 15) class <- paste(class,"K",sep="")
   # if(numbers[6] >= 15) class <- paste(class,"I",sep="")
-
-  return(class)
 }
