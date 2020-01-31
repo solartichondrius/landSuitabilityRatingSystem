@@ -5,8 +5,8 @@
 
 source("climaticFactors/moistureFactor.R")
 source("climaticFactors/temperatureFactor.R")
-source("climaticFactors/excessSpringMoisture.R")
 source("climaticFactors/excessFallMoisture.R")
+source("climaticFactors/excessSpringMoisture.R")
 source("climaticFactors/fallFrost.R")
 
 climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){

@@ -8,13 +8,13 @@ source("landscapeFactors/stoniness.R")
 source("landscapeFactors/woodContent.R")
 source("landscapeFactors/flooding.R")
 
-landscapeRatingPoints <- function(region, ps, lt, s, cf,
+landscapeRatingPoints <- function(region, ps, lt, cf,
                                   surface, subsurface, pattern, 
                                   inundationPeriod, usableGrowingSeasonLength, 
                                   frequency) {
-  T <- tRating(region, ps, lt)
-  a <- 100 - T
-  P <- (pRating(s, cf) / 100) * T
+  t <- tRating(region, ps, lt)
+  a <- 100 - t
+  P <- (pRating(cf) / 100) * a
   J <- woodContent(surface, subsurface)
   b <- (P + J)
   c <- a - b

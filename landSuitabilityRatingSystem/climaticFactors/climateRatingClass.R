@@ -3,8 +3,6 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-source("pointsToClass.R")
-
 climateRatingClass <- function(points){
   
   for (i in 1:length(clTable$points)) {

@@ -26,20 +26,18 @@ lsTable <- read.csv("./landscapeTest2.csv")
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
 #lsTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 
-lsTable <- subset(lsTable, ps >= 0 & lt != "" & s >= 0 & cf >= 0)
-
-lsTable$points <- 0
+#lsTable <- subset(lsTable, ps >= 0 & lt != "" & s >= 0 & cf >= 0)
 
 lsTable$points <- landscapeRatingPoints(lsTable$region, lsTable$ps,
-                       lsTable$lt, lsTable$s, lsTable$cf,
-                       lsTable$surface, lsTable$subsurface,
-                       lsTable$pattern, lsTable$inundationPeriod,
+                       lsTable$lt, lsTable$cf,lsTable$surface, 
+                       lsTable$subsurface, lsTable$pattern, 
+                       lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency)
 
 lsTable <- subset(lsTable, points >= 0 & points <= 100)
 
 lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
-                       lsTable$lt, lsTable$s, lsTable$cf,
+                       lsTable$lt, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency,
@@ -47,7 +45,7 @@ lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
 
 clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
 
-clTable$points <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm, 
+clTable$points <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm,
                                       clTable$efm, clTable$eff)
 
 clTable <- subset(clTable, points >= 0 & points <= 100)

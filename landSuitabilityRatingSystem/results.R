@@ -5,7 +5,7 @@
 
 results <- function(input,output){
   #Load the files with the functions we will be using:
-  source("createDataFrame.R",echo=TRUE)
+  loadFiles("climaticFactors/climateResults.R","landscapeFactors/landscapeResults.R","soilFactors/soilResults.R")
 
   climateResults(input,output)
   #landscapeResults(input,output) #not finished yet
