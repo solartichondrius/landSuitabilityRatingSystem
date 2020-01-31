@@ -5,12 +5,10 @@
 
 climateResults <- function(input,output,save=TRUE){
 
-  #Load the files with the functions we will be using:
-  loadFiles("climaticFactors/climateRatingClass.R")
-
   df <- read.csv(input) #put the data from the CSV file into a dataframe
   for(i in 1:nrow(df)){ #loop through every row and assign a value to the climate rating class
     df$climateRating[i] <- climateRatingClass(df$ppe[i],df$esm[i],df$efm[i],df$egdd[i],df$eff[i])
+    print(paste0(i/nrow(df)*100,"% complete")) #print out the current progress as a percentage
   }
   if(save==TRUE){ #if the save argument is set to TRUE (which it is by default)
     write.csv(df,output) #then write the dataframe to a file

@@ -7,7 +7,6 @@ landscapeRatingClass <- function(region, ps, lt, s, cf,
                                  surface, subsurface, pattern, 
                                  inundationPeriod, usableGrowingSeasonLength, 
                                  frequency, points) {
-  loadFiles("landscapeFactors/landscapeRatingPoints.R","pointsToClass.R")
 
   for (i in 1:length(lsTable$points)) {
     numbers <- lsTable$points[i]

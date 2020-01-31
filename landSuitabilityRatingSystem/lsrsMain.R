@@ -13,8 +13,6 @@
 
 library(foreign)
 
-loadFiles("landscapeFactors/landscapeRatingPoints.R","landscapeFactors/landscapeRatingClass.R","climaticFactors/climateRatingPoints.R")
-
 lsTable <- read.csv("./landscapeTest.csv")
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
 

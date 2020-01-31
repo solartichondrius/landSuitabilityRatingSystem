@@ -7,7 +7,6 @@ landscapeRatingPoints <- function(region, ps, lt, s, cf,
                                   surface, subsurface, pattern, 
                                   inundationPeriod, usableGrowingSeasonLength, 
                                   frequency) {
-  loadFiles("landscapeFactors/topography.R","landscapeFactors/stoniness.R","landscapeFactors/woodContent.R","landscapeFactors/flooding.R")
 
   T <- tRating(region, ps, lt)
   a <- 100 - T

@@ -5,9 +5,6 @@
 
 climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
 
-  #Load the files with the functions we will be using:
-  loadFiles("climaticFactors/moistureFactor.R","climaticFactors/temperatureFactor.R","climaticFactors/excessFallMoisture.R","climaticFactors/excessSpringMoisture.R","climaticFactors/fallFrost.R")
-
   moistureDeduction <- moistureFactor(PPE)
   temperatureDeduction <- temperatureFactor(EGDD)
   A <- 100 - moistureDeduction
