@@ -7,8 +7,7 @@ landscapeRatingClass <- function(region, ps, lt, s, cf,
                                  surface, subsurface, pattern, 
                                  inundationPeriod, usableGrowingSeasonLength, 
                                  frequency, points) {
-  source("landscapeFactors/landscapeRatingPoints.R")
-  source("pointsToClass.R")
+  loadFiles("landscapeFactors/landscapeRatingPoints.R","pointsToClass.R")
 
   for (i in 1:length(lsTable$points)) {
     numbers <- lsTable$points[i]
@@ -22,5 +21,6 @@ landscapeRatingClass <- function(region, ps, lt, s, cf,
   # if(numbers[4] >= 15) class <- paste(class,"J",sep="")
   # if(numbers[5] >= 15) class <- paste(class,"K",sep="")
   # if(numbers[6] >= 15) class <- paste(class,"I",sep="")
+
   return(class)
 }

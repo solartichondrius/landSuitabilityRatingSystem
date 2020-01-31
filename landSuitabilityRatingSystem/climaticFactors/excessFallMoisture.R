@@ -5,7 +5,7 @@
 
 excessFallMoisture <- function(efm){
 
-  source("climaticFactors/AorPPE.R")
+  loadFiles("climaticFactors/AorPPE.R")
   #A <- AorPPE(efm) #allows you to enter either the calculated moisture factor (A) or precipitation (P) and evapotranspiration (PE)
 
   #calculate the percent deduction based on the moisture factor (A)

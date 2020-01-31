@@ -5,7 +5,7 @@
 
 moistureFactor <- function(ppe){
 
-  source("climaticFactors/AorPPE.R")
+  loadFiles("climaticFactors/AorPPE.R")
   #A <- AorPPE(ppe) #allows you to enter either the calculated moisture factor (A) or precipitation (P) and evapotranspiration (PE)
 
   #Calculate the point deduction number based on the moisture component (A)
