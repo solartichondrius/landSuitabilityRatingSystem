@@ -15,14 +15,17 @@ library(foreign)
 
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
+source("climaticFactors/climateRatingPoints.R")
+
+
 
 lsTable <- read.csv("./landscapeTest2.csv")
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
 #lsTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 
-#lsTable <- subset(lsTable, ps >= 0 & lt != "" & s >= 0 & cf >= 0)
+clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
 
-lsTable$points <- 0
+#lsTable <- subset(lsTable, ps >= 0 & lt != "" & s >= 0 & cf >= 0)
 
 lsTable$points <- landscapeRatingPoints(lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$cf,lsTable$surface, 
@@ -39,7 +42,16 @@ lsTable$class <- landscapeRatingClass(lsTable$region, lsTable$ps,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency,
                        lsTable$points)
 
+clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
+
+clTable$points <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm,
+                                      clTable$efm, clTable$eff)
+
+
+clTable <- subset(clTable, points >= 0 & points <= 100)
+
 #write.csv(lsTable, file="testResults.csv", row.names=FALSE)
+#write.csv(clTable, file="climateResults.csv", row.names=FALSE)
 
 #NOTE: I haven't seen any results from the web app that had any pattern value
 #other than 0 or a flooding value other than 1. 
