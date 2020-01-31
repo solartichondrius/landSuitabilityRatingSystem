@@ -9,15 +9,7 @@ source("climaticFactors/excessSpringMoisture.R")
 source("climaticFactors/excessFallMoisture.R")
 source("climaticFactors/fallFrost.R")
 
-
 climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
-
-  #Load the files with the functions we will be using:
-  source("climaticFactors/moistureFactor.R",echo=TRUE)
-  source("climaticFactors/temperatureFactor.R",echo=TRUE)
-  source("climaticFactors/excessFallMoisture.R",echo=TRUE)
-  source("climaticFactors/excessSpringMoisture.R",echo=TRUE)
-  source("climaticFactors/fallFrost.R",echo=TRUE)
 
   moistureDeduction <- moistureFactor(PPE)
   temperatureDeduction <- temperatureFactor(EGDD)
@@ -38,6 +30,5 @@ climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
   modificationDeduction <- (springMoisture + fallMoisture + fallFrost) * basicClimateRating
   finalClimateRating <- basicClimateRating - modificationDeduction
 
-  #return(c(finalClimateRating,moistureDeduction,temperatureDeduction)) #return the final climate rating and the moisture and temperature factor deductions
   return(finalClimateRating)
 }
