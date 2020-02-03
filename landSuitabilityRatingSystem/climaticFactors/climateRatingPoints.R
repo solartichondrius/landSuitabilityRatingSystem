@@ -17,11 +17,7 @@ climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
   H <- 100 - temperatureDeduction
 
   #basic climatic rating (BCR) is the lower of A or H
-  if(A < H){ #so if A is smaller than H
-    basicClimateRating <- A #then the BCR is equal to a
-  } else { #or else if A is equal to or greater than H
-    basicClimateRating <- H #then the BCR is equal to H
-  }
+  ifelse(A < H, basicClimateRating <- A, basicClimateRating <- H)
 
   springMoisture <- excessSpringMoisture(springPPE)/100 #get the spring moisture percent deduction as a decimal
   fallMoisture <- excessFallMoisture(fallPPE)/100 #get the fall moisture percent deduction as a decimal
