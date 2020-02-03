@@ -3,38 +3,39 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-source("createDataFrame.R",echo=TRUE)
-source("plotGraph.R",echo=TRUE)
-#source("plotGraphs.R",echo=TRUE)
-source("pointsToClass.R",echo=TRUE)
-source("results.R",echo=TRUE)
+loadFiles("createDataFrame.R",
+          "plotGraph.R",
+          #"plotGraphs.R",
+          "pointsToClass.R",
+          "results.R")
 
-source("climaticFactors/AorPPE.R",echo=TRUE)
-source("climaticFactors/climateRatingClass.R",echo=TRUE)
-source("climaticFactors/climateRatingPoints.R",echo=TRUE)
-source("climaticFactors/climateResults.R",echo=TRUE)
-source("climaticFactors/excessFallMoisture.R",echo=TRUE)
-source("climaticFactors/excessSpringMoisture.R",echo=TRUE)
-source("climaticFactors/fallFrost.R",echo=TRUE)
-source("climaticFactors/moistureFactor.R",echo=TRUE)
-source("climaticFactors/temperatureFactor.R",echo=TRUE)
+loadFiles("climaticFactors/AorPPE.R",
+          "climaticFactors/climateRating.R",
+          "climaticFactors/climateRatingClass.R",
+          "climaticFactors/climateRatingPoints.R",
+          "climaticFactors/climateResults.R",
+          "climaticFactors/excessFallMoisture.R",
+          "climaticFactors/excessSpringMoisture.R",
+          "climaticFactors/fallFrost.R",
+          "climaticFactors/moistureFactor.R",
+          "climaticFactors/temperatureFactor.R")
 
-source("landscapeFactors/landscapeRatingClass.R",echo=TRUE)
-source("landscapeFactors/landscapeRatingPoints.R",echo=TRUE)
-source("landscapeFactors/landscapeResults.R",echo=TRUE)
-source("landscapeFactors/region1AllSlopesAndRegion2ComplexSlopes.R",echo=TRUE)
-source("landscapeFactors/region2SimpleSlope.R",echo=TRUE)
-source("landscapeFactors/slope.R",echo=TRUE)
-source("landscapeFactors/stoniness.R",echo=TRUE)
-source("landscapeFactors/woodContent.R",echo=TRUE)
+loadFiles("landscapeFactors/landscapeRatingClass.R",
+          "landscapeFactors/landscapeRatingPoints.R",
+          "landscapeFactors/landscapeResults.R",
+          #"landscapeFactors/region1AllSlopesAndRegion2ComplexSlopes.R",
+          #"landscapeFactors/region2SimpleSlope.R",
+          #"landscapeFactors/slope.R",
+          "landscapeFactors/stoniness.R",
+          "landscapeFactors/woodContent.R")
 
-source("soilFactors/organicMatterContent.R",echo=TRUE)
-source("soilFactors/organicSurface.R",echo=TRUE)
-source("soilFactors/reaction.R",echo=TRUE)
-source("soilFactors/salinity.R",echo=TRUE)
-source("soilFactors/sodicity.R",echo=TRUE)
-source("soilFactors/soilRatingClass.R",echo=TRUE)
-source("soilFactors/soilRatingPoints.R",echo=TRUE)
-source("soilFactors/soilTemperature.R",echo=TRUE)
+loadFiles("soilFactors/organicMatterContent.R",
+          "soilFactors/organicSurface.R",
+          "soilFactors/reaction.R",
+          "soilFactors/salinity.R",
+          "soilFactors/sodicity.R",
+          "soilFactors/soilRatingClass.R",
+          "soilFactors/soilRatingPoints.R",
+          "soilFactors/soilTemperature.R")
 
 #source("test.R",echo=TRUE)
