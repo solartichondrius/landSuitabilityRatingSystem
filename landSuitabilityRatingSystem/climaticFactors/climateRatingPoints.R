@@ -26,5 +26,10 @@ climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
   modificationDeduction <- (springMoisture + fallMoisture + fallFrost) * basicClimateRating
   finalClimateRating <- basicClimateRating - modificationDeduction
 
-  return(finalClimateRating)
+  clRatingTable <- clTable
+  clRatingTable$moistureDeduction <- moistureDeduction
+  clRatingTable$temperatureDeduction <- temperatureDeduction
+  clRatingTable$points <- finalClimateRating
+  
+  return(clRatingTable)
 }

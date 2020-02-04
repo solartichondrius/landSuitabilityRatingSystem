@@ -3,14 +3,19 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-climateRatingClass <- function(points){
+climateRatingClass <- function(points, moistureDeduction, temperatureDeduction){
   
-  for (i in 1:length(clTable$points)) {
-    numbers <- clTable$points[i]
+  for (n in 1:length(clRatingTable$points)) {
+    numbers <- clRatingTable$points[n]
     class <- pointsToClass(numbers)
-    clTable$class[i] <- class
+    
+    if (moistureDeduction[n]>15){class <- paste(class, "A", sep="")}
+    if (temperatureDeduction[n]>15){class <- paste(class, "H", sep="")}
+    
+    clRatingTable$class[n] <- class
   }
-  return(clTable$class)
+  
+  return(clRatingTable$class)
   
   # numbers <- climateRatingPoints(PPE,springPPE,fallPPE,EGDD,DBAFF)  #store the results of the climateRatingNumber function
   # class <- pointsToClass(numbers[1]) #the class (from 1 to 7) based on the number of points
