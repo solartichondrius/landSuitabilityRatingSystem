@@ -11,7 +11,7 @@
 #Calculate the region value in the topography function 
 #using slope length (Figure 6.1).
 
-library(foreign)
+library(plyr)
 
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
@@ -19,7 +19,7 @@ source("climaticFactors/climateRatingPoints.R")
 source("climaticFactors/climateRatingClass.R")
 
 #Data currently being used.
-clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
+#clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
 lsTable <- read.csv("./landscapeTest2.csv")
 
 #Real landscape vector data.
@@ -28,27 +28,32 @@ lsTable <- read.csv("./landscapeTest2.csv")
 
 #lsTable <- subset(lsTable, ps >= 0 & lt != "" & s >= 0 & cf >= 0)
 
-lsTable$points <- landscapeRatingPoints(lsTable$region, lsTable$ps,
+lsRatingTable <- landscapeRatingPoints(lsTable$slc, lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency)
 
-lsTable <- subset(lsTable, points >= 0 & points <= 100)
+lsRatingTable <- subset(lsRatingTable, points >= 0 & points <= 100)
 
-lsTable$class <- landscapeRatingClass(lsTable$points)
+lsRatingTable$class <- landscapeRatingClass(lsRatingTable$points,
+                                            lsRatingTable$t, lsRatingTable$p,
+                                            lsRatingTable$j, lsRatingTable$k,
+                                            lsRatingTable$i)
 
-clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
+lsRatingTable <- subset(lsRatingTable, select=-c(t, p, j, k, i))
 
-clTable$points <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm, 
-                                      clTable$efm, clTable$eff)
-
-clTable <- subset(clTable, points >= 0 & points <= 100)
-
-clTable$class <- climateRatingClass(clTable$points)
+# clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
+# 
+# clTable$points <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm, 
+#                                       clTable$efm, clTable$eff)
+# 
+# clTable <- subset(clTable, points >= 0 & points <= 100)
+# 
+# clTable$class <- climateRatingClass(clTable$points)
 
 #Write the results into csv files.
-#write.csv(lsTable, file="testResults.csv", row.names=FALSE)
+write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
 #write.csv(clTable, file="climateResults.csv", row.names=FALSE)
 
 #NOTE: I haven't seen any results from the web app that had any pattern value

@@ -3,21 +3,23 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-source("pointsToClass.R")
+source("landscapeFactors/landscapePointsToClass.R")
 
-landscapeRatingClass <- function(points) {
+landscapeRatingClass <- function(points, t, p, j, k, i) {
 
-  for (i in 1:length(lsTable$points)) {
-    numbers <- lsTable$points[i]
-    class <- pointsToClass(numbers)
-    lsTable$class[i] <- class
+  for (n in 1:length(lsRatingTable$points)) {
+    number <- lsRatingTable$points[n]
+    class <- landscapePointsToClass(number)
+    
+    if (t[n]>15){class <- paste(class, "T", sep="")}
+    if (p[n]>15){class <- paste(class, "P", sep="")}
+    if (j[n]>15){class <- paste(class, "J", sep="")}
+    if (k[n]>15){class <- paste(class, "K", sep="")}
+    if (i[n]>15){class <- paste(class, "I", sep="")}
+    
+    lsRatingTable$class[n] <- class
   }
-  return(lsTable$class)
   
-  #class <- pointsToClass(lsTable$points[1])
-  # class <- pointsToClass(numbers[1])
-  # if(numbers[2] >= 15 | numbers[3] >= 15) class <- paste(class,"P",sep="")
-  # if(numbers[4] >= 15) class <- paste(class,"J",sep="")
-  # if(numbers[5] >= 15) class <- paste(class,"K",sep="")
-  # if(numbers[6] >= 15) class <- paste(class,"I",sep="")
+  return(lsRatingTable$class)
+  
 }
