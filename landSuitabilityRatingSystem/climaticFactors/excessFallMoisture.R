@@ -9,14 +9,14 @@ excessFallMoisture <- function(efm){
   percentDeduction <- efm / 10
 
   #individual modifiers should not exceed 10% deduction
-  if(all(percentDeduction > 10)){ #so if the percent deduction is more than 10%
-    percentDeduction <- 10 #then set it to be equal to 10%
-  }
+  # if(all(percentDeduction > 10)){ #so if the percent deduction is more than 10%
+  #   percentDeduction <- 10 #then set it to be equal to 10%
+  # }
 
   #By default the LSRS calculator inserts a value of “-50” which equates to a zero % deduction
-  if(all(efm==-50 | percentDeduction<0)) { #so if the value is -50
-    percentDeduction <- 0 #set the percent deduction to 0
-  }
+  # if(all(efm==-50 | percentDeduction<0)) { #so if the value is -50
+  #   percentDeduction <- 0 #set the percent deduction to 0
+  # }
 
   #Return the percent deduction
   return(percentDeduction)

@@ -26,10 +26,31 @@ climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
   modificationDeduction <- (springMoisture + fallMoisture + fallFrost) * basicClimateRating
   finalClimateRating <- basicClimateRating - modificationDeduction
 
-  clRatingTable <- clTable
+  
   clRatingTable$moistureDeduction <- moistureDeduction
   clRatingTable$temperatureDeduction <- temperatureDeduction
+  clRatingTable$basicClimateRating <- basicClimateRating
+  clRatingTable$springMoisture <- springMoisture
+  clRatingTable$fallMoisture <- fallMoisture
+  clRatingTable$fallFrost <- fallFrost
   clRatingTable$points <- finalClimateRating
+  
+  clRatingTable$moistureDeduction <- with(clRatingTable, 
+                                       replace(moistureDeduction, moistureDeduction < 0, 0))
+  clRatingTable$temperatureDeduction <- with(clRatingTable, 
+                                       replace(temperatureDeduction, temperatureDeduction < 0, 0))
+  clRatingTable$springMoisture <- with(clRatingTable, 
+                                       replace(springMoisture, springMoisture < 0, 0))
+  clRatingTable$springMoisture <- with(clRatingTable, 
+                                       replace(springMoisture, springMoisture > 10, 10))
+  clRatingTable$fallMoisture <- with(clRatingTable, 
+                                     replace(fallMoisture, fallMoisture < 0, 0))
+  clRatingTable$fallMoisture <- with(clRatingTable, 
+                                     replace(fallMoisture, fallMoisture > 10, 10))
+  clRatingTable$fallFrost <- with(clRatingTable, 
+                                  replace(fallFrost, fallFrost < 0, 10))
+  clRatingTable$fallFrost <- with(clRatingTable, 
+                                  replace(fallFrost, fallFrost > 10, 10))
   
   return(clRatingTable)
 }

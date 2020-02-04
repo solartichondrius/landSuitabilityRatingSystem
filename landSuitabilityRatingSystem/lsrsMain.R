@@ -38,22 +38,22 @@ lsRatingTable$class <- landscapeRatingClass(lsRatingTable$points,
                                             lsRatingTable$t, lsRatingTable$p,
                                             lsRatingTable$j, lsRatingTable$k,
                                             lsRatingTable$i)
-# 
-# lsRatingTable <- subset(lsRatingTable, select=-c(t, p, j, k, i))
 
-clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
+lsRatingTable <- subset(lsRatingTable, select=-c(t, p, j, k, i))
+
+#clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
 
 clRatingTable <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm,
                                       clTable$efm, clTable$eff)
 
-clRatingTable <- subset(clRatingTable, points >= 0 & points <= 100)
+#clRatingTable <- subset(clRatingTable, points >= 0 & points <= 100)
 
 clRatingTable$class <- climateRatingClass(clRatingTable$points,
                                           clRatingTable$moistureDeduction, 
                                           clRatingTable$temperatureDeduction)
 
-clRatingTable <- subset(clRatingTable, select=-c(moistureDeduction, 
-                                                 temperatureDeduction))
+# clRatingTable <- subset(clRatingTable, select=-c(moistureDeduction, 
+#                                                  temperatureDeduction))
 
 #Write the results into csv files.
 write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
