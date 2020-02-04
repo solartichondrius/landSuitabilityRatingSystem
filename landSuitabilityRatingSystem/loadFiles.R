@@ -1,7 +1,7 @@
 # Title     : Load Files
 # Objective : Loads Files, unless they are already loaded
 # Created by: CurtisTh
-# Created on: 1/30/2020
+# Created on: 2020-01-30
 
 loadFiles <- function(...,ECHO=TRUE){ #can take any number of file names as arguments
   files <- c(...) #put all of the file names into a list
