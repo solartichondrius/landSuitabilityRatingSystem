@@ -9,14 +9,14 @@ climateResults <- function(input,output,save=TRUE){
   percent <- 0 #percent completion of this program, starting at 0 and going to 100
   for(i in 1:nrow(df)){ #loop through every row and assign a value to the climate rating class
     results <- climateRating(df$ppe[i],df$esm[i],df$efm[i],df$egdd[i],df$eff[i]) #put the values from the loaded file into the climate rating function to calculate the results
-    df$moisturePointDeduction[i] <- results[3]
-    df$temperaturePointDeduction[i] <- results[4]
-    df$basicClimateRating[i] <- results[5]
-    df$springMoisturePercentDeduction[i] <- results[6]
-    df$fallMoisturePercentDeduction[i] <- results[7]
-    df$fallFrostPercentDeduction[i] <- results[8]
-    df$finalRatingPoints[i] <- results [2]
-    df$climateRatingClass[i] <- results[1]
+    df$moisturePointDeduction[i] <- results[3] #point deduction for moisture
+    df$temperaturePointDeduction[i] <- results[4] #point deduction for temperature
+    df$basicClimateRating[i] <- results[5] #basic climate rating score
+    df$springMoisturePercentDeduction[i] <- results[6] #percent deduction for excess spring moisture
+    df$fallMoisturePercentDeduction[i] <- results[7] #percent deduction for excess fall moisture
+    df$fallFrostPercentDeduction[i] <- results[8] #percent deduction for early fall frost
+    df$finalRatingPoints[i] <- results[2] #final rating points for climate
+    df$climateRatingClass[i] <- results[1] #final rating class for climate
     if(percent != floor(i/nrow(df)*100)){ #only update the percent progress if the new percent is not the same as the old percent (so it will only display a maximum of 100 lines rather than one for every single row in the dataframe
       percent <- floor(i/nrow(df)*100) #calculate the percent progress which is the current row divided by all rows times 100
       print(paste0(percent,"% complete")) #print out the current progress as a percentage
