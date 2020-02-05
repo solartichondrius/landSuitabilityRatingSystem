@@ -5,6 +5,10 @@
 
 climateRating <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
 
+  if(is.na(PPE)|is.na(springPPE)|is.na(fallPPE)|is.na(EGDD)|is.na(DBAFF)){
+    return(c(NA,NA,NA,NA,NA,NA,NA,NA)) #BATMAN! If any of the values are null then return null for all the results since we can't perform any calculations on null values
+  }
+
   moistureDeduction <- moistureFactor(PPE)
   temperatureDeduction <- temperatureFactor(EGDD)
   A <- 100 - moistureDeduction
@@ -28,5 +32,5 @@ climateRating <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
   if(moistureDeduction >= 15) class <- paste(class,"A",sep="") #if the deduction points for the moisture factor (A) is 15 or greater add "A" as a subclass
   if(temperatureDeduction >= 15) class <- paste(class,"H",sep="") #if the deduction points for the temperature factor (H) is 15 or greater add "H" as a subclass
 
-  return(c(class, finalClimateRating,moistureDeduction,temperatureDeduction,basicClimateRating,springMoisture,fallMoisture,fallFrost))
+  return(c(class,finalClimateRating,moistureDeduction,temperatureDeduction,basicClimateRating,springMoisture,fallMoisture,fallFrost))
 }

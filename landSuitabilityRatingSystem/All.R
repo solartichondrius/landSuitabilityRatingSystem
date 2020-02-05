@@ -5,7 +5,7 @@
 
 source("loadFiles.R",echo=TRUE) #function I made to make it easier to load many files at once
 
-loadFiles(ECHO=FALSE,
+loadFiles(ECHO=FALSE,reload=TRUE,
 
           "createDataFrame.R",
           "plotGraph.R",
@@ -15,6 +15,7 @@ loadFiles(ECHO=FALSE,
           "loadRaster.R",
 
           "climaticFactors/AorPPE.R",
+          "climaticFactors/climateRaster.R",
           "climaticFactors/climateRating.R",
           "climaticFactors/climateRatingClass.R",
           "climaticFactors/climateRatingPoints.R",

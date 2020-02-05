@@ -5,6 +5,8 @@
 
 excessSpringMoisture <- function(esm){
 
+  if(is.na(esm)) return(NA) #if value is null return null value
+
   #calculate the percent deduction based on the moisture factor (A)
   percentDeduction <- esm / 10 + 5
 
