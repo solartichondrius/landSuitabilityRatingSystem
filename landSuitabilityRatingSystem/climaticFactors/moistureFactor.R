@@ -5,6 +5,8 @@
 
 moistureFactor <- function(ppe){
 
+  if(is.na(ppe)) return(NA) #if value is null return null value
+
   #Calculate the point deduction number based on the moisture component (A)
   #The graph in figure 3.1 on page 8 reaches 0 point deduction at 0mm which gives the following formula:
   #pointDeduction <- 70 * ppe / -500

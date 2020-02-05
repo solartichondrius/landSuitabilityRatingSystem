@@ -5,6 +5,8 @@
 
 excessFallMoisture <- function(efm){
 
+  if(is.na(efm)) return(NA) #if value is null return null value
+
   #calculate the percent deduction based on the moisture factor (A)
   percentDeduction <- efm / 10
 

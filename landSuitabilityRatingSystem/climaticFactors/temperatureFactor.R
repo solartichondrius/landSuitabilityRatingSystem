@@ -5,6 +5,8 @@
 
 temperatureFactor <- function(EGDD){
 
+  if(is.na(EGDD)) return(NA) #if value is null return null value
+
   pointDeduction <- ifelse(EGDD < 900, -0.05 * EGDD + 115, 
                                  -0.10 * EGDD + 160.00)
 

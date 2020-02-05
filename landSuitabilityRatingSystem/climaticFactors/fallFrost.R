@@ -5,6 +5,8 @@
 
 fallFrost <- function(DBAFF){
 
+  if(is.na(DBAFF)) return(NA) #if value is null return null value
+
   #calculate the percent deduction based on the days before average fall frost (DBAFF)
   percentDeduction <-  DBAFF / 3
 
