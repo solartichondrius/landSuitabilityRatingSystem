@@ -7,16 +7,26 @@
 #TODO: 
 #Add soil data and functions into this file to be processed
 #with the landscape and climate data.
+#Implement raster data functionality.
 #Correct column names to match the real data.
 #Calculate the region value in the topography function 
 #using slope length (Figure 6.1).
 
-library(plyr)
-
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
+source("landscapeFactors/topography.R")
+source("landscapeFactors/stoniness.R")
+source("landscapeFactors/woodContent.R")
+source("landscapeFactors/flooding.R")
+source("pointsToClass.R")
 source("climaticFactors/climateRatingPoints.R")
 source("climaticFactors/climateRatingClass.R")
+source("climaticFactors/moistureFactor.R")
+source("climaticFactors/temperatureFactor.R")
+source("climaticFactors/excessSpringMoisture.R")
+source("climaticFactors/excessFallMoisture.R")
+source("climaticFactors/fallFrost.R")
+source("climaticFactors/modificationFactor.R")
 
 #Data currently being used.
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
@@ -41,7 +51,7 @@ lsRatingTable$class <- landscapeRatingClass(lsRatingTable$points,
 
 lsRatingTable <- subset(lsRatingTable, select=-c(t, p, j, k, i))
 
-#clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
+clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
 
 clRatingTable <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm,
                                       clTable$efm, clTable$eff)
@@ -52,8 +62,9 @@ clRatingTable$class <- climateRatingClass(clRatingTable$points,
                                           clRatingTable$moistureDeduction, 
                                           clRatingTable$temperatureDeduction)
 
-# clRatingTable <- subset(clRatingTable, select=-c(moistureDeduction, 
-#                                                  temperatureDeduction))
+# clRatingTable <- subset(clRatingTable, select=-c(moistureDeduction,
+#                                  temperatureDeduction, basicClimateRating,
+#                                  springMoisture, fallMoisture, fallFrost))
 
 #Write the results into csv files.
 write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)

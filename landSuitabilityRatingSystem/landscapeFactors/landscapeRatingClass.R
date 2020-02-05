@@ -3,8 +3,6 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-source("pointsToClass.R")
-
 landscapeRatingClass <- function(points, t, p, j, k, i) {
 
   for (n in 1:length(lsRatingTable$points)) {
