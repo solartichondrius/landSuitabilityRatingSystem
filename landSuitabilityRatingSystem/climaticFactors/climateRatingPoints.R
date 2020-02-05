@@ -3,32 +3,64 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-source("climaticFactors/moistureFactor.R")
-source("climaticFactors/temperatureFactor.R")
-source("climaticFactors/excessSpringMoisture.R")
-source("climaticFactors/excessFallMoisture.R")
-source("climaticFactors/fallFrost.R")
-
 climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
 
   moistureDeduction <- moistureFactor(PPE)
   temperatureDeduction <- temperatureFactor(EGDD)
+  
+  #Create new table containing all columns from clTable and new columns
+  #for the values involved in deduction calculations.
+  clRatingTable <- clTable
+  clRatingTable$moistureDeduction <- moistureDeduction
+  clRatingTable$temperatureDeduction <- temperatureDeduction
+  
+  #Replace all negative values in the moisture and temperature deduction 
+  #columns with 0.
+  clRatingTable$moistureDeduction <- with(clRatingTable, 
+                replace(moistureDeduction, moistureDeduction < 0, 0))
+  clRatingTable$temperatureDeduction <- with(clRatingTable, 
+                replace(temperatureDeduction, temperatureDeduction < 0, 0))
+  
   A <- 100 - moistureDeduction
   H <- 100 - temperatureDeduction
-
+  
   #basic climatic rating (BCR) is the lower of A or H
-  if(A < H){ #so if A is smaller than H
-    basicClimateRating <- A #then the BCR is equal to a
-  } else { #or else if A is equal to or greater than H
-    basicClimateRating <- H #then the BCR is equal to H
-  }
+  basicClimateRating <- ifelse(A < H, A, H)
+  
+  clRatingTable$basicClimateRating <- basicClimateRating
 
-  springMoisture <- excessSpringMoisture(springPPE)/100 #get the spring moisture percent deduction as a decimal
-  fallMoisture <- excessFallMoisture(fallPPE)/100 #get the fall moisture percent deduction as a decimal
-  fallFrost <- fallFrost(DBAFF)/100 #get the fall frost percent deduction as a decimal
+  springMoisture <- excessSpringMoisture(springPPE)
+  fallMoisture <- excessFallMoisture(fallPPE)
+  fallFrost <- fallFrost(DBAFF)
 
-  modificationDeduction <- (springMoisture + fallMoisture + fallFrost) * basicClimateRating
+  clRatingTable$springMoisture <- springMoisture
+  clRatingTable$fallMoisture <- fallMoisture
+  clRatingTable$fallFrost <- fallFrost
+  
+  #Replace all negative values in the modifying factor columns with 0.
+  clRatingTable$springMoisture <- with(clRatingTable, 
+                            replace(springMoisture, springMoisture < 0, 0))
+  clRatingTable$springMoisture <- with(clRatingTable, 
+                            replace(springMoisture, springMoisture > 10, 10))
+  clRatingTable$fallMoisture <- with(clRatingTable, 
+                            replace(fallMoisture, fallMoisture < 0, 0))
+  clRatingTable$fallMoisture <- with(clRatingTable, 
+                            replace(fallMoisture, fallMoisture > 10, 10))
+  clRatingTable$fallFrost <- with(clRatingTable, 
+                            replace(fallFrost, fallFrost < 0, 10))
+  clRatingTable$fallFrost <- with(clRatingTable, 
+                            replace(fallFrost, fallFrost > 10, 10))
+  
+  #Add the new modifying factors from the table rows together then convert 
+  #them to decimal and multiply them by the basicClimateRating to get the
+  #modification deduction.
+  modificationDeduction <- modificationFactor(clRatingTable$springMoisture, 
+                                            clRatingTable$fallMoisture, 
+                                            clRatingTable$fallFrost, 
+                                            clRatingTable$basicClimateRating)
   finalClimateRating <- basicClimateRating - modificationDeduction
 
-  return(finalClimateRating)
+  clRatingTable$points <- finalClimateRating
+  
+  return(clRatingTable)
 }
