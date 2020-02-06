@@ -1,12 +1,12 @@
 # Title     : Climate Rating
 # Objective : Perform all the calculations for the Climate Rating
 # Created by: CurtisTh
-# Created on: 1/31/2020
+# Created on: 2020-01-31
 
 climateRating <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
 
   if(is.na(PPE)|is.na(springPPE)|is.na(fallPPE)|is.na(EGDD)|is.na(DBAFF)){
-    return(c(NA,NA,NA,NA,NA,NA,NA,NA)) #BATMAN! If any of the values are null then return null for all the results since we can't perform any calculations on null values
+    return(c(NA,NA)) #BATMAN! If any of the values are null then return null for all the results since we can't perform any calculations on null values
   }
 
   moistureDeduction <- moistureFactor(PPE)
@@ -29,8 +29,8 @@ climateRating <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
   finalClimateRating <- basicClimateRating - modificationDeduction
 
   class <- pointsToClass(finalClimateRating)
-  if(moistureDeduction >= 15) class <- paste(class,"A",sep="") #if the deduction points for the moisture factor (A) is 15 or greater add "A" as a subclass
-  if(temperatureDeduction >= 15) class <- paste(class,"H",sep="") #if the deduction points for the temperature factor (H) is 15 or greater add "H" as a subclass
+  if(moistureDeduction >= 15) class <- paste0(class,"A") #if the deduction points for the moisture factor (A) is 15 or greater add "A" as a subclass
+  if(temperatureDeduction >= 15) class <- paste0(class,"H") #if the deduction points for the temperature factor (H) is 15 or greater add "H" as a subclass
 
-  return(c(class,finalClimateRating,moistureDeduction,temperatureDeduction,basicClimateRating,springMoisture,fallMoisture,fallFrost))
+  return(c(finalClimateRating,class))
 }

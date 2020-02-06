@@ -2,7 +2,7 @@
 #Hayden McAdam
 #Calculate stoniness point reduction (P) based on the amount of stones (s)
 #and coarse fragments (cf) present in the soil surface.
-pRating <- function(cf) {
+stoniness <- function(cf) {
   #Point deduction for amount of stone anually removed from the surface.
   #This is no longer being used, since we only have coarse fragment data.
   #deductionP1 <- 53.333333 * s
@@ -10,8 +10,8 @@ pRating <- function(cf) {
   a <- -9
   b <- 0.96285714
   c <- -0.0057142857
-  deductionP <- a+b*cf+c*cf^2
+  pointDeduction <- a+b*cf+c*cf^2
   #Add the stoniness and coarse fragment deductions to calculate final P value.
   #deductionP <- deductionP1 + deductionP2
-  return(deductionP)
+  return(pointDeduction)
 }

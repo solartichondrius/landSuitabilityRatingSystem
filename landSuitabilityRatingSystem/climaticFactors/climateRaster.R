@@ -17,6 +17,7 @@ climateRaster <- function(PPERaster, springPPERaster, fallPPERaster, EGDDRaster,
   names(df)[3] <- "efm"
   names(df)[4] <- "egdd"
   names(df)[5] <- "eff"
+  df$rowNumber <- 1:nrow(df)
 
   return(df)
 }

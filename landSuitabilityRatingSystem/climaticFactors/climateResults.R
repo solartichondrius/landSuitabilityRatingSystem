@@ -5,18 +5,20 @@
 
 climateResults <- function(df,output,save=TRUE){
 
-  for(i in 1:nrow(df)){ #loop through every row and assign a value to the climate rating class
-    results <- climateRating(df$ppe[i],df$esm[i],df$efm[i],df$egdd[i],df$eff[i]) #put the values from the loaded file into the climate rating function to calculate the results
-    df$moisturePointDeduction[i] <- results[3] #point deduction for moisture
-    df$temperaturePointDeduction[i] <- results[4] #point deduction for temperature
-    df$basicClimateRating[i] <- results[5] #basic climate rating score
-    df$springMoisturePercentDeduction[i] <- results[6] #percent deduction for excess spring moisture
-    df$fallMoisturePercentDeduction[i] <- results[7] #percent deduction for excess fall moisture
-    df$fallFrostPercentDeduction[i] <- results[8] #percent deduction for early fall frost
-    df$finalRatingPoints[i] <- results[2] #final rating points for climate
-    df$climateRatingClass[i] <- results[1] #final rating class for climate
-    print(paste(i,"out of",nrow(df),"completed"))
-  }
+  #df <- df[sample(nrow(df),1000),] #for testing a small sample of a large dataset
+  df$rowNumber <- 1:nrow(df)
+  size <- nrow(df)
+
+  results <- apply(df,1,function(row) {
+    results <- climateRating(row["ppe"],row["esm"],row["efm"],row["egdd"],row["eff"])
+    print(paste(row["rowNumber"],"out of",size,"completed"))
+    results
+  })
+
+  df["climateRatingPoints"] <- results[1,]
+  df["climateRatingClass"] <- results[2,]
+  df <- subset(df,select=-c(rowNumber))
+
   if(save==TRUE){ #if the save argument is set to TRUE (which it is by default)
     write.csv(df,output) #then write the dataframe to a file
   } else { #if the save argument is set to false

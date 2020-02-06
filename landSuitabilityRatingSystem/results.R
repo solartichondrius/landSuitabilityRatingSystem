@@ -3,14 +3,28 @@
 # Created by: CurtisTh
 # Created on: 2020-01-27
 
-results <- function(...,output){
-  input <- c(...)
-  if(length(input)==1){
-    df <- read.csv(input[1])
+results <- function(climateIN=NA,climateOUT=NA,landscapeIN=NA,landscapeOUT=NA,soilIN=NA,soilOUT=NA){
+
+  if(is.na(climateIN)){
+    return
   } else {
-    df <- climateRaster(input[1],input[2],input[3],input[4],input[5])
+    if(length(climateIN)==1){
+      climateDF <- read.csv(climateIN)
+    } else {
+      climateDF <- climateRaster(climateIN[1],climateIN[2],climateIN[3],climateIN[4],climateIN[5])
+    }
+    climateResults(climateDF,climateOUT)
   }
-  climateResults(df,output)
-  #landscapeResults(input,output) #not finished yet
+
+  if(is.na(landscapeIN)){
+    return
+  } else {
+    if(length(landscapeIN)==1){
+      landscapeDF <- read.csv(landscapeIN)
+    } else {
+      landscapeDF <- landscapeRaster(landscapeIN[1],landscapeIN[2],landscapeIN[3],landscapeIN[4],landscapeIN[5])
+    }
+    landscapeResults(landscapeDF,landscapeOUT)
+  }
   #soilResults(input,output) #not finished yet
 }

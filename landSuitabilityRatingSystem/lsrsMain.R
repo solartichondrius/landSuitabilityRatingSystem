@@ -12,25 +12,11 @@
 #Calculate the region value in the topography function 
 #using slope length (Figure 6.1).
 
-source("landscapeFactors/landscapeRatingPoints.R")
-source("landscapeFactors/landscapeRatingClass.R")
-source("landscapeFactors/topography.R")
-source("landscapeFactors/stoniness.R")
-source("landscapeFactors/woodContent.R")
-source("landscapeFactors/flooding.R")
-source("pointsToClass.R")
-source("climaticFactors/climateRatingPoints.R")
-source("climaticFactors/climateRatingClass.R")
-source("climaticFactors/moistureFactor.R")
-source("climaticFactors/temperatureFactor.R")
-source("climaticFactors/excessSpringMoisture.R")
-source("climaticFactors/excessFallMoisture.R")
-source("climaticFactors/fallFrost.R")
-source("climaticFactors/modificationFactor.R")
+source("All.R")
 
 #Data currently being used.
-clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
-lsTable <- read.csv("./landscapeTest2.csv")
+clTable <- read.csv("O:/Temporary/lsrs/test_data/ab_vector/climate1981x10_CCCS_baseline.csv")
+lsTable <- read.csv("O:/Temporary/lsrs/test_data/ab_vector//landscapeTest2.csv")
 
 #Real landscape vector data.
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")

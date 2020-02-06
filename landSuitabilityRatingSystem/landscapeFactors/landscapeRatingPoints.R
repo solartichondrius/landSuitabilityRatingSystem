@@ -8,9 +8,9 @@ landscapeRatingPoints <- function(slc, region, ps, lt, cf,
                                   inundationPeriod, usableGrowingSeasonLength, 
                                   frequency) {
 
-  t <- tRating(region, ps, lt)
+  t <- topography(region, ps, lt)
   a <- 100 - t
-  P <- (pRating(cf) / 100) * a
+  P <- (stoniness(cf) / 100) * a
   J <- woodContent(surface, subsurface)
   b <- (P + J)
   c <- a - b
@@ -18,7 +18,7 @@ landscapeRatingPoints <- function(slc, region, ps, lt, cf,
   I <- flooding(inundationPeriod, usableGrowingSeasonLength, frequency)
   d <- K + I
   L <- c - d
-  
+
   lsRatingTable <- lsTable
   lsRatingTable$t <- t
   lsRatingTable$p <- P
@@ -26,6 +26,6 @@ landscapeRatingPoints <- function(slc, region, ps, lt, cf,
   lsRatingTable$k <- K
   lsRatingTable$i <- I
   lsRatingTable$points <- L
-  
+
   return(lsRatingTable)
 }

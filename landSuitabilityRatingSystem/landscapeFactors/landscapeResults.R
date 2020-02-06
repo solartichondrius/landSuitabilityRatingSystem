@@ -3,11 +3,24 @@
 # Created by: CurtisTh
 # Created on: 2020-01-27
 
-landscapeResults <- function(input,output,save=TRUE){
-  df <- read.csv(input) #put the data from the CSV file into a dataframe
-  for(i in 1:nrow(df)){ #loop through every row and assign a value to the landscape rating class
-    df$landscapeRating[i] <- landscapeRatingClass(df$region[i],df$percentSlope[i],df$landscapeType[i],df$annualRemoval[i],df$coarseFragments[i],df$woodContent[i],df$pattern[i],df$flooding[i])
-  } #values are just placeholders for now since I don't have any landscape data to work with yet so I don't know what all the columns and their names will be yet
+landscapeResults <- function(df,output,save=TRUE){
+
+  df$rowNumber <- 1:nrow(df)
+  size <- nrow(df)
+
+  results <- apply(df,1,function(row) {
+    results <- landscapeRating(as.numeric(row["region"]),as.numeric(row["ps"]),row["lt"],as.numeric(row["cf"]),
+                               as.numeric(row["surface"]),as.numeric(row["subsurface"]),as.numeric(row["pattern"]),
+                               as.numeric(row["inundationPeriod"]),as.numeric(row["usableGrowingSeasonLength"]),
+                               as.numeric(row["frequency"]))
+    print(paste(row["rowNumber"],"out of",size,"completed"))
+    results
+  })
+
+  df["landscapeRatingPoints"] <- results[1,]
+  df["landscapeRatingClass"] <- results[2,]
+  df <- subset(df,select=-c(rowNumber))
+
   if(save==TRUE){ #if the save argument is set to TRUE (which it is by default)
     write.csv(df,output) #then write the dataframe to a file
   } else { #if the save argument is set to false
