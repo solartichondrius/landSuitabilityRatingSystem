@@ -12,6 +12,8 @@
 #Calculate the region value in the topography function 
 #using slope length (Figure 6.1).
 
+library(foreign)
+
 source("landscapeFactors/landscapeRatingPoints.R")
 source("landscapeFactors/landscapeRatingClass.R")
 source("landscapeFactors/topography.R")
@@ -27,6 +29,10 @@ source("climaticFactors/excessSpringMoisture.R")
 source("climaticFactors/excessFallMoisture.R")
 source("climaticFactors/fallFrost.R")
 source("climaticFactors/modificationFactor.R")
+source("soilFactors/soilRatingPoints.R")
+source("soilFactors/awhcClass.R")
+source("soilFactors/surfaceMoisture.R")
+source("soilFactors/subsurfaceMoisture.R")
 
 #Data currently being used.
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
@@ -34,7 +40,9 @@ lsTable <- read.csv("./landscapeTest2.csv")
 
 #Real landscape vector data.
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
-#lsTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
+
+#Soil data
+slTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 
 lsRatingTable <- landscapeRatingPoints(lsTable$slc, lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$cf,
@@ -65,6 +73,28 @@ clRatingTable$class <- climateRatingClass(clRatingTable$points,
 # clRatingTable <- subset(clRatingTable, select=-c(moistureDeduction,
 #                                  temperatureDeduction, basicClimateRating,
 #                                  springMoisture, fallMoisture, fallFrost))
+
+#Add all surface and subsurface AWHC values into two columns
+#to be used for point calculations.
+slTable$awhcSurface <- rowSums(slTable[,c("AWHC5_L", "AWHC5_V", "AWHC5_H",
+                                        "AWHC15_L", "AWHC15_V", "AWHC15_H")])
+slTable$awhcSubsurface <- rowSums(slTable[,c("AWHC30_L", "AWHC30_V", "AWHC30_H",
+                                           "AWHC60_L", "AWHC60_V", "AWHC60_H",
+                                           "AWHC100_L", "AWHC100_V", "AWHC100_H",
+                                           "AWHC200_L", "AWHC200_V", "AWHC200_H")])
+
+#slTable doesn't seem to have a p-pe column, so the column from clTable is
+#being used for now.
+slTable$ppe <- clTable$ppe[1:1091]
+slTable$surfaceClass <- awhcClass(slTable$awhcSurface)
+slTable$subsurfaceClass <- awhcClass(slTable$awhcSubsurface)
+
+# slTable <- slTable[c("awhcSurface", "awhcSubsurface", "ppe", "surfaceClass",
+#                      "subsurfaceClass")]
+
+slRatingTable <- soilRatingPoints(slRatingTable$awhcSurface, 
+                                  slRatingTable$awhcSubsurface, slRatingTable$ppe,
+                                  slTable$surfaceClass, slTable$subsurfaceClass)
 
 #Write the results into csv files.
 write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
