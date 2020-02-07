@@ -33,6 +33,9 @@ source("soilFactors/soilRatingPoints.R")
 source("soilFactors/awhcClass.R")
 source("soilFactors/surfaceMoisture.R")
 source("soilFactors/subsurfaceMoisture.R")
+source("soilFactors/organicMatterContent.R")
+source("soilFactors/reaction.R")
+source("soilFactors/salinity.R")
 
 #Data currently being used.
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
@@ -78,23 +81,27 @@ clRatingTable$class <- climateRatingClass(clRatingTable$points,
 #to be used for point calculations.
 slTable$awhcSurface <- rowSums(slTable[,c("AWHC5_L", "AWHC5_V", "AWHC5_H",
                                         "AWHC15_L", "AWHC15_V", "AWHC15_H")])
-slTable$awhcSubsurface <- rowSums(slTable[,c("AWHC30_L", "AWHC30_V", "AWHC30_H",
+slTable$awhcSubsurface <- rowMeans(slTable[,c("AWHC30_L", "AWHC30_V", "AWHC30_H",
                                            "AWHC60_L", "AWHC60_V", "AWHC60_H",
                                            "AWHC100_L", "AWHC100_V", "AWHC100_H",
                                            "AWHC200_L", "AWHC200_V", "AWHC200_H")])
-
+slTable$ocSurfacePerc <- rowMeans(slTable[,c("OC5_L", "OC5_V", "OC5_H",
+                                        "OC15_L", "OC15_V", "OC15_H")] / 100)
+slTable$surfacePH <- rowMeans(slTable[,c("PH5_L", "PH5_V", "PH5_H",
+                                      "PH15_L", "PH15_V", "PH15_H")])
+slTable$surfaceEC <- rowMeans(slTable[,c("EC5_L", "EC5_V", "EC5_H",
+                                         "EC15_L", "EC15_V", "EC15_H")])
 #slTable doesn't seem to have a p-pe column, so the column from clTable is
 #being used for now.
 slTable$ppe <- clTable$ppe[1:1091]
-slTable$surfaceClass <- awhcClass(slTable$awhcSurface)
-slTable$subsurfaceClass <- awhcClass(slTable$awhcSubsurface)
 
 # slTable <- slTable[c("awhcSurface", "awhcSubsurface", "ppe", "surfaceClass",
 #                      "subsurfaceClass")]
 
-slRatingTable <- soilRatingPoints(slRatingTable$awhcSurface, 
-                                  slRatingTable$awhcSubsurface, slRatingTable$ppe,
-                                  slTable$surfaceClass, slTable$subsurfaceClass)
+slRatingTable <- soilRatingPoints(slTable$awhcSurface, 
+                                  slTable$awhcSubsurface, slTable$ppe, 
+                                  slTable$ocSurfacePerc, slTable$surfacePH,
+                                  slTable$surfaceEC)
 
 #Write the results into csv files.
 write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
