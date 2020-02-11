@@ -23,7 +23,9 @@ server <- function(input,output){ #code which runs on the server
     fileIN <- input$fileInput #get the input file
     fileOUT <- input$fileOutput #get the output file
     if(is.null(fileIN) | is.null(fileOUT)) return(NULL) #if the input or output file are null then do nothing
-    results(input$dataType, input$fileType, fileIN$datapath, fileOUT) #process the input file and save the results to the output file
+    withProgress(message="Processing file:",value=0, {
+      results(input$dataType, input$fileType, fileIN$datapath, fileOUT) #process the input file and save the results to the output file
+    })
   })
 }
 shinyApp(ui=ui,server=server) #start the webpage with the ui and server code written in this file
