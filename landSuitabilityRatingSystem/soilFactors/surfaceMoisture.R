@@ -1,7 +1,6 @@
 #Moisture Factor (M)
 #Calculate the surface moisture point deduction based on table 4.2.
 surfaceMoisture <- function(awhcSurface, ppe){
-  
   #AWHC between 0 and 10
   pointDeduction <- if (awhcSurface < 10) {
     ppe * -0.2 + 40
@@ -40,5 +39,8 @@ surfaceMoisture <- function(awhcSurface, ppe){
   } else {
     ppe * -0.2 - 30
   }
+  
+  #moisture <- (claySurface + siltSurface) * (1 - cfSurface / 100)
+  
   return(pointDeduction)
 }

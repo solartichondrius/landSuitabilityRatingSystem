@@ -3,14 +3,26 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-soilRatingPoints <- function(awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
-                             surfacePH, surfaceEC){
+soilRatingPoints <- function(claySurface, claySubsurface,
+                             sandSurface, sandSubsurface,
+                             siltSurface, siltSubsurface,
+                             cfSurface, cfSubsurface, 
+                             awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
+                             ocSubsurfacePerc, surfacePH, subsurfacePH, 
+                             surfaceEC, subsurfaceEC, 
+                             ksatSurface, ksatSubsurface){
   
   #Create a new table containing all relevant columns from slTable
   #and the new columns for point calculations.
-  slRatingTable <- slTable[c("Value", "POLY_ID", "awhcSurface", 
-                             "awhcSubsurface", "ppe", "ocSurfacePerc", 
-                             "surfacePH", "surfaceEC")]
+  slRatingTable <- slTable[c("Value", "POLY_ID", 
+                             "claySurface", "claySubsurface",
+                             "sandSurface", "sandSubsurface",
+                             "siltSurface", "siltSubsurface", 
+                             "cfSurface", "cfSubsurface", "awhcSurface", 
+                             "awhcSubsurface", "ppe", "ocSurfacePerc",
+                             "ocSubsurfacePerc", "surfacePH", "subsurfacePH",
+                             "surfaceEC", "subsurfaceEC",
+                             "ksatSurface", "ksatSubsurface")]
   #Water Retention Factor
   for (i in 1:length(slRatingTable$POLY_ID)) {
     surface <- slRatingTable$awhcSurface[i]
@@ -19,8 +31,14 @@ soilRatingPoints <- function(awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
     slRatingTable$subsurfaceClass[i] <- awhcClass(subsurface)
   }
   surfaceTexture <- surfaceMoisture(awhcSurface, ppe)
-  subsurfaceTexture <- subsurfaceMoisture(slRatingTable$surfaceClass, 
+  subsurfaceTexture <- subsurfaceMoisture(slRatingTable$surfaceClass,
                                           slRatingTable$subsurfaceClass)
+  
+  #Surface AWHC deduction
+  #surfaceTexture <- surfaceMoisture(claySurface, siltSurface, cfSurface)
+  #Subsurface texture deduction
+  #Water table deduction
+  #wt <- waterTable(waterTableDepth, claySurface, siltSurface)
   #Subtotal texture deductions (M)
   m <- surfaceTexture + subsurfaceTexture
   #Surface Factors
@@ -33,18 +51,33 @@ soilRatingPoints <- function(awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
   #Salinity (N)
   n <- salinity(surfaceEC)
   #Sodicity (Y)
+  y <- 0
   #Chemistry deduction (c)
-  #c <- max(v, n, y)
+  c <- chemistry(v, n, y)
   #Organic surfaces (O)
-  #Total surface deduction
+  #Total surface deduction (d)
   #surfaceDeduction <- d + f + e + c + o
   #Preliminary Soil Rating
   #prelimRating <- 100 - m - surfaceDeduction
+  
+  #Subsurface Factors
+  #Subsurface impedence (sD)
+  #Impedence modification
+  #Chemistry
+  #Reaction (sV)
+  sv <- reaction(subsurfacePH)
+  #Salinity (sN)
+  sn <- salinity(subsurfaceEC)
+  #Sodicity (sY)
+  sy <- 0
+  #Chemistry deduction (sC)
+  sc <- chemistry(sv, sn, sy)
   
   slRatingTable$m <- m
   slRatingTable$f <- f
   slRatingTable$v <- v
   slRatingTable$n <- n
+  slRatingTable$c <- ifelse(c > sc, c, sc)
   
   #Replace all negative values in the organic matter deduction 
   #column with 0 and all values above 15 with 15.
