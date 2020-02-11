@@ -5,6 +5,7 @@
 
 landscapeResults <- function(df,output,save=TRUE){
 
+  df <- df[sample(nrow(df),1000),] #for testing a small sample of a large dataset
   df$rowNumber <- 1:nrow(df)
   size <- nrow(df)
 

@@ -3,28 +3,32 @@
 # Created by: CurtisTh
 # Created on: 2020-01-27
 
-results <- function(climateIN=NA,climateOUT=NA,landscapeIN=NA,landscapeOUT=NA,soilIN=NA,soilOUT=NA){
+results <- function(dataType,fileType,input,output){
 
-  if(is.na(climateIN)){
-    return
-  } else {
-    if(length(climateIN)==1){
-      climateDF <- read.csv(climateIN)
+  if(dataType=="Climate"){
+    if(fileType=="Vector"){
+      climateDF <- read.csv(input)
     } else {
-      climateDF <- climateRaster(climateIN[1],climateIN[2],climateIN[3],climateIN[4],climateIN[5])
+      climateDF <- climateRaster(input[1],input[2],input[3],input[4],input[5])
     }
-    climateResults(climateDF,climateOUT)
+    climateResults(climateDF,output)
   }
 
-  if(is.na(landscapeIN)){
-    return
-  } else {
-    if(length(landscapeIN)==1){
-      landscapeDF <- read.csv(landscapeIN)
+  if(dataType=="Landscape"){
+    if(fileType=="Vector"){
+      landscapeDF <- read.csv(input)
     } else {
-      landscapeDF <- landscapeRaster(landscapeIN[1],landscapeIN[2],landscapeIN[3],landscapeIN[4],landscapeIN[5])
+      landscapeDF <- landscapeRaster(input[1],input[2],input[3],input[4],input[5],input[6],input[7],input[8],input[9],input[10])
     }
-    landscapeResults(landscapeDF,landscapeOUT)
+    landscapeResults(landscapeDF,output)
   }
-  #soilResults(input,output) #not finished yet
+
+  if(dataType=="Soil"){
+    if(fileType=="Vector"){
+      soilDF <- read.csv(input)
+    } else {
+      soilDF <- soilRaster(input[1],input[2],input[3],input[4],input[5])
+    }
+    soilResults(soilDF,output)
+  }
 }

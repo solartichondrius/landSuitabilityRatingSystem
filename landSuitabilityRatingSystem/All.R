@@ -27,6 +27,7 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           "climaticFactors/temperatureFactor.R",
 
           "landscapeFactors/flooding.R",
+          "landscapeFactors/landscapeRaster.R",
           "landscapeFactors/landscapeRating.R",
           "landscapeFactors/landscapeRatingClass.R",
           "landscapeFactors/landscapeRatingPoints.R",
