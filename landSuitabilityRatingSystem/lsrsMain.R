@@ -53,8 +53,8 @@ clRatingTable$class <- climateRatingClass(clRatingTable$points,
 #                                  springMoisture, fallMoisture, fallFrost))
 
 #Write the results into csv files.
-write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
-write.csv(clRatingTable, file="climateResults.csv", row.names=FALSE)
+write.csv(lsRatingTable, file= "dataFiles/testResults.csv", row.names=FALSE)
+write.csv(clRatingTable, file= "dataFiles/climateResults.csv", row.names=FALSE)
 
 #NOTE: I haven't seen any results from the web app that had any pattern value
 #other than 0 or a flooding value other than 1. 
