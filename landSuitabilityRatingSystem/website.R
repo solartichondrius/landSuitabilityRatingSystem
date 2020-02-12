@@ -6,7 +6,9 @@
 library(shiny)
 ui <- fluidPage( #code for the webpage's UI (user interface)
   titlePanel("Land Suitability Rating System"), #title at the top of the page
-  selectInput(inputId = "cropType", label = "Crop type:", choices = "Spring Seeded Small Grains"), #user can select one item from a list in a drop-down box
+  selectInput(inputId = "cropType", label = "Crop type:", choices = c( #user can select one item from a list in a drop-down box
+    "Alfalfa" = "Alfalfa", "Brome" = "Brome", "Canola" = "Canola", "Spring Seeded Small Grains" = "SSSG", "Corn" = "Corn", "Soybean" = "Soybean", "Potatoes" = "Potatoes"
+  ), selected = "SSSG"), #Spring Seeded Small Grain is selected by default since it is the only one we are working with right now
   radioButtons(inputId = "fileType", label = "File Type:", choices = c("Vector" = "Vector","Raster" = "Raster")), #user can select one radio button
   radioButtons(inputId = "dataType", label = "Type of Data:", choices = c("Climate" = "Climate","Landscape" = "Landscape", "Soil" = "Soil")), #user can select one radio button
 
@@ -60,13 +62,13 @@ server <- function(input,output){ #code which runs on the server
     }
     withProgress(message="Processing file:",value=0, { #track the progress of the following code
       if(input$fileType == "Vector"){ #if the selected file type is Vector then
-        results(input$dataType, "Vector", input$vectorFile$datapath, fileOUT) #process the input file and save the results to the output file
+        results(input$dataType, "Vector", input$cropType, input$vectorFile$datapath, fileOUT) #process the input file and save the results to the output file
       } else { #if the selected file type is Raster then
         if(dataType == "Climate"){ #if the climate data type is selected then
-          results("Climate", "Raster", c(input$PPE,input$springPPE,input$fallPPE,input$EGDD,input$DBAFF), fileOUT) #process the input file and save the results to the output file
+          results("Climate", "Raster", input$cropType, c(input$PPE,input$springPPE,input$fallPPE,input$EGDD,input$DBAFF), fileOUT) #process the input file and save the results to the output file
         }
         if(dataType == "Landscape"){ #if the landscape data type is selected then
-          results("Landscape", "Raster",
+          results("Landscape", "Raster", input$cropType,
                   c(input$region,input$percentSlope,input$landscapeType,input$coarseFragments,input$surface,input$subsurface,input$pattern,input$inundationPeriod,input$usableGrowingSeasonLength,input$frequency),
                   fileOUT) #process the input file and save the results to the output file
         }

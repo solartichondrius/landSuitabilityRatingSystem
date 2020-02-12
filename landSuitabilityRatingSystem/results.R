@@ -3,7 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-27
 
-results <- function(dataType,fileType,input,output){
+results <- function(dataType,fileType,cropType,input,output){
 
   if(dataType=="Climate"){
     if(fileType=="Vector"){
