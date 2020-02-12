@@ -36,7 +36,8 @@ ui <- fluidPage( #code for the webpage's UI (user interface)
                    #TODO: put file input boxes here for all of the soil attributes
   ),
   textInput(inputId = "fileOutput", label = "Choose where to save the results:"), #user can type in the full path for where they want to save the results
-  actionButton(inputId = "processFile", label = "Process File") #click this button to run the code to process the file and save the results
+  actionButton(inputId = "processFile", label = "Process File"), #click this button to run the code to process the file and save the results
+  tableOutput("table") #table to put a preview of the results file (the head, which is the first 6 rows)
 )
 server <- function(input,output){ #code which runs on the server
   options(shiny.maxRequestSize=2^32) #Allows files up to 4GB (default limit was only 5MB)
@@ -74,6 +75,7 @@ server <- function(input,output){ #code which runs on the server
         }
       }
     })
+    output$table <- renderTable({head(read.csv(fileOUT))}) #display a table with a preview of the results file (the head, which is the first 6 rows)
   })
 }
 shinyApp(ui=ui,server=server) #start the webpage with the ui and server code written in this file
