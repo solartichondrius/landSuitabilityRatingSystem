@@ -32,13 +32,14 @@ source("climaticFactors/excessFallMoisture.R")
 source("climaticFactors/fallFrost.R")
 source("climaticFactors/modificationFactor.R")
 source("soilFactors/soilRatingPoints.R")
-source("soilFactors/awhcClass.R")
-source("soilFactors/surfaceMoisture.R")
-source("soilFactors/subsurfaceMoisture.R")
+source("soilFactors/moisture.R")
+source("soilFactors/surfaceStructure.R")
 source("soilFactors/organicMatterContent.R")
 source("soilFactors/reaction.R")
 source("soilFactors/salinity.R")
+source("soilFactors/sodicity.R")
 source("soilFactors/chemistry.R")
+source("soilFactors/organicSurface.R")
 
 #Data currently being used.
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
@@ -51,6 +52,7 @@ lsTable <- read.csv("./landscapeTest2.csv")
 slTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 #Soil raster data
 #slRaster <- raster("../../ab_raster/PSM_SoilGreatGroup_250m.tif")
+#slRasterTable <- as.data.frame(getValues(slRaster), na.rm=TRUE)
 
 lsRatingTable <- landscapeRatingPoints(lsTable$slc, lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$cf,
@@ -113,6 +115,13 @@ slTable$subsurfaceEC <- rowMeans(slTable[,c("EC60_V", "EC100_V")])
 
 slTable$ksatSurface <- rowMeans(slTable[,c("KSAT5_V", "KSAT15_V", "KSAT30_V")])
 slTable$ksatSubsurface <- rowMeans(slTable[,c("KSAT60_V", "KSAT100_V")])
+#slTable$sarSurface <- with(slTable, ksatSurface / 10)
+slTable$sarSurface <- slTable$ksatSurface / 10
+# slTable$sarSubsurface <- with(slTable, ksatSubsurface / 10)
+slTable$sarSubsurface <- slTable$ksatSubsurface / 10
+
+slTable$bd <- rowMeans(slTable[,c("BD5_V", "BD15_V", "BD30_V")])
+#slTable <- transform(slTable, bd = ifelse(bd == 0, 0.12, bd))
 
 #slTable doesn't seem to have a p-pe column, so the column from clTable is
 #being used for now.
@@ -126,7 +135,8 @@ slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
                                   slTable$ocSurfacePerc, slTable$ocSubsurfacePerc, 
                                   slTable$surfacePH, slTable$subsurfacePH,
                                   slTable$surfaceEC, slTable$subsurfaceEC,
-                                  slTable$ksatSurface, slTable$ksatSubsurface)
+                                  slTable$sarSurface, slTable$sarSubsurface,
+                                  slTable$E_DEPTH, slTable$bd)
 
 # slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
 #                                        slRatingTable$a, slRatingTable$d,

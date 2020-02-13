@@ -10,7 +10,7 @@ soilRatingPoints <- function(claySurface, claySubsurface,
                              awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
                              ocSubsurfacePerc, surfacePH, subsurfacePH, 
                              surfaceEC, subsurfaceEC, 
-                             ksatSurface, ksatSubsurface){
+                             sarSurface, sarSubsurface, E_DEPTH, bd){
   
   #Create a new table containing all relevant columns from slTable
   #and the new columns for point calculations.
@@ -22,39 +22,40 @@ soilRatingPoints <- function(claySurface, claySubsurface,
                              "awhcSubsurface", "ppe", "ocSurfacePerc",
                              "ocSubsurfacePerc", "surfacePH", "subsurfacePH",
                              "surfaceEC", "subsurfaceEC",
-                             "ksatSurface", "ksatSubsurface")]
-  #Water Retention Factor
-  for (i in 1:length(slRatingTable$POLY_ID)) {
-    surface <- slRatingTable$awhcSurface[i]
-    slRatingTable$surfaceClass[i] <- awhcClass(surface)
-    subsurface <- slRatingTable$awhcSubsurface[i]
-    slRatingTable$subsurfaceClass[i] <- awhcClass(subsurface)
-  }
-  surfaceTexture <- surfaceMoisture(awhcSurface, ppe)
-  subsurfaceTexture <- subsurfaceMoisture(slRatingTable$surfaceClass,
-                                          slRatingTable$subsurfaceClass)
+                             "sarSurface", "sarSubsurface", 
+                             "E_DEPTH", "bd")]
   
   #Surface AWHC deduction
-  #surfaceTexture <- surfaceMoisture(claySurface, siltSurface, cfSurface)
+  subtotalTextureDeduction <- moisture(siltSurface, siltSubsurface, 
+                                              claySurface, claySubsurface, 
+                                              cfSurface, cfSubsurface, 
+                                              awhcSurface, ppe)
   #Subsurface texture deduction
+  #subsurfaceTexture <- subsurfaceMoisture()
   #Water table deduction
   #wt <- waterTable(waterTableDepth, claySurface, siltSurface)
+  #wtDeduction <- (wt / 100) * subtotalTextureDeduction 
   #Subtotal texture deductions (M)
-  m <- surfaceTexture + subsurfaceTexture
+  m <- subtotalTextureDeduction #- wtDeduction
   #Surface Factors
   #Structure and consistency deductions (D)
+  #d <- surfaceStructure(claySurface, siltSurface, o)
   #Organic matter deductions (F)
   f <- organicMatterContent(ocSurfacePerc)
   #Topsoil depth deductions (E)
+  #e <- topsoil(topsoilDepth)
   #Reaction (V)
   v <- reaction(surfacePH)
   #Salinity (N)
   n <- salinity(surfaceEC)
   #Sodicity (Y)
-  y <- 0
+  #sarSurface <- ksatSurface / 10
+  y <- sodicity(sarSurface)
   #Chemistry deduction (c)
   c <- chemistry(v, n, y)
   #Organic surfaces (O)
+  slRatingTable$bd <- with(slRatingTable, replace(bd, bd == 0, 0.12))
+  o <- organicSurface(E_DEPTH, bd)
   #Total surface deduction (d)
   #surfaceDeduction <- d + f + e + c + o
   #Preliminary Soil Rating
@@ -69,7 +70,8 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   #Salinity (sN)
   sn <- salinity(subsurfaceEC)
   #Sodicity (sY)
-  sy <- 0
+  #sarSubsurface <- ksatSubsurface / 10
+  sy <- sodicity(sarSubsurface)
   #Chemistry deduction (sC)
   sc <- chemistry(sv, sn, sy)
   
@@ -77,7 +79,12 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   slRatingTable$f <- f
   slRatingTable$v <- v
   slRatingTable$n <- n
+  slRatingTable$y <- y
   slRatingTable$c <- ifelse(c > sc, c, sc)
+  slRatingTable$o <- o
+  slRatingTable$sv <- sv
+  slRatingTable$sn <- sn
+  slRatingTable$sy <- sy
   
   #Replace all negative values in the organic matter deduction 
   #column with 0 and all values above 15 with 15.
@@ -85,8 +92,14 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   slRatingTable$f <- with(slRatingTable, replace(f, f > 15, 15))
   slRatingTable$v <- with(slRatingTable, replace(v, v < 0, 0))
   slRatingTable$v <- with(slRatingTable, replace(v, v > 100, 100))
-  #slRatingTable$n <- with(slRatingTable, replace(n, n < 0, 0))
-  #slRatingTable$n <- with(slRatingTable, replace(n, n > 100, 100))
+  slRatingTable$n <- with(slRatingTable, replace(n, n < 0, 0))
+  slRatingTable$n <- with(slRatingTable, replace(n, n > 100, 100))
+  slRatingTable$y <- with(slRatingTable, replace(y, y < 0, 0))
+  slRatingTable$y <- with(slRatingTable, replace(y, y > 100, 100))
+  slRatingTable$c <- with(slRatingTable, replace(c, c < 0, 0))
+  slRatingTable$c <- with(slRatingTable, replace(c, c > 100, 100))
+  slRatingTable$o <- with(slRatingTable, replace(o, o < 0, 0))
+  slRatingTable$o <- with(slRatingTable, replace(o, o > 100, 100))
   
   return(slRatingTable)
 }
