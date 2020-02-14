@@ -32,6 +32,7 @@ source("climaticFactors/excessFallMoisture.R")
 source("climaticFactors/fallFrost.R")
 source("climaticFactors/modificationFactor.R")
 source("soilFactors/soilRatingPoints.R")
+source("soilFactors/soilRatingClass.R")
 source("soilFactors/moisture.R")
 source("soilFactors/surfaceStructure.R")
 source("soilFactors/organicMatterContent.R")
@@ -40,6 +41,7 @@ source("soilFactors/salinity.R")
 source("soilFactors/sodicity.R")
 source("soilFactors/chemistry.R")
 source("soilFactors/organicSurface.R")
+source("soilFactors/drainage.R")
 
 #Data currently being used.
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
@@ -105,7 +107,6 @@ slTable$awhcSurface <- rowMeans(slTable[,c("AWHC5_V", "AWHC15_V", "AWHC30_V")])
 slTable$awhcSubsurface <- rowMeans(slTable[,c("AWHC60_V", "AWHC100_V")])
 
 slTable$ocSurfacePerc <- rowMeans(slTable[,c("OC5_V", "OC15_V", "OC30_V")] / 100)
-slTable$ocSubsurfacePerc <- rowMeans(slTable[,c("OC60_V", "OC100_V")] / 100)
 
 slTable$surfacePH <- rowMeans(slTable[,c("PH5_V", "PH15_V", "PH30_V")])
 slTable$subsurfacePH <- rowMeans(slTable[,c("PH60_V", "PH100_V")])
@@ -131,8 +132,8 @@ slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
                                   slTable$sandSurface, slTable$sandSubsurface,
                                   slTable$siltSurface, slTable$siltSubsurface,
                                   slTable$cfSurface, slTable$cfSubsurface,
-                                  slTable$awhcSurface, slTable$awhcSubsurface, slTable$ppe, 
-                                  slTable$ocSurfacePerc, slTable$ocSubsurfacePerc, 
+                                  slTable$awhcSurface, slTable$awhcSubsurface, 
+                                  slTable$ppe, slTable$ocSurfacePerc,
                                   slTable$surfacePH, slTable$subsurfacePH,
                                   slTable$surfaceEC, slTable$subsurfaceEC,
                                   slTable$sarSurface, slTable$sarSubsurface,
@@ -144,18 +145,23 @@ slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
 #                                        slRatingTable$v, slRatingTable$n,
 #                                        slRatingTable$y, slRatingTable$o,
 #                                        slRatingTable$w)
+slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
+                                       slRatingTable$d, slRatingTable$f, 
+                                       slRatingTable$v, slRatingTable$sv, 
+                                       slRatingTable$n, slRatingTable$sn,
+                                       slRatingTable$y, slRatingTable$sy)
 
-# slRatingTable <- slRatingTable[c("Value", "POLY_ID", 
+# slRatingTable <- slRatingTable[c("Value", "POLY_ID",
 #                            "claySurface", "claySubsurface",
 #                            "sandSurface", "sandSubsurface",
-#                            "siltSurface", "siltSubsurface", "awhcSurface", 
+#                            "siltSurface", "siltSubsurface", "awhcSurface",
 #                            "awhcSubsurface", "ppe", "ocSurfacePerc",
-#                            "ocSubsurfacePerc", "surfacePH", "subsurfacePH",
+#                            "surfacePH", "subsurfacePH",
 #                            "surfaceEC", "subsurfaceEC", "points", "class")]
 
 #Write the results into csv files.
-write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
-write.csv(clRatingTable, file="climateResults.csv", row.names=FALSE)
+# write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
+# write.csv(clRatingTable, file="climateResults.csv", row.names=FALSE)
 
 #NOTE: I haven't seen any results from the web app that had any pattern value
 #other than 0 or a flooding value other than 1. 
