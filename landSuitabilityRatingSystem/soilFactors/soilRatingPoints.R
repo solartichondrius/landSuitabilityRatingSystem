@@ -10,12 +10,11 @@ soilRatingPoints <- function(claySurface, claySubsurface,
                              awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
                              surfacePH, subsurfacePH, 
                              surfaceEC, subsurfaceEC, 
-                             sarSurface, sarSubsurface, E_DEPTH, bd){
+                             sarSurface, sarSubsurface, E_DEPTH, bd, egdd){
   
   #Create a new table containing all relevant columns from slTable
   #and the new columns for point calculations.
-  slRatingTable <- slTable[c("Value", "POLY_ID", 
-                             "claySurface", "claySubsurface",
+  slRatingTable <- slTable[c("slc", "claySurface", "claySubsurface",
                              "sandSurface", "sandSubsurface",
                              "siltSurface", "siltSubsurface", 
                              "cfSurface", "cfSubsurface", "awhcSurface", 
@@ -23,7 +22,13 @@ soilRatingPoints <- function(claySurface, claySubsurface,
                              "surfacePH", "subsurfacePH",
                              "surfaceEC", "subsurfaceEC",
                              "sarSurface", "sarSubsurface", 
-                             "E_DEPTH", "bd")]
+                             "E_DEPTH", "bd", "egdd", "a")]
+  
+  #Organic Soil Temperature Factor (Z)
+  # z <- soilTemperature(egdd)
+  # slRatingTable$z <- z
+  # slRatingTable$z <- with(slRatingTable, replace(z, z < 0, 0))
+  # slRatingTable$z <- with(slRatingTable, replace(z, z > 25, 25))
   
   #Surface AWHC deduction
   subtotalTextureDeduction <- moisture(siltSurface, siltSubsurface, 

@@ -11,15 +11,13 @@ climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
   #Create new table containing all columns from clTable and new columns
   #for the values involved in deduction calculations.
   clRatingTable <- clTable
-  clRatingTable$moistureDeduction <- moistureDeduction
-  clRatingTable$temperatureDeduction <- temperatureDeduction
+  clRatingTable$a <- moistureDeduction
+  clRatingTable$h <- temperatureDeduction
   
   #Replace all negative values in the moisture and temperature deduction 
   #columns with 0.
-  clRatingTable$moistureDeduction <- with(clRatingTable, 
-                replace(moistureDeduction, moistureDeduction < 0, 0))
-  clRatingTable$temperatureDeduction <- with(clRatingTable, 
-                replace(temperatureDeduction, temperatureDeduction < 0, 0))
+  clRatingTable$a <- with(clRatingTable, replace(a, a < 0, 0))
+  clRatingTable$h <- with(clRatingTable, replace(h, h < 0, 0))
   
   A <- 100 - moistureDeduction
   H <- 100 - temperatureDeduction

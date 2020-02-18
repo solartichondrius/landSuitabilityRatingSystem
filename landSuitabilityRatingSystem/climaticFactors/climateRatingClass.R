@@ -3,14 +3,14 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-climateRatingClass <- function(points, moistureDeduction, temperatureDeduction){
+climateRatingClass <- function(points, a, h){
   
   for (n in 1:length(clRatingTable$points)) {
     numbers <- clRatingTable$points[n]
     class <- pointsToClass(numbers)
     
-    if (moistureDeduction[n]>15){class <- paste(class, "A", sep="")}
-    if (temperatureDeduction[n]>15){class <- paste(class, "H", sep="")}
+    if (a[n]>15){class <- paste(class, "A", sep="")}
+    if (h[n]>15){class <- paste(class, "H", sep="")}
     
     clRatingTable$class[n] <- class
   }

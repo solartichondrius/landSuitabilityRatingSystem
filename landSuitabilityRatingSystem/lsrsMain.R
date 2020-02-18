@@ -42,6 +42,7 @@ source("soilFactors/sodicity.R")
 source("soilFactors/chemistry.R")
 source("soilFactors/organicSurface.R")
 source("soilFactors/drainage.R")
+source("soilFactors/soilTemperature.R")
 
 #Data currently being used.
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
@@ -79,15 +80,11 @@ clRatingTable <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm,
 #clRatingTable <- subset(clRatingTable, points >= 0 & points <= 100)
 
 clRatingTable$class <- climateRatingClass(clRatingTable$points,
-                                          clRatingTable$moistureDeduction, 
-                                          clRatingTable$temperatureDeduction)
+                                          clRatingTable$a, clRatingTable$h)
 
 # clRatingTable <- subset(clRatingTable, select=-c(moistureDeduction,
 #                                  temperatureDeduction, basicClimateRating,
 #                                  springMoisture, fallMoisture, fallFrost))
-
-
-#slTable <- join(slTable, clTable, by="POLY_ID")
 
 #Combine all depth columns for each category into two columns
 #for surface and subsurface.
@@ -124,9 +121,8 @@ slTable$sarSubsurface <- slTable$ksatSubsurface / 10
 slTable$bd <- rowMeans(slTable[,c("BD5_V", "BD15_V", "BD30_V")])
 #slTable <- transform(slTable, bd = ifelse(bd == 0, 0.12, bd))
 
-#slTable doesn't seem to have a p-pe column, so the column from clTable is
-#being used for now.
-slTable$ppe <- clTable$ppe[1:1091]
+slTable$slc <- slTable$Value
+slTable <- join(slTable, clRatingTable, by="slc", type="inner")
 
 slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
                                   slTable$sandSurface, slTable$sandSubsurface,
@@ -137,7 +133,7 @@ slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
                                   slTable$surfacePH, slTable$subsurfacePH,
                                   slTable$surfaceEC, slTable$subsurfaceEC,
                                   slTable$sarSurface, slTable$sarSubsurface,
-                                  slTable$E_DEPTH, slTable$bd)
+                                  slTable$E_DEPTH, slTable$bd, slTable$egdd)
 
 # slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
 #                                        slRatingTable$a, slRatingTable$d,
@@ -146,10 +142,11 @@ slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
 #                                        slRatingTable$y, slRatingTable$o,
 #                                        slRatingTable$w)
 slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
-                                       slRatingTable$d, slRatingTable$f, 
-                                       slRatingTable$v, slRatingTable$sv, 
-                                       slRatingTable$n, slRatingTable$sn,
-                                       slRatingTable$y, slRatingTable$sy)
+                                       slRatingTable$a, slRatingTable$d, 
+                                       slRatingTable$f, slRatingTable$v, 
+                                       slRatingTable$sv, slRatingTable$n, 
+                                       slRatingTable$sn, slRatingTable$y, 
+                                       slRatingTable$sy)
 
 # slRatingTable <- slRatingTable[c("Value", "POLY_ID",
 #                            "claySurface", "claySubsurface",
