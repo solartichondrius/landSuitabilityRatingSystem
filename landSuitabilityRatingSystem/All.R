@@ -40,7 +40,7 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           "landscapeFactors/woodContent.R",
 
           "soilFactors/capacity.R",
-          "soilFactors/chemisty.R",
+          "soilFactors/chemistry.R",
           "soilFactors/drainage.R",
           "soilFactors/moisture.R",
           "soilFactors/organicMatterContent.R",
@@ -53,7 +53,7 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           "soilFactors/soilResults.R",
           "soilFactors/soilTemperature.R",
           "soilFactors/surfaceStructure.R",
-          "soilFactors/topSoil.R",
+          "soilFactors/topsoil.R",
 
           "website/ui.R",
           "website/server.R"
