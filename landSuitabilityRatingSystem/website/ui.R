@@ -36,7 +36,26 @@ ui <- fluidPage( #code for the webpage's UI (user interface)
                    fileInput(inputId = "frequency", label = "Choose a raster file for frequency of flooding:", multiple = FALSE),
   ),
   conditionalPanel(condition = "input.fileType == 'Raster' && input.dataType == 'Soil'", #if the raster file type radio button and soil radio button are selected create a panel containing the following
-                   #TODO: put file input boxes here for all of the soil attributes
+                   fileInput(inputId = "claySurface", label = "Choose a file for claySurface:", multiple = FALSE),
+                   fileInput(inputId = "claySubsurface", label = "Choose a file for claySubsurface:", multiple = FALSE),
+                   fileInput(inputId = "sandSurface", label = "Choose a file for sandSurface:", multiple = FALSE),
+                   fileInput(inputId = "sandSubsurface", label = "Choose a file for sandSubsurface:", multiple = FALSE),
+                   fileInput(inputId = "siltSurface", label = "Choose a file for siltSurface:", multiple = FALSE),
+                   fileInput(inputId = "siltSubsurface", label = "Choose a file for siltSubsurface:", multiple = FALSE),
+                   fileInput(inputId = "cfSurface", label = "Choose a file for cfSurface:", multiple = FALSE),
+                   fileInput(inputId = "cfSubsurface", label = "Choose a file for cfSubsurface:", multiple = FALSE),
+                   fileInput(inputId = "awhcSurface", label = "Choose a file for awhcSurface:", multiple = FALSE),
+                   fileInput(inputId = "awhcSubsurface", label = "Choose a file for awhcSubsurface:", multiple = FALSE),
+                   fileInput(inputId = "ppe", label = "Choose a file for ppe:", multiple = FALSE),
+                   fileInput(inputId = "ocSurfacePerc", label = "Choose a file for ocSurfacePerc:", multiple = FALSE),
+                   fileInput(inputId = "surfacePH", label = "Choose a file for surfacePH:", multiple = FALSE),
+                   fileInput(inputId = "subsurfacePH", label = "Choose a file for subsurfacePH:", multiple = FALSE),
+                   fileInput(inputId = "surfaceEC", label = "Choose a file for surfaceEC:", multiple = FALSE),
+                   fileInput(inputId = "subsurfaceEC", label = "Choose a file for subsurfaceEC:", multiple = FALSE),
+                   fileInput(inputId = "sarSurface", label = "Choose a file for sarSurface:", multiple = FALSE),
+                   fileInput(inputId = "sarSubsurface", label = "Choose a file for sarSubsurface:", multiple = FALSE),
+                   fileInput(inputId = "E_DEPTH", label = "Choose a file for E_DEPTH:", multiple = FALSE),
+                   fileInput(inputId = "bd", label = "Choose a file for bd:", multiple = FALSE)
   ),
   textInput(inputId = "fileOutput", label = "Choose where to save the results:"), #user can type in the full path for where they want to save the results
   actionButton(inputId = "processFile", label = "Process File"), #click this button to run the code to process the file and save the results

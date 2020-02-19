@@ -16,11 +16,13 @@ server <- function(input,output){ #code which runs on the server
     if(is.null(fileOUT)  #if the output file is null
       | (input$fileType == "Vector" & is.null(input$vectorFile)) #or if the selected file type is Vector but the vector file is null
       | (input$fileType == "Raster" & ( #or if the selected file type is Raster and
-      (input$dataType == "Climate" & is.null(input$PPE)&is.null(input$springPPE)&is.null(input$fallPPE)&is.null(input$EGGD)&is.null(input$DBAFF)) #if the Climate data type is selected but all its required files are null
-      | (input$dataType == "Landscape" & is.null(input$region)&is.null(input$percentSlope)&is.null(input$landscapeType)&is.null(input$coarseFragments)&is.null(input$surface)&is.null(input$subsurface)
-        &is.null(input$pattern)&is.null(input$inundationPeriod)&is.null(input$usableGrowingSeasonLength)&is.null(input$frequency)) #if the Landscape data type is selected but all its required files are null
-      #TODO: add conditions to check if any of the soil fields are null
-      ))){
+      (input$dataType == "Climate" & (is.null(input$PPE)|is.null(input$springPPE)|is.null(input$fallPPE)|is.null(input$EGGD)|is.null(input$DBAFF)) #if the Climate data type is selected but all its required files are null
+      | (input$dataType == "Landscape" & (is.null(input$region)|is.null(input$percentSlope)|is.null(input$landscapeType)|is.null(input$coarseFragments)|is.null(input$surface)|is.null(input$subsurface)
+        |is.null(input$pattern)|is.null(input$inundationPeriod)|is.null(input$usableGrowingSeasonLength)|is.null(input$frequency))) #if the Landscape data type is selected but all its required files are null
+      | (input$dataType == "Soil" & (is.null(input$claySurface)|is.null(input$claySubsurface)|is.null(input$sandSurface)|is.null(input$sandSubsurface)|is.null(input$siltSurface)|is.null(input$siltSubsurface)
+        |is.null(input$cfSurface)|is.null(input$cfSubsurface)|is.null(input$awhcSurface)|is.null(input$awhcSubsurface)|is.null(input$ppe)|is.null(input$ocSurfacePerc)|is.null(input$surfacePH)
+        |is.null(input$subsurfacePH)|is.null(input$surfaceEC)|is.null(input$subsurfaceEC)|is.null(input$sarSurface)|is.null(input$sarSubsurface)|is.null(input$E_DEPTH)|is.null(input$bd)))
+      )))){
       showModal(modalDialog(title="ERROR: Missing fields.","Make sure you have filled in all the required fields.",easyClose=TRUE,footer=NULL)) #display popup message notifying that there are missing fields
       return(NULL) #then return without doing anything else
     }
@@ -37,7 +39,10 @@ server <- function(input,output){ #code which runs on the server
                   fileOUT) #process the input file and save the results to the output file
         }
         if(dataType == "Soil"){ #if the soil data type is selected then
-          #TODO: add results function for soil
+          results("Soil","Raster", input$cropType,
+          c(input$claySurface,input$claySubsurface,input$sandSurface,input$sandSubsurface,input$siltSurface,input$siltSubsurface,input$cfsurface,input$cdSubsurface,input$awhcSurface,input$awhcSubsurface,input$ppe,
+          input$ocSurfacePerc,input$surfacePH,input$subsurfacePH,input$surfaceEC,input$subsurfaceEC,input$sarSurface,input$sarSubsurface,input$E_DEPTH,input$bd),
+                  fileOUT)
         }
       }
     })

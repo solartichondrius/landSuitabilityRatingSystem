@@ -3,7 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-source("loadFiles.R",echo=TRUE) #function I made to make it easier to load many files at once
+source("loadFiles.R",echo=FALSE) #function I made to make it easier to load many files at once
 
 loadFiles(ECHO=FALSE,reload=TRUE,
 
@@ -39,6 +39,10 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           "landscapeFactors/topography.R",
           "landscapeFactors/woodContent.R",
 
+          "soilFactors/capacity.R",
+          "soilFactors/chemisty.R",
+          "soilFactors/drainage.R",
+          "soilFactors/moisture.R",
           "soilFactors/organicMatterContent.R",
           "soilFactors/organicSurface.R",
           "soilFactors/reaction.R",
@@ -46,6 +50,12 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           "soilFactors/sodicity.R",
           "soilFactors/soilRatingClass.R",
           "soilFactors/soilRatingPoints.R",
-          "soilFactors/soilTemperature.R"
+          "soilFactors/soilResults.R",
+          "soilFactors/soilTemperature.R",
+          "soilFactors/surfaceStructure.R",
+          "soilFactors/topSoil.R",
+
+          "website/ui.R",
+          "website/server.R"
 
 )
