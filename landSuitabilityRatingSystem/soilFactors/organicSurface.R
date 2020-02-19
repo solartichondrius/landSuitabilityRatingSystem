@@ -3,8 +3,9 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-organicSurface <- function(D, db=0.12){ #D=depth of organic horizon(s)(Ox), Db=bulk density of organic horizon
-  pointDeduction <- (D-10)*(sqrt(0.12)/sqrt(db))
-  if(D<10|pointDeduction<0) pointDeduction <- 0
+organicSurface <- function(pDepth, bd){ #D=depth of organic horizon(s)(Ox), Db=bulk density of organic horizon
+  #bd <- ifelse(bd == 0, 0.12, bd)
+  pointDeduction <- ifelse(pDepth - 10 < 0, 0, (pDepth-10)*(sqrt(0.12)/sqrt(bd)))
+  #if(pointDeduction > 100) pointDeduction <- 100
   return(pointDeduction)
 }
