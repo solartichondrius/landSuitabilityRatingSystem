@@ -44,8 +44,8 @@ source("soilFactors/organicSurface.R")
 source("soilFactors/drainage.R")
 
 #Data currently being used.
-clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
-lsTable <- read.csv("./landscapeTest2.csv")
+clTable <- read.csv("O:/Temporary/lsrs/test_data/ab_vector/climate1981x10_CCCS_baseline.csv")
+lsTable <- read.csv("O:/Temporary/lsrs/test_data/ab_vector//landscapeTest2.csv")
 
 #Real landscape vector data.
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")

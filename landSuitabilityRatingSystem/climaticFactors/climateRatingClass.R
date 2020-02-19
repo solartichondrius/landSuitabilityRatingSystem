@@ -5,14 +5,14 @@
 
 climateRatingClass <- function(points, moistureDeduction, temperatureDeduction){
   
-  for (n in 1:length(clRatingTable$points)) {
-    numbers <- clRatingTable$points[n]
+  for (i in 1:length(clRatingTable$points)) {
+    numbers <- clRatingTable$points[i]
     class <- pointsToClass(numbers)
     
-    if (moistureDeduction[n]>15){class <- paste(class, "A", sep="")}
-    if (temperatureDeduction[n]>15){class <- paste(class, "H", sep="")}
+    if (moistureDeduction[i]>15){class <- paste(class, "A", sep="")}
+    if (temperatureDeduction[i]>15){class <- paste(class, "H", sep="")}
     
-    clRatingTable$class[n] <- class
+    clRatingTable$class[i] <- class
   }
   
   return(clRatingTable$class)
