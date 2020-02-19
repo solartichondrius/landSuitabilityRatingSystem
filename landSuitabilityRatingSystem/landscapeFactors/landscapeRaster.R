@@ -1,7 +1,7 @@
 # Title     : Lanscape Raster
 # Objective : Load Raster file for Landscape data into a single dataframe
 # Created by: CurtisTh
-# Created on: 2/7/2020
+# Created on: 2020-02-07
 
 landscapeRaster <- function(regionR, percentSlopeR, landscapeTypeR, coarseFragmentsR, surfaceR, subsurfaceR, patternR, inundationPeriodR, usableGrowingSeasonLengthR, frequencyR){
 

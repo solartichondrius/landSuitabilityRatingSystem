@@ -9,7 +9,7 @@ topography <- function(region, ps, lt) {
   # } else {
   #   lt <- "complex"
   # }
-  if (any(region == 2 & lt == "simple")){
+  if (any(region == 2 & tolower(lt) == "simple")){
     #Assign input variables for simple landscapes in region 2.
     a <- 66.560928
     b <- 2.156809
@@ -25,6 +25,7 @@ topography <- function(region, ps, lt) {
   }
   #Calculate topography factor point deduction using the previously assigned
   #input variables.
-  deductionT <- a+b*ps - sqrt((c+b*ps)^2+d^2)
-  return(deductionT)
+  pointDeduction <- a+b*ps - sqrt((c+b*ps)^2+d^2)
+  if(pointDeduction<0) pointDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
+  return(pointDeduction)
 }

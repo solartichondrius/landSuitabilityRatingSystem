@@ -28,6 +28,6 @@ plotGraph(createDataFrame(region2SimpleSlope,0,70),"Deductions related to slope 
 plotGraph(createDataFrame(stoniness,0,2),"Deductions for surface stoniness.","Percent Deduction","Annual Removal(cubic m/ha)")
 
 #Figure 6.5 Deductions for coarse fragment (gravel) content.
-plotGraph(createDataFrame(coarseFragmentContent,10,50),"Deductions for coarse fragment (gravel) content.","Percent Deduction","Coarse Frament Content(% vol)")
+plotGraph(createDataFrame(stoniness,10,50),"Deductions for coarse fragment (gravel) content.","Percent Deduction","Coarse Frament Content(% vol)")
 
 

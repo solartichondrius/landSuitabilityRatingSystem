@@ -13,5 +13,6 @@ stoniness <- function(cf) {
   pointDeduction <- a+b*cf+c*cf^2
   #Add the stoniness and coarse fragment deductions to calculate final P value.
   #deductionP <- deductionP1 + deductionP2
+  if(pointDeduction<0) pointDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
   return(pointDeduction)
 }
