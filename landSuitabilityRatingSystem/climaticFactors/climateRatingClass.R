@@ -5,6 +5,7 @@
 
 climateRatingClass <- function(points, a, h){
   
+<<<<<<< HEAD
   #Loop through the climate table and assign a class to each row.
   for (n in 1:length(clRatingTable$points)) {
     #Assign a numeric class based on the points value.
@@ -14,6 +15,16 @@ climateRatingClass <- function(points, a, h){
     if (a[n]>15){class <- paste(class, "A", sep="")}
     if (h[n]>15){class <- paste(class, "H", sep="")}
     clRatingTable$class[n] <- class
+=======
+  for (i in 1:length(clRatingTable$points)) {
+    numbers <- clRatingTable$points[i]
+    class <- pointsToClass(numbers)
+    
+    if (moistureDeduction[i]>15){class <- paste(class, "A", sep="")}
+    if (temperatureDeduction[i]>15){class <- paste(class, "H", sep="")}
+    
+    clRatingTable$class[i] <- class
+>>>>>>> b1004ff2a4b1e1f7a06a85476463b5751a423dd4
   }
   return(clRatingTable$class)
   }

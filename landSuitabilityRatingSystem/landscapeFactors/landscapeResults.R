@@ -3,11 +3,26 @@
 # Created by: CurtisTh
 # Created on: 2020-01-27
 
-landscapeResults <- function(input,output,save=TRUE){
-  df <- read.csv(input) #put the data from the CSV file into a dataframe
-  for(i in 1:nrow(df)){ #loop through every row and assign a value to the landscape rating class
-    df$landscapeRating[i] <- landscapeRatingClass(df$region[i],df$percentSlope[i],df$landscapeType[i],df$annualRemoval[i],df$coarseFragments[i],df$woodContent[i],df$pattern[i],df$flooding[i])
-  } #values are just placeholders for now since I don't have any landscape data to work with yet so I don't know what all the columns and their names will be yet
+landscapeResults <- function(df,output,save=TRUE){ #takes dataframe as input, and outputs results either as a dataframe or to a file depending on the boolean value "save" (TRUE by default)
+
+  #df <- df[sample(nrow(df),1000),] #for testing a small sample of a large dataset
+  df$rowNumber <- 1:nrow(df) #add column to number every row in the dataframe
+  size <- nrow(df) #save the size (number of rows) of the dataframe
+
+  results <- apply(df,1,function(row) { #apply the following code to every row in the dataframe
+    results <- landscapeRating(as.numeric(row["region"]),as.numeric(row["ps"]),row["lt"],as.numeric(row["cf"]),
+                               as.numeric(row["surface"]),as.numeric(row["subsurface"]),as.numeric(row["pattern"]),
+                               as.numeric(row["inundationPeriod"]),as.numeric(row["usableGrowingSeasonLength"]),
+                               as.numeric(row["frequency"])) #save the results of the climate rating function applied to the relevant columns of the dataframe
+    print(paste(row["rowNumber"],"out of",size,"completed")) #print the progress to the server
+    incProgress(1/size*1,detail=(paste(row["rowNumber"],"out of",size,"completed"))) #print the progress to the website
+    results #return the results
+  })
+
+  df["landscapeRatingPoints"] <- results[1,] #create column for climate rating points
+  df["landscapeRatingClass"] <- results[2,] #create column for climate rating class
+  df <- subset(df,select=-c(rowNumber)) #remove the column numbering the rows
+
   if(save==TRUE){ #if the save argument is set to TRUE (which it is by default)
     write.csv(df,output) #then write the dataframe to a file
   } else { #if the save argument is set to false

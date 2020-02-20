@@ -3,8 +3,32 @@
 # Created by: CurtisTh
 # Created on: 2020-01-27
 
-results <- function(input,output){
-  climateResults(input,output)
-  #landscapeResults(input,output) #not finished yet
-  #soilResults(input,output) #not finished yet
+results <- function(dataType,fileType,cropType,input,output){
+
+  if(dataType=="Climate"){
+    if(fileType=="Vector"){
+      climateDF <- read.csv(input)
+    } else {
+      climateDF <- climateRaster(input[1],input[2],input[3],input[4],input[5])
+    }
+    climateResults(climateDF,output)
+  }
+
+  if(dataType=="Landscape"){
+    if(fileType=="Vector"){
+      landscapeDF <- read.csv(input)
+    } else {
+      landscapeDF <- landscapeRaster(input[1],input[2],input[3],input[4],input[5],input[6],input[7],input[8],input[9],input[10])
+    }
+    landscapeResults(landscapeDF,output)
+  }
+
+  if(dataType=="Soil"){
+    if(fileType=="Vector"){
+      soilDF <- read.csv(input)
+    } else {
+      soilDF <- soilRaster(input[1],input[2],input[3],input[4],input[5])
+    }
+    soilResults(soilDF,output)
+  }
 }

@@ -3,13 +3,20 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-loadFiles("createDataFrame.R",
+source("loadFiles.R",echo=TRUE) #function I made to make it easier to load many files at once
+
+loadFiles(ECHO=FALSE,reload=TRUE,
+
+          "createDataFrame.R",
           "plotGraph.R",
           #"plotGraphs.R",
           "pointsToClass.R",
-          "results.R")
+          "results.R",
+          "loadRaster.R",
 
-loadFiles("climaticFactors/AorPPE.R",
+          "climaticFactors/AorPPE.R",
+          "climaticFactors/climateRaster.R",
+          "climaticFactors/climateRating.R",
           "climaticFactors/climateRatingClass.R",
           "climaticFactors/climateRatingPoints.R",
           "climaticFactors/climateResults.R",
@@ -17,24 +24,28 @@ loadFiles("climaticFactors/AorPPE.R",
           "climaticFactors/excessSpringMoisture.R",
           "climaticFactors/fallFrost.R",
           "climaticFactors/moistureFactor.R",
-          "climaticFactors/temperatureFactor.R")
+          "climaticFactors/temperatureFactor.R",
 
-loadFiles("landscapeFactors/landscapeRatingClass.R",
+          "landscapeFactors/flooding.R",
+          "landscapeFactors/landscapeRaster.R",
+          "landscapeFactors/landscapeRating.R",
+          "landscapeFactors/landscapeRatingClass.R",
           "landscapeFactors/landscapeRatingPoints.R",
           "landscapeFactors/landscapeResults.R",
           #"landscapeFactors/region1AllSlopesAndRegion2ComplexSlopes.R",
           #"landscapeFactors/region2SimpleSlope.R",
           #"landscapeFactors/slope.R",
           "landscapeFactors/stoniness.R",
-          "landscapeFactors/woodContent.R")
+          "landscapeFactors/topography.R",
+          "landscapeFactors/woodContent.R",
 
-loadFiles("soilFactors/organicMatterContent.R",
+          "soilFactors/organicMatterContent.R",
           "soilFactors/organicSurface.R",
           "soilFactors/reaction.R",
           "soilFactors/salinity.R",
           "soilFactors/sodicity.R",
           "soilFactors/soilRatingClass.R",
           "soilFactors/soilRatingPoints.R",
-          "soilFactors/soilTemperature.R")
+          "soilFactors/soilTemperature.R"
 
-#source("test.R",echo=TRUE)
+)

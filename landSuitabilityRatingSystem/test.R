@@ -2,5 +2,10 @@
 # Objective : test the csv results function using a csv file
 # Created by: CurtisTh
 # Created on: 2020-01-21
+startTime <- Sys.time()
+#setwd("landSuitabilityRatingSystem")
 source("All.R")
-results("O:/Temporary/lsrs/test_data/ab_vector/climate1981x10_CCCS_baseline.csv","O:/Temporary/lsrs/test_data/ab_vector/climate1981x10_CCCS_baseline_testResults.csv")
+
+endTime <- Sys.time()
+timeTaken <- endTime - startTime
+print(timeTaken)
