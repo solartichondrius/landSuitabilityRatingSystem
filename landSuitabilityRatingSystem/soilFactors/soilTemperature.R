@@ -5,5 +5,8 @@
 
 soilTemperature <- function(EGDD){
   percentDeduction <- EGDD/-20 + 85
+  #Prevent negative deductions and deductions greater than 25 points.
+  pointDeduction <- ifelse(pointDeduction < 0, 0, 
+                           ifelse(pointDeduction > 25, 25, pointDeduction))
   return(percentDeduction)
 }

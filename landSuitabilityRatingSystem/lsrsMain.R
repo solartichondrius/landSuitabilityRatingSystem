@@ -42,8 +42,8 @@ source("soilFactors/drainage.R")
 source("soilFactors/soilTemperature.R")
 
 #Data currently being used.
-clTable <- read.csv("O:/Temporary/lsrs/test_data/ab_vector/climate1981x10_CCCS_baseline.csv")
-lsTable <- read.csv("O:/Temporary/lsrs/test_data/ab_vector//landscapeTest2.csv")
+clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
+lsTable <- read.csv("dataFiles/landscapeTest2.csv")
 
 #Real landscape vector data.
 #lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
@@ -51,8 +51,8 @@ lsTable <- read.csv("O:/Temporary/lsrs/test_data/ab_vector//landscapeTest2.csv")
 #Soil data
 slTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 #Soil raster data
-#slRaster <- raster("../../ab_raster/PSM_SoilGreatGroup_250m.tif")
-#slRasterTable <- as.data.frame(getValues(slRaster), na.rm=TRUE)
+# slRaster <- raster("../../ab_raster/PSM_SoilGreatGroup_250m.tif")
+# slRasterTable <- as.data.frame(slRaster, na.rm=TRUE)
 
 #Landscape factor calculations.
 lsRatingTable <- landscapeRatingPoints(lsTable$slc, lsTable$region, lsTable$ps,
@@ -121,6 +121,8 @@ slTable$sarSubsurface <- slTable$ksatSubsurface / 10
 slTable$bd <- rowMeans(slTable[,c("BD5_V", "BD15_V", "BD30_V")])
 #slTable <- transform(slTable, bd = ifelse(bd == 0, 0.12, bd))
 
+#Join the soil and climate tables so ppe and egdd can be used in
+#soil calculations.
 slTable$slc <- slTable$Value
 slTable <- join(slTable, clRatingTable, by="slc", type="inner")
 
@@ -157,12 +159,6 @@ slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
 #                            "surfaceEC", "subsurfaceEC", "points", "class")]
 
 #Write the results into csv files.
-# write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
-# write.csv(clRatingTable, file="climateResults.csv", row.names=FALSE)
-# write.csv(slRatingTable, file="soilResults.csv", row.names=FALSE)
-
-#NOTE: I haven't seen any results from the web app that had any pattern value
-#other than 0 or a flooding value other than 1. 
-#I'm not sure if this variable is used in the calculations at all.
-#The test code has these values set to 0 or 1 respectively 
-#in all records for now.
+# write.csv(lsRatingTable, file="dataFiles/testResults.csv", row.names=FALSE)
+# write.csv(clRatingTable, file="dataFiles/climateResults.csv", row.names=FALSE)
+# write.csv(slRatingTable, file="dataFiles/soilResults.csv", row.names=FALSE)
