@@ -39,8 +39,5 @@ moisture <- function(siltSurface, siltSubsurface, claySurface,
   subsurfaceAdjustment <- subsurfaceAwhcDeduction - surfaceAwhcDeduction
   pointDeduction <- surfaceAwhcDeduction + subsurfaceAdjustment
   
-  #Replace negative deductions with 0.
-  #if(pointDeduction < 0) pointDeduction <- 0
-  
   return(pointDeduction)
 }

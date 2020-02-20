@@ -3,17 +3,17 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-climateRatingClass <- function(points, moistureDeduction, temperatureDeduction){
+climateRatingClass <- function(points, a, h){
   
-  for (i in 1:length(clRatingTable$points)) {
-    numbers <- clRatingTable$points[i]
-    class <- pointsToClass(numbers)
-    
-    if (moistureDeduction[i]>15){class <- paste(class, "A", sep="")}
-    if (temperatureDeduction[i]>15){class <- paste(class, "H", sep="")}
-    
-    clRatingTable$class[i] <- class
+  #Loop through the climate table and assign a class to each row.
+  for (n in 1:length(clRatingTable$points)) {
+    #Assign a numeric class based on the points value.
+    number <- clRatingTable$points[n]
+    class <- pointsToClass(number)
+    #Add subclasses to the class to indicate which deductions were made.
+    if (a[n]>15){class <- paste(class, "A", sep="")}
+    if (h[n]>15){class <- paste(class, "H", sep="")}
+    clRatingTable$class[n] <- class
   }
-  
   return(clRatingTable$class)
   }
