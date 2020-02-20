@@ -7,8 +7,8 @@ fallFrost <- function(DBAFF){
 
   #calculate the percent deduction based on the days before average fall frost (DBAFF)
   percentDeduction <-  DBAFF / 3
-
-  #Return the percent deduction
+  #Prevent negative deductions and deductions greater than 10 points.
+  percentDeduction <- ifelse(percentDeduction < 0, 0, 
+                           ifelse(percentDeduction > 10, 10, percentDeduction))
   return(percentDeduction)
-
 }

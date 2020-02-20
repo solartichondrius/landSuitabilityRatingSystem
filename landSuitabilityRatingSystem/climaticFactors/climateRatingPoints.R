@@ -1,64 +1,41 @@
-# Title     : Climate Rating
-# Objective : Calculate the climate rating
+# Title     : Climate Rating Points
+# Objective : Calculate the point deductions for the climate factor.
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
 climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
 
+  #Calculate moisture and temperature deductions using PPE and EGDD.
   moistureDeduction <- moistureFactor(PPE)
   temperatureDeduction <- temperatureFactor(EGDD)
   
-  #Create new table containing all columns from clTable and new columns
-  #for the values involved in deduction calculations.
+  #Create a new table containing all columns from clTable and new columns
+  #for the values involved in deduction calculations, which will be used
+  #to find the class.
   clRatingTable <- clTable
   clRatingTable$a <- moistureDeduction
   clRatingTable$h <- temperatureDeduction
   
-  #Replace all negative values in the moisture and temperature deduction 
-  #columns with 0.
-  clRatingTable$a <- with(clRatingTable, replace(a, a < 0, 0))
-  clRatingTable$h <- with(clRatingTable, replace(h, h < 0, 0))
-  
+  #Calculate the point values after the moisture and temperature deductions.
   A <- 100 - moistureDeduction
   H <- 100 - temperatureDeduction
   
-  #basic climatic rating (BCR) is the lower of A or H
+  #The basic climate rating (BCR) is the lower value of A and H.
   basicClimateRating <- ifelse(A < H, A, H)
-  
   clRatingTable$basicClimateRating <- basicClimateRating
 
+  #Calculate deductions for modifying factors.
   springMoisture <- excessSpringMoisture(springPPE)
   fallMoisture <- excessFallMoisture(fallPPE)
   fallFrost <- fallFrost(DBAFF)
-
   clRatingTable$springMoisture <- springMoisture
   clRatingTable$fallMoisture <- fallMoisture
   clRatingTable$fallFrost <- fallFrost
   
-  #Replace all negative values in the modifying factor columns with 0.
-  clRatingTable$springMoisture <- with(clRatingTable, 
-                            replace(springMoisture, springMoisture < 0, 0))
-  clRatingTable$springMoisture <- with(clRatingTable, 
-                            replace(springMoisture, springMoisture > 10, 10))
-  clRatingTable$fallMoisture <- with(clRatingTable, 
-                            replace(fallMoisture, fallMoisture < 0, 0))
-  clRatingTable$fallMoisture <- with(clRatingTable, 
-                            replace(fallMoisture, fallMoisture > 10, 10))
-  clRatingTable$fallFrost <- with(clRatingTable, 
-                            replace(fallFrost, fallFrost < 0, 10))
-  clRatingTable$fallFrost <- with(clRatingTable, 
-                            replace(fallFrost, fallFrost > 10, 10))
-  
-  #Add the new modifying factors from the table rows together then convert 
-  #them to decimal and multiply them by the basicClimateRating to get the
-  #modification deduction.
-  modificationDeduction <- modificationFactor(clRatingTable$springMoisture, 
-                                            clRatingTable$fallMoisture, 
-                                            clRatingTable$fallFrost, 
-                                            clRatingTable$basicClimateRating)
+  #Calculate the total modification deduction as a percentage of the BCR 
+  #and subtract it from the BCR to get the final point value.
+  modificationDeduction <- ((springMoisture + fallMoisture + fallFrost) / 100) * basicClimateRating
   finalClimateRating <- basicClimateRating - modificationDeduction
-
   clRatingTable$points <- finalClimateRating
-  
   return(clRatingTable)
 }

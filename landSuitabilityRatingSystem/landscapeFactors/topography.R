@@ -2,7 +2,7 @@
 #Hayden McAdam
 #Calculate basic landform topography rating (T) based on the area's
 #climate erosivity region, percent slope (ps), and landscape type (lt).
-tRating <- function(region, ps, lt) {
+topography <- function(region, ps, lt) {
   #Calculates the landscape type when given the slope length.
   # if (sl >= 100) {
   #   lt <- "simple"
@@ -25,6 +25,9 @@ tRating <- function(region, ps, lt) {
   }
   #Calculate topography factor point deduction using the previously assigned
   #input variables.
-  deductionT <- a+b*ps - sqrt((c+b*ps)^2+d^2)
-  return(deductionT)
+  pointDeduction <- a+b*ps - sqrt((c+b*ps)^2+d^2)
+  #Prevent negative deductions and deductions greater than 100 points.
+  pointDeduction <- ifelse(pointDeduction < 0, 0, 
+                       ifelse(pointDeduction > 100, 100, pointDeduction))
+  return(pointDeduction)
 }

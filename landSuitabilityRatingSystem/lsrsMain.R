@@ -1,4 +1,3 @@
-#INCOMPLETE
 #January 24, 2020
 #Hayden McAdam
 #Read in and clean vector data and call functions to calculate points for
@@ -7,8 +6,7 @@
 #TODO: 
 #Add soil data and functions into this file to be processed
 #with the landscape and climate data.
-#Implement raster data functionality.
-#Correct column names to match the real data.
+#Improve documentation.
 #Calculate the region value in the topography function 
 #using slope length (Figure 6.1).
 
@@ -30,7 +28,6 @@ source("climaticFactors/temperatureFactor.R")
 source("climaticFactors/excessSpringMoisture.R")
 source("climaticFactors/excessFallMoisture.R")
 source("climaticFactors/fallFrost.R")
-source("climaticFactors/modificationFactor.R")
 source("soilFactors/soilRatingPoints.R")
 source("soilFactors/soilRatingClass.R")
 source("soilFactors/moisture.R")
@@ -57,13 +54,14 @@ slTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 #slRaster <- raster("../../ab_raster/PSM_SoilGreatGroup_250m.tif")
 #slRasterTable <- as.data.frame(getValues(slRaster), na.rm=TRUE)
 
+#Landscape factor calculations.
 lsRatingTable <- landscapeRatingPoints(lsTable$slc, lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency)
 
-lsRatingTable <- subset(lsRatingTable, points >= 0 & points <= 100)
+#lsRatingTable <- subset(lsRatingTable, points >= 0 & points <= 100)
 
 lsRatingTable$class <- landscapeRatingClass(lsRatingTable$points,
                                             lsRatingTable$t, lsRatingTable$p,
@@ -72,6 +70,7 @@ lsRatingTable$class <- landscapeRatingClass(lsRatingTable$points,
 
 lsRatingTable <- subset(lsRatingTable, select=-c(t, p, j, k, i))
 
+#Climate factor calculations
 clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
 
 clRatingTable <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm,
@@ -86,6 +85,7 @@ clRatingTable$class <- climateRatingClass(clRatingTable$points,
 #                                  temperatureDeduction, basicClimateRating,
 #                                  springMoisture, fallMoisture, fallFrost))
 
+#Soil factor calculations.
 #Combine all depth columns for each category into two columns
 #for surface and subsurface.
 slTable$claySurface <- rowMeans(slTable[,c("CLAY5_V", "CLAY15_V", "CLAY30_V")])
@@ -148,7 +148,7 @@ slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
                                        slRatingTable$sn, slRatingTable$y, 
                                        slRatingTable$sy)
 
-# slRatingTable <- slRatingTable[c("Value", "POLY_ID",
+# slRatingTable <- slRatingTable[c("slc",
 #                            "claySurface", "claySubsurface",
 #                            "sandSurface", "sandSubsurface",
 #                            "siltSurface", "siltSubsurface", "awhcSurface",
@@ -159,6 +159,7 @@ slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
 #Write the results into csv files.
 # write.csv(lsRatingTable, file="testResults.csv", row.names=FALSE)
 # write.csv(clRatingTable, file="climateResults.csv", row.names=FALSE)
+# write.csv(slRatingTable, file="soilResults.csv", row.names=FALSE)
 
 #NOTE: I haven't seen any results from the web app that had any pattern value
 #other than 0 or a flooding value other than 1. 

@@ -4,6 +4,8 @@
 # Created on: 2020-01-22
 
 woodContent <- function(surface, subsurface){ #surface and subsurface wood content by percent volume.
-  percentDeduction <- 2*surface + subsurface
-  return(percentDeduction)
+  pointDeduction <- 2*surface + subsurface
+  pointDeduction <- ifelse(pointDeduction < 0, 0, 
+                           ifelse(pointDeduction > 25, 25, pointDeduction))
+  return(pointDeduction)
 }
