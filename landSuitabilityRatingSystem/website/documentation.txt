@@ -5,3 +5,6 @@ Configuration file: etc/shiny-server/shiny-server.conf
 This file defines where the file for the website is located, what port to listen on, and where to save the log files.
 For the changes to take effect you must restart the server by entering the following into the commandline on the server:
 sudo systemctl restart shiny-server
+
+Make sure the folder(s) you are reading/writing to are owned by shiny or else shiny won't have permission to do anything:
+sudo chown shiny:shiny /full/path/to/directory
