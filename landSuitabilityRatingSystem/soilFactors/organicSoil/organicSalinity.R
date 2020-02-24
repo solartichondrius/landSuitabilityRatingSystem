@@ -1,10 +1,9 @@
-# Title     : Sodicity
-# Objective : Calculate the point deduction based on Sodicity
-# Created by: CurtisTh
-# Created on: 2020-01-22
-
-sodicity <- function(SAR){
-  pointDeduction <- 0.71428571*SAR + 0.17857143*SAR^2 - 6
+#February 21, 2020
+#Hayden McAdam
+#Organic Surface Salinity
+organicSalinity <- function(surfaceEC){
+  pointDeduction <- (-13.230275*22.752925+94.480275*surfaceEC^1.67181) /
+    (22.752925+surfaceEC^1.67181)
   #Prevent negative deductions and deductions greater than 100 points.
   pointDeduction <- ifelse(pointDeduction < 0, 0, 
                            ifelse(pointDeduction > 100, 100, pointDeduction))

@@ -1,5 +1,5 @@
 # Title     : Soil Rating Points
-# Objective : Calculate the soil rating
+# Objective : Calculate the point deduction for the mineral soil factor.
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
@@ -11,24 +11,6 @@ soilRatingPoints <- function(claySurface, claySubsurface,
                              surfacePH, subsurfacePH, 
                              surfaceEC, subsurfaceEC, 
                              sarSurface, sarSubsurface, E_DEPTH, bd, egdd){
-  
-  #Create a new table containing all relevant columns from slTable
-  #and the new columns for point calculations.
-  slRatingTable <- slTable[c("slc", "claySurface", "claySubsurface",
-                             "sandSurface", "sandSubsurface",
-                             "siltSurface", "siltSubsurface", 
-                             "cfSurface", "cfSubsurface", "awhcSurface", 
-                             "awhcSubsurface", "ppe", "ocSurfacePerc",
-                             "surfacePH", "subsurfacePH",
-                             "surfaceEC", "subsurfaceEC",
-                             "sarSurface", "sarSubsurface", 
-                             "E_DEPTH", "bd", "egdd", "a")]
-  
-  #Organic Soil Temperature Factor (Z)
-  # z <- soilTemperature(egdd)
-  # slRatingTable$z <- z
-  # slRatingTable$z <- with(slRatingTable, replace(z, z < 0, 0))
-  # slRatingTable$z <- with(slRatingTable, replace(z, z > 25, 25))
   
   #Surface AWHC deduction
   subtotalTextureDeduction <- moisture(siltSurface, siltSubsurface, 
@@ -42,43 +24,27 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   #wtDeduction <- (wt / 100) * subtotalTextureDeduction 
   #Subtotal texture deductions (M)
   m <- subtotalTextureDeduction #- wtDeduction
-  slRatingTable$m <- m
-  #Surface Factors
   
+  #Surface Factors
   #Organic matter deductions (F)
   f <- organicMatterContent(ocSurfacePerc)
-  slRatingTable$f <- f
-  slRatingTable$f <- with(slRatingTable, replace(f, f < 0, 0))
-  slRatingTable$f <- with(slRatingTable, replace(f, f > 15, 15))
   #Topsoil depth deductions (E)
-  #e <- topsoil(topsoilDepth)
+  #e <- topsoil(E_DEPTH)
   #Reaction (V)
   v <- reaction(surfacePH)
-  slRatingTable$v <- v
-  slRatingTable$v <- with(slRatingTable, replace(v, v < 0, 0))
-  slRatingTable$v <- with(slRatingTable, replace(v, v > 100, 100))
   #Salinity (N)
   n <- salinity(surfaceEC)
-  slRatingTable$n <- n
-  slRatingTable$n <- with(slRatingTable, replace(n, n < 0, 0))
-  slRatingTable$n <- with(slRatingTable, replace(n, n > 100, 100))
   #Sodicity (Y)
   #sarSurface <- ksatSurface / 10
   y <- sodicity(sarSurface)
-  slRatingTable$y <- y
-  slRatingTable$y <- with(slRatingTable, replace(y, y < 0, 0))
-  slRatingTable$y <- with(slRatingTable, replace(y, y > 100, 100))
   #Chemistry deduction (c)
   c <- chemistry(v, n, y)
-  slRatingTable$c <- with(slRatingTable, replace(c, c < 0, 0))
-  slRatingTable$c <- with(slRatingTable, replace(c, c > 100, 100))
   #Organic surfaces (O)
   # slRatingTable$bd <- with(slRatingTable, replace(bd, bd == 0, 0.12))
   # o <- organicSurface(E_DEPTH, bd)
   # slRatingTable$o <- o
   #Structure and consistency deductions (D)
   d <- surfaceStructure(claySurface, siltSurface, ocSurfacePerc)
-  slRatingTable$d <- d
   
   #Subsurface Factors
   #Subsurface impedence (sD)
@@ -86,31 +52,20 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   #Chemistry
   #Reaction (sV)
   sv <- reaction(subsurfacePH)
-  slRatingTable$sv <- sv
-  slRatingTable$sv <- with(slRatingTable, replace(sv, sv < 0, 0))
-  slRatingTable$sv <- with(slRatingTable, replace(sv, sv > 100, 100))
   #Salinity (sN)
   sn <- salinity(subsurfaceEC)
-  slRatingTable$sn <- sn
-  slRatingTable$sn <- with(slRatingTable, replace(sn, sn < 0, 0))
-  slRatingTable$sn <- with(slRatingTable, replace(sn, sn > 100, 100))
   #Sodicity (sY)
   #sarSubsurface <- ksatSubsurface / 10
   sy <- sodicity(sarSubsurface)
-  slRatingTable$sy <- sy
-  slRatingTable$sy <- with(slRatingTable, replace(sy, sy < 0, 0))
-  slRatingTable$sy <- with(slRatingTable, replace(sy, sy > 100, 100))
   #Chemistry deduction (sC)
   sc <- chemistry(sv, sn, sy)
+  #Only the largest chemistry deduction is used.
   c <- ifelse(c > sc, c, sc)
-  slRatingTable$c <- c
   #Total surface deduction (d)
   #surfaceDeduction <- d + f + e + c + o
   surfaceDeduction <- d + f + c
-  slRatingTable$surfaceDeduction <- surfaceDeduction
   #Preliminary Soil Rating
   prelimRating <- 100 - m - surfaceDeduction
-  slRatingTable$prelimRating <- prelimRating
   #Basic Soil Rating (g)
   #basicRating <- prelimRating - sd
   
@@ -121,15 +76,32 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   
   #Final Soil Rating
   points <- prelimRating# - w
-  slRatingTable$points <- points
   
+  #Create a new table containing all relevant columns from slTable
+  #and the new columns for point calculations, which will be used
+  #to find the class.
+  slRatingTable <- slTable[c("slc", "claySurface", "claySubsurface",
+                             "sandSurface", "sandSubsurface",
+                             "siltSurface", "siltSubsurface", 
+                             "cfSurface", "cfSubsurface", "awhcSurface", 
+                             "awhcSubsurface", "ppe", "ocSurfacePerc",
+                             "surfacePH", "subsurfacePH",
+                             "surfaceEC", "subsurfaceEC",
+                             "sarSurface", "sarSubsurface", 
+                             "E_DEPTH", "bd", "egdd", "a")]
+  slRatingTable$m <- m
+  slRatingTable$f <- f
+  slRatingTable$v <- v
+  slRatingTable$n <- n
+  slRatingTable$y <- y
+  slRatingTable$d <- d
+  slRatingTable$sv <- sv
+  slRatingTable$sn <- sn
+  slRatingTable$sy <- sy
+  slRatingTable$c <- c
+  slRatingTable$surfaceDeduction <- surfaceDeduction
+  slRatingTable$prelimRating <- prelimRating
   #slRatingTable$w <- w
-  
-  #Replace all negative values in the deduction columns with 0 
-  #and all values above 100 with 100, except for organic matter content,
-  #which has a maximum deduction of 15.
-  # slRatingTable$o <- with(slRatingTable, replace(o, o < 0, 0))
-  # slRatingTable$o <- with(slRatingTable, replace(o, o > 100, 100))
-  
+  slRatingTable$points <- points
   return(slRatingTable)
 }

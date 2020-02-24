@@ -5,5 +5,8 @@
 
 organicMatterContent <- function(organicCarbon){ #organic carbon as a percentage
   pointDeduction <- 9.9928375 - 7.229321 * log(organicCarbon)
+  #Prevent negative deductions and deductions greater than 15 points.
+  pointDeduction <- ifelse(pointDeduction < 0, 0, 
+                           ifelse(pointDeduction > 15, 15, pointDeduction))
   return(pointDeduction)
 }
