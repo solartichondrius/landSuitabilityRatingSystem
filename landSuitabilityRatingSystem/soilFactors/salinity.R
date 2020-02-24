@@ -1,5 +1,5 @@
 # Title     : Salinity
-# Objective : Calculate the deduction points based on salinity
+# Objective : Calculate the point deductions for mineral soils based on salinity.
 # Created by: CurtisTh
 # Created on: 2020-01-22
 

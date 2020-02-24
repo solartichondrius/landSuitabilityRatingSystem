@@ -67,7 +67,7 @@ slTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
 # slRasterTable <- as.data.frame(slRaster, na.rm=TRUE)
 
 #Landscape factor calculations.
-lsRatingTable <- landscapeRatingPoints(lsTable$slc, lsTable$region, lsTable$ps,
+lsRatingTable <- landscapeRatingPoints(lsTable$region, lsTable$ps,
                        lsTable$lt, lsTable$cf,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,

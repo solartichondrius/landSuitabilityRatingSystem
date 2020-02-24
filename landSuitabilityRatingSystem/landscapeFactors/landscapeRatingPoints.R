@@ -3,7 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingPoints <- function(slc, region, ps, lt, cf,
+landscapeRatingPoints <- function(region, ps, lt, cf,
                                   surface, subsurface, pattern, 
                                   inundationPeriod, usableGrowingSeasonLength, 
                                   frequency) {

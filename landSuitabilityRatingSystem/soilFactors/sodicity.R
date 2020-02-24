@@ -1,5 +1,5 @@
 # Title     : Sodicity
-# Objective : Calculate the point deduction based on Sodicity
+# Objective : Calculate the point deduction for mineral soils based on sodicity.
 # Created by: CurtisTh
 # Created on: 2020-01-22
 

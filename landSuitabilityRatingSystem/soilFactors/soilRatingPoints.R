@@ -76,6 +76,8 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   
   #Final Soil Rating
   points <- prelimRating# - w
+  points <- ifelse(points < 0, 0, 
+                   ifelse(points > 100, 100, points))
   
   #Create a new table containing all relevant columns from slTable
   #and the new columns for point calculations, which will be used
