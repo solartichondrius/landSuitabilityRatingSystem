@@ -26,6 +26,8 @@ topography <- function(region, ps, lt) {
   #Calculate topography factor point deduction using the previously assigned
   #input variables.
   pointDeduction <- a+b*ps - sqrt((c+b*ps)^2+d^2)
-  if(pointDeduction<0) pointDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
+  #Prevent negative deductions and deductions greater than 100 points.
+  pointDeduction <- ifelse(pointDeduction < 0, 0, 
+                       ifelse(pointDeduction > 100, 100, pointDeduction))
   return(pointDeduction)
 }
