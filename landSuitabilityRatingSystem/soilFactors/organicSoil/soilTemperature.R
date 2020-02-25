@@ -1,5 +1,5 @@
 # Title     : Soil Temperature
-# Objective : Calculate the point deductions based on soil temperature
+# Objective : Calculate the organic soil temperature deduction (Z) (Table 5.2).
 # Created by: CurtisTh
 # Created on: 2020-01-22
 

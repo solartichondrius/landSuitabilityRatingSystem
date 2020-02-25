@@ -1,6 +1,6 @@
 #February 21, 2020
 #Hayden McAdam
-#Organic Subsurface Salinity
+#Calculates subsurface salinity deduction (N) for organic soils (Table 5.11).
 organicSubsurfaceSalinity <- function(subsurfaceEC){
   pointDeduction <- (-13.333333 + 3.75 * subsurfaceEC + 
                        -0.10416667 * subsurfaceEC ^ 2)

@@ -56,15 +56,7 @@ source("soilFactors/organicSoil/organicDrainage.R")
 #Data currently being used.
 clTable <- read.csv("../../ab_vector/climate1981x10_CCCS_baseline.csv")
 lsTable <- read.csv("dataFiles/landscapeTest2.csv")
-
-#Real landscape vector data.
-#lsTable <- read.dbf("../../ab_vector/CFR_slc32_250m.dbf")
-
-#Soil data
 slTable <- read.dbf("../../ab_vector/ab_rasterized_slc32_250m.dbf")
-#Soil raster data
-# slRaster <- raster("../../ab_raster/PSM_SoilGreatGroup_250m.tif")
-# slRasterTable <- as.data.frame(slRaster, na.rm=TRUE)
 
 #Landscape factor calculations.
 lsRatingTable <- landscapeRatingPoints(lsTable$region, lsTable$ps,
@@ -72,27 +64,18 @@ lsRatingTable <- landscapeRatingPoints(lsTable$region, lsTable$ps,
                        lsTable$surface, lsTable$subsurface,
                        lsTable$pattern, lsTable$inundationPeriod,
                        lsTable$usableGrowingSeasonLength, lsTable$frequency)
-
-#lsRatingTable <- subset(lsRatingTable, points >= 0 & points <= 100)
-
 lsRatingTable$class <- landscapeRatingClass(lsRatingTable$points,
                                             lsRatingTable$t, lsRatingTable$p,
                                             lsRatingTable$j, lsRatingTable$k,
                                             lsRatingTable$i)
-
 lsRatingTable <- subset(lsRatingTable, select=-c(t, p, j, k, i))
 
 #Climate factor calculations
 clTable <- clTable[c("slc", "ppe", "egdd", "esm", "efm", "eff")]
-
 clRatingTable <- climateRatingPoints(clTable$ppe, clTable$egdd, clTable$esm,
                                       clTable$efm, clTable$eff)
-
-#clRatingTable <- subset(clRatingTable, points >= 0 & points <= 100)
-
 clRatingTable$class <- climateRatingClass(clRatingTable$points,
                                           clRatingTable$a, clRatingTable$h)
-
 # clRatingTable <- subset(clRatingTable, select=-c(moistureDeduction,
 #                                  temperatureDeduction, basicClimateRating,
 #                                  springMoisture, fallMoisture, fallFrost))
@@ -129,7 +112,6 @@ slTable$ksatSubsurface <- rowMeans(slTable[,c("KSAT60_V", "KSAT100_V")])
 slTable$sarSurface <- slTable$ksatSurface / 10
 # slTable$sarSubsurface <- with(slTable, ksatSubsurface / 10)
 slTable$sarSubsurface <- slTable$ksatSubsurface / 10
-
 slTable$bd <- rowMeans(slTable[,c("BD5_V", "BD15_V", "BD30_V")])
 #slTable <- transform(slTable, bd = ifelse(bd == 0, 0.12, bd))
 
@@ -148,6 +130,25 @@ slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
                                   slTable$surfaceEC, slTable$subsurfaceEC,
                                   slTable$sarSurface, slTable$sarSubsurface,
                                   slTable$E_DEPTH, slTable$bd, slTable$egdd)
+#Check whether the soil is mineral or organic 
+#and perform the appropriate calculations.
+# slRatingTable <- ifelse(slTable$soilType > 17 || slTable$soilType < 20,
+#                                   soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
+#                                   slTable$sandSurface, slTable$sandSubsurface,
+#                                   slTable$siltSurface, slTable$siltSubsurface,
+#                                   slTable$cfSurface, slTable$cfSubsurface,
+#                                   slTable$awhcSurface, slTable$awhcSubsurface, 
+#                                   slTable$ppe, slTable$ocSurfacePerc,
+#                                   slTable$surfacePH, slTable$subsurfacePH,
+#                                   slTable$surfaceEC, slTable$subsurfaceEC,
+#                                   slTable$sarSurface, slTable$sarSubsurface,
+#                                   slTable$E_DEPTH, slTable$bd, slTable$egdd),
+#                                   organicSoilRatingPoints(slTable$egdd, slTable$ppe,
+#                                                           slTable$surfaceFibre, slTable$subsurfaceFibre,
+#                                                           slTable$waterTableDepth, slTable$soilPH,
+#                                                           slTable$subsurfaceEC, slTable$organicDepth,
+#                                                           slTable$masterHorizon, slTable$substrateCF,
+#                                                           slTable$substrateSilt, slTable$substrateClay))
 
 # slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
 #                                        slRatingTable$a, slRatingTable$d,
@@ -161,6 +162,19 @@ slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
                                        slRatingTable$sv, slRatingTable$n, 
                                        slRatingTable$sn, slRatingTable$y, 
                                        slRatingTable$sy)
+#Check whether soil is mineral or organic and assign appropriate subclasses.
+# slRatingTable$class <- ifelse(slRatingTable$soilType > 17 || slRatingTable$soilType < 20,
+#                               soilRatingClass(slRatingTable$points, slRatingTable$m,
+#                                               slRatingTable$a, slRatingTable$d, 
+#                                               slRatingTable$f, slRatingTable$v, 
+#                                               slRatingTable$sv, slRatingTable$n, 
+#                                               slRatingTable$sn, slRatingTable$y, 
+#                                               slRatingTable$sy),
+#                               organicSoilRatingClass(slRatingTable$points, slRatingTable$z,
+#                                                      slRatingTable$m, slRatingTable$s, 
+#                                                      slRatingTable$v, slRatingTable$n, 
+#                                                      slRatingTable$sb, slRatingTable$g, 
+#                                                      slRatingTable$sv, slRatingTable$sn, slRatingTable$w))
 
 # slRatingTable <- slRatingTable[c("slc",
 #                            "claySurface", "claySubsurface",

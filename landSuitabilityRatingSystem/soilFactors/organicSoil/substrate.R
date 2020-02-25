@@ -1,6 +1,6 @@
 #February 21, 2020
 #Hayden McAdam
-#Organic Substrate Deduction
+#Calculates the substrate depth/type deduction (G) in organic soils (Table 5.9).
 substrate <- function(ppe, organicDepth, masterHorizon, 
                       substrateCF, substrateSilt, substrateClay){
   pointDeduction <- ifelse(organicDepth >= 140, 0, 

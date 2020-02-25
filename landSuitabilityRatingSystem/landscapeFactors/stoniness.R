@@ -1,6 +1,6 @@
 #January 21, 2020
 #Hayden McAdam
-#Calculate stoniness point reduction (P) based on the amount of 
+#Calculate stoniness point deduction (P) based on the amount of 
 #coarse fragments (cf) present in the soil surface.
 stoniness <- function(cf) {
   #Point deduction for volume of coarse fragments in the soil.

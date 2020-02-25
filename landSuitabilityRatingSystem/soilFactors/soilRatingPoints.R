@@ -41,7 +41,7 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   c <- chemistry(v, n, y)
   #Organic surfaces (O)
   # slRatingTable$bd <- with(slRatingTable, replace(bd, bd == 0, 0.12))
-  # o <- organicSurface(E_DEPTH, bd)
+  # o <- organicSurface(P_DEPTH, bd)
   # slRatingTable$o <- o
   #Structure and consistency deductions (D)
   d <- surfaceStructure(claySurface, siltSurface, ocSurfacePerc)
@@ -72,7 +72,7 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   #Drainage Factor (W)
   #slRatingTable$claySurface <- with(slRatingTable, replace(claySurface, claySurface == 0, 0.000001))
   #slRatingTable$siltSurface <- with(slRatingTable, replace(siltSurface, siltSurface == 0, 0.000001))
-  #w <- drainage(wt, ppe, claySurface, siltSurface)
+  #w <- (drainage(wt, ppe, claySurface, siltSurface) / 100) * basicRating
   
   #Final Soil Rating
   points <- prelimRating# - w

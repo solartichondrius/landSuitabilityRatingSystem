@@ -1,6 +1,6 @@
 #February 21, 2020
 #Hayden McAdam
-#Organic Surface Reaction (V)
+#Calculates surface reaction deduction (V) for organic soils (Table 5.6).
 organicReaction <- function(surfaceFibre, soilPH){
   pointDeduction <- ifelse(soilPH < 5.5, (40*((sqrt(surfaceFibre))/8.9))
                      +(((5.5 - soilPH)/0.1)*(1+((sqrt(100/surfaceFibre+0.1)))*0.1)),

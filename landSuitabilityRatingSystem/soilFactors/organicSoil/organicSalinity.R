@@ -1,6 +1,6 @@
 #February 21, 2020
 #Hayden McAdam
-#Organic Surface Salinity
+#Calculates surface salinity deduction (N) for organic soils (Table 5.7).
 organicSalinity <- function(surfaceEC){
   pointDeduction <- (-13.230275*22.752925+94.480275*surfaceEC^1.67181) /
     (22.752925+surfaceEC^1.67181)
