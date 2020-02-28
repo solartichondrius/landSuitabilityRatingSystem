@@ -12,10 +12,10 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           #"plotGraphs.R",
           "pointsToClass.R",
           "results.R",
-          "loadRaster.R",
+          #"loadRaster.R",
 
           "climaticFactors/AorPPE.R",
-          "climaticFactors/climateRaster.R",
+          #"climaticFactors/climateRaster.R",
           "climaticFactors/climateRating.R",
           "climaticFactors/climateRatingClass.R",
           "climaticFactors/climateRatingPoints.R",
@@ -27,7 +27,7 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           "climaticFactors/temperatureFactor.R",
 
           "landscapeFactors/flooding.R",
-          "landscapeFactors/landscapeRaster.R",
+          #"landscapeFactors/landscapeRaster.R",
           "landscapeFactors/landscapeRating.R",
           "landscapeFactors/landscapeRatingClass.R",
           "landscapeFactors/landscapeRatingPoints.R",
@@ -51,11 +51,10 @@ loadFiles(ECHO=FALSE,reload=TRUE,
           "soilFactors/soilRatingClass.R",
           "soilFactors/soilRatingPoints.R",
           "soilFactors/soilResults.R",
-          "soilFactors/soilTemperature.R",
+          #"soilFactors/soilTemperature.R",
           "soilFactors/surfaceStructure.R",
-          "soilFactors/topsoil.R",
+          "soilFactors/topsoil.R"
 
-          "website/ui.R",
-          "website/server.R"
+          #"website/ui.R"
 
 )

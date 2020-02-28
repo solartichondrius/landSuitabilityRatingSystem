@@ -10,8 +10,7 @@ results <- function(dataType,fileType,cropType,input,output){
       climateDF <- read.csv(input)
     } else {
       #climateDF <- climateRaster(input[1],input[2],input[3],input[4],input[5])
-      climateR <- raster(input)
-      climateR <- stack(climateR)
+      climateR <- stack(input)
       climateDF <- as.data.frame(climateR, na.rm=TRUE)
       names(climateDF)[1] <- "ppe"
       names(climateDF)[2] <- "esm"
@@ -27,8 +26,7 @@ results <- function(dataType,fileType,cropType,input,output){
       landscapeDF <- read.csv(input)
     } else {
       #landscapeDF <- landscapeRaster(input[1],input[2],input[3],input[4],input[5],input[6],input[7],input[8],input[9],input[10])
-      landscapeR <- raster(input)
-      landscapeR <- stack(landscapeR)
+      landscapeR <- stack(input)
       landscapeDF <- as.data.frame(landscapeR, na.rm=TRUE)
       names(landscapeDF)[1] <- "region"
       names(landscapeDF)[2] <- "percentSlope"
@@ -49,8 +47,7 @@ results <- function(dataType,fileType,cropType,input,output){
       soilDF <- read.csv(input)
     } else {
       #soilDF <- soilRaster(input[1],input[2],input[3],input[4],input[5])
-      soilR <- raster(input)
-      soilR <- stack(soilR)
+      soilR <- stack(input)
       soilDF <- as.data.frame(soilR, na.rm=TRUE)
     }
     soilResults(soilDF,output)

@@ -34,7 +34,7 @@ ui <- fluidPage( #code for the webpage's UI (user interface)
                    fileInput(inputId = "pattern", label = "Choose a raster file for pattern:", multiple = FALSE),
                    fileInput(inputId = "inundationPeriod", label = "Choose a raster file for inundation period:", multiple = FALSE),
                    fileInput(inputId = "usableGrowingSeasonLength", label = "Choose a raster file for usable growing season length:", multiple = FALSE),
-                   fileInput(inputId = "frequency", label = "Choose a raster file for frequency of flooding:", multiple = FALSE),
+                   fileInput(inputId = "frequency", label = "Choose a raster file for frequency of flooding:", multiple = FALSE)
   ),
   conditionalPanel(condition = "input.fileType == 'Raster' && input.dataType == 'Soil'", #if the raster file type radio button and soil radio button are selected create a panel containing the following
                    fileInput(inputId = "claySurface", label = "Choose a file for claySurface:", multiple = FALSE),
@@ -61,5 +61,6 @@ ui <- fluidPage( #code for the webpage's UI (user interface)
   textInput(inputId = "fileOutput", label = "Choose a name for the output file:"), #user can type in the full path for where they want to save the results
   actionButton(inputId = "processFile", label = "Process File"), #click this button to run the code to process the file and save the results
   downloadButton("Download"), #button to download the processed results file
-  tableOutput("table") #table to put a preview of the results file (the head, which is the first 6 rows)
+  #tableOutput("table") #table to put a preview of the results file (the head, which is the first 6 rows)
+  DT::dataTableOutput("table")
 )

@@ -71,6 +71,9 @@ server <- function(input,output){ #code which runs on the server
     shinyjs::enable("Download") #enable the download button
     output$Download <- downloadHandler(filename = fileName, content = function(file) { write.csv(read.csv(fileOUT), file, row.names = TRUE)}) #allows the file to be downloaded
     #output$table <- renderTable({head(read.csv(fileOUT))}) #display a table with a preview of the results file (the head, which is the first 6 rows)
+    # output$table <- DT::renderDataTable({
+    #   DT::datatable(read.csv(fileOUT), options = list(lengthMenu = c(25, 50, 100), pageLength = 25))
+    # })
   })
   shinyjs::disable("Download") #disable the download button until there's a file processed
 }
