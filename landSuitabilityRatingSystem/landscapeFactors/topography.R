@@ -4,12 +4,8 @@
 #climate erosivity region, percent slope (ps), and landscape type (lt).
 topography <- function(region, ps, lt) {
   #Calculates the landscape type when given the slope length.
-  # if (sl >= 100) {
-  #   lt <- "simple"
-  # } else {
-  #   lt <- "complex"
-  # }
-  if (any(region == 2 & tolower(lt) == "simple")){
+  # lt <- ifelse (sl >= 100, "simple", "complex")
+  if (region == 2 && tolower(lt) == "simple"){
     #Assign input variables for simple landscapes in region 2.
     a <- 66.560928
     b <- 2.156809
