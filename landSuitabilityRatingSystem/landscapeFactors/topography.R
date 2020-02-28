@@ -9,7 +9,7 @@ topography <- function(region, ps, lt) {
   # } else {
   #   lt <- "complex"
   # }
-  if (any(region == 2 & tolower(lt) == "simple")){
+  if (region == 2 && tolower(lt) == "simple"){
     #Assign input variables for simple landscapes in region 2.
     a <- 66.560928
     b <- 2.156809
