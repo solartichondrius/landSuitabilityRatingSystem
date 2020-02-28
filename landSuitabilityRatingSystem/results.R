@@ -5,11 +5,17 @@
 
 results <- function(dataType,fileType,cropType,input,output){
 
+  input <- clRaster
   if(dataType=="Climate"){
     if(fileType=="Vector"){
       climateDF <- read.csv(input)
     } else {
-      climateDF <- climateRaster(input[1],input[2],input[3],input[4],input[5])
+      #climateDF <- climateRaster(input[1],input[2],input[3],input[4],input[5])
+      climateR <- stack(input)
+      climateDF <- as.data.frame(climateR, na.rm=TRUE)
+      climateDF <- unique(climateDF)
+      names(climateDF)[1] <- "egdd"
+      names(climateDF)[2] <- "ppe"
     }
     climateResults(climateDF,output)
   }

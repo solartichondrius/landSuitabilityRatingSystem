@@ -21,7 +21,7 @@ climateResults <- function(df,output,save=TRUE){ #takes dataframe as input, and 
   df <- subset(df,select=-c(rowNumber)) #remove the column numbering the rows
 
   if(save==TRUE){ #if the save argument is set to TRUE (which it is by default)
-    write.csv(df,output) #then write the dataframe to a file
+    write.csv(df,output,row.names = FALSE) #then write the dataframe to a file
   } else { #if the save argument is set to false
     return(df) #simply return the dataframe that was just created
   }
