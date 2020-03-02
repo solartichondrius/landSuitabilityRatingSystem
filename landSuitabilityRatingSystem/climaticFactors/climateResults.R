@@ -11,7 +11,7 @@ climateResults <- function(df,output,save=TRUE){ #takes dataframe as input, and 
 
   results <- apply(df,1,function(row) { #apply the following code to every row in the dataframe
     results <- climateRating(row["ppe"],row["esm"],row["efm"],row["egdd"],row["eff"]) #save the results of the climate rating function applied to the relevant columns of the dataframe
-    print(paste(row["rowNumber"],"out of",size,"completed")) #print the progress to the server
+    #print(paste(row["rowNumber"],"out of",size,"completed")) #print the progress to the server
     incProgress(1/size*1,detail=(paste(row["rowNumber"],"out of",size,"completed"))) #print the progress to the website
     results #return the results
   })

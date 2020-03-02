@@ -8,3 +8,10 @@ sudo systemctl restart shiny-server
 
 Make sure the folder(s) you are reading/writing to are owned by shiny or else shiny won't have permission to do anything:
 sudo chown shiny:shiny /full/path/to/directory
+
+The following line of code will delete all files in the results folder that are at least 1 day old:
+find /home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem/dataFiles/test_data/results -mtime +1 -delete
+All scripts in the /etc/cron.daily will be run every day, so I put the above line of code in a file called "lsrs" in that folder
+Another way is to type crontab -e into the terminal and enter the following line of code:
+1 0 * * * find /home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem/dataFiles/test_data/results -mtime +1 -delete
+

@@ -4,9 +4,9 @@
 # Created on: 2020-01-31
 
 climateRating <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
-
+#print(paste(PPE,springPPE,fallPPE,EGDD<DBAFF))
   if(is.na(PPE)|is.na(springPPE)|is.na(fallPPE)|is.na(EGDD)|is.na(DBAFF)){
-    return(c(NA,NA)) #BATMAN! If any of the values are null then return null for all the results since we can't perform any calculations on null values
+    return(c(NA,NA))
   }
 
   moistureDeduction <- moistureFactor(PPE)
