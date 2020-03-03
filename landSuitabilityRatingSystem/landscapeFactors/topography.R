@@ -1,11 +1,11 @@
 #January 21, 2020
 #Hayden McAdam
 #Calculate basic landform topography rating (T) based on the area's
-#climate erosivity region, percent slope (ps), and landscape type (lt).
-topography <- function(region, ps, lt) {
-  #Calculates the landscape type when given the slope length.
-  # lt <- ifelse (sl >= 100, "simple", "complex")
-  if (region == 2 && tolower(lt) == "simple"){
+#landscape factor (ls) and percent slope (ps).
+topography <- function(ls, ps) {
+  #Calculates the landscape type when given the landscape factor.
+  lt <- ifelse (ls >= 0.7, "simple", "complex")
+  if (lt == "simple"){
     #Assign input variables for simple landscapes in region 2.
     a <- 66.560928
     b <- 2.156809
