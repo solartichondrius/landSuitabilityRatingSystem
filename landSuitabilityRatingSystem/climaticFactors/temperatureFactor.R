@@ -5,7 +5,7 @@
 
 temperatureFactor <- function(EGDD){
 
-  pointDeduction <- ifelse(EGDD < 900, -0.05 * EGDD + 115, -0.10 * EGDD + 160.00)
+  pointDeduction <- ifelse(EGDD < 900, -0.05 * EGDD + 115, -0.10 * EGDD + 160)
   #Prevent negative deductions and deductions greater than 100 points.
   pointDeduction <- ifelse(pointDeduction < 0, 0, 
                            ifelse(pointDeduction > 100, 100, pointDeduction))

@@ -27,6 +27,7 @@ climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
   #Calculate deductions for modifying factors.
   springMoisture <- excessSpringMoisture(springPPE)
   fallMoisture <- excessFallMoisture(fallPPE)
+  #The data for fall frost is currently unavailable.
   fallFrost <- fallFrost(DBAFF)
   clRatingTable$springMoisture <- springMoisture
   clRatingTable$fallMoisture <- fallMoisture
