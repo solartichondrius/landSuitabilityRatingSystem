@@ -5,33 +5,60 @@
 
 library(shiny)
 library(shinyjs)
+library(raster)
 
 server <- function(input,output){ #code which runs on the server
   shinyjs::useShinyjs() #use shiny javascript functions
   options(shiny.maxRequestSize=2^32) #Allows files up to 4GB (default limit was only 5MB)
-  homePath <- "/home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #where this project is located on the filesystem
-  vectorPath <- paste0(homePath,"/dataFiles/test_data/ab_vector/") #where all the vector files are located on the filesystem
-  rasterPath <- paste0(homePath, "/dataFiles/test_data/ab_raster/") #where all the raster files are located on the filesystem
-  resultsPath <- paste0(homePath, "/dataFiles/test_data/results/") #where all the results files are located on the filesystem
+  # homePath <- "/home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #where this project is located on the filesystem
+  # vectorPath <- paste0(homePath,"/dataFiles/test_data/ab_vector/") #where all the vector files are located on the filesystem
+  # rasterPath <- paste0(homePath, "/dataFiles/test_data/ab_raster/") #where all the raster files are located on the filesystem
+  # resultsPath <- paste0(homePath, "/dataFiles/test_data/results/") #where all the results files are located on the filesystem
+  # if(getwd() != homePath){ #if we are not currently in the correct directory
+  #   setwd(homePath) #then put us in the correct directory
+  # }
+  homePath <- "D:/lsrsHayden/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #where this project is located on the filesystem
+  vectorPath <- paste0(homePath,"/../../ab_vector/") #where all the vector files are located on the filesystem
+  rasterPath <- paste0(homePath, "/../../ab_raster/") #where all the raster files are located on the filesystem
+  resultsPath <- paste0(homePath, "/dataFiles/test_data/") #where all the results files are located on the filesystem
   if(getwd() != homePath){ #if we are not currently in the correct directory
     setwd(homePath) #then put us in the correct directory
   }
-  source("loadAllFiles.R") #load all the required files
+  #source("loadAllFiles.R") #load all the required files
 
+  
+  source("landscapeFactors/landscapeRating.R")
+  source("landscapeFactors/landscapeResults.R")
+  source("landscapeFactors/topography.R")
+  source("landscapeFactors/stoniness.R")
+  source("landscapeFactors/woodContent.R")
+  source("landscapeFactors/flooding.R")
+  source("pointsToClass.R")
+  source("climaticFactors/climateRatingPoints.R")
+  source("climaticFactors/climateRatingClass.R")
+  source("climaticFactors/climateResults.R")
+  source("climaticFactors/moistureFactor.R")
+  source("climaticFactors/temperatureFactor.R")
+  source("climaticFactors/excessSpringMoisture.R")
+  source("climaticFactors/excessFallMoisture.R")
+  source("climaticFactors/fallFrost.R")
+  
   output$vectorFiles <- renderUI({selectInput(inputId = "vectorFile",  label = "Choose a vector file:", list.files(vectorPath,"\\.csv$"))})
   outputOptions(output, "vectorFiles", suspendWhenHidden = FALSE) #dropbox to select one of the vector files from the server
 
   #Dropboxes for selecting climate raster files from the server:
-  output$PPERaster <- renderUI({selectInput(inputId = "PPE", label = "Choose a raster file for PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/PPE"),"\\.tif$"))})
-  outputOptions(output, "PPERaster", suspendWhenHidden = FALSE)
-  output$springPPERaster <- renderUI({selectInput(inputId = "springPPE", label = "Choose a raster file for Spring PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/springPPE"),"\\.tif$"))})
-  outputOptions(output, "springPPERaster", suspendWhenHidden = FALSE)
-  output$fallPPERaster <- renderUI({selectInput(inputId = "fallPPE", label = "Choose a raster file for Fall PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/fallPPE"),"\\.tif$"))})
-  outputOptions(output, "fallPPERaster", suspendWhenHidden = FALSE)
-  output$EGDDRaster <- renderUI({selectInput(inputId = "EGDD", label = "Choose a raster file for EGDD (Effective Growing Degree Days):", list.files(paste0(rasterPath,"climate/EGDD"),"\\.tif$"))})
-  outputOptions(output, "EGDDRaster", suspendWhenHidden = FALSE)
-  output$DBAFFRaster <- renderUI({selectInput(inputId = "DBAFF", label = "Choose a raster file for The Number of Days Before Average Fall Frost:", list.files(paste0(rasterPath,"climate/DBAFF"),"\\.tif$"))})
-  outputOptions(output, "DBAFFRaster", suspendWhenHidden = FALSE)
+  output$climateRaster <- renderUI({selectInput(inputId = "climateRaster", label = "Select a climate scenario:", "AB_250m")})
+  outputOptions(output, "climateRaster", suspendWhenHidden = FALSE)
+  # output$PPERaster <- renderUI({selectInput(inputId = "PPE", label = "Choose a raster file for PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/PPE"),"\\.tif$"))})
+  # outputOptions(output, "PPERaster", suspendWhenHidden = FALSE)
+  # output$springPPERaster <- renderUI({selectInput(inputId = "springPPE", label = "Choose a raster file for Spring PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/springPPE"),"\\.tif$"))})
+  # outputOptions(output, "springPPERaster", suspendWhenHidden = FALSE)
+  # output$fallPPERaster <- renderUI({selectInput(inputId = "fallPPE", label = "Choose a raster file for Fall PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/fallPPE"),"\\.tif$"))})
+  # outputOptions(output, "fallPPERaster", suspendWhenHidden = FALSE)
+  # output$EGDDRaster <- renderUI({selectInput(inputId = "EGDD", label = "Choose a raster file for EGDD (Effective Growing Degree Days):", list.files(paste0(rasterPath,"climate/EGDD"),"\\.tif$"))})
+  # outputOptions(output, "EGDDRaster", suspendWhenHidden = FALSE)
+  # output$DBAFFRaster <- renderUI({selectInput(inputId = "DBAFF", label = "Choose a raster file for The Number of Days Before Average Fall Frost:", list.files(paste0(rasterPath,"climate/DBAFF"),"\\.tif$"))})
+  # outputOptions(output, "DBAFFRaster", suspendWhenHidden = FALSE)
 
   #Dropboxes for selecting landscape raster files from the server:
   output$regionRaster <- renderUI({selectInput(inputId = "region", label = "Choose a raster file for region:", list.files(paste0(rasterPath,"landscape/region"),"\\.tif$"))})
