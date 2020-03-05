@@ -5,9 +5,9 @@
 
 landscapeRating <- function(region, percentSlope, landscapeType, coarseFragments, surface, subsurface, pattern, inundationPeriod, usableGrowingSeasonLength, frequency) {
 
-  if(is.na(region)|is.na(percentSlope)|is.na(landscapeType)|is.na(coarseFragments)|is.na(surface)|is.na(subsurface)|is.na(pattern)|is.na(inundationPeriod)|is.na(usableGrowingSeasonLength)|is.na(frequency)){
-    return(c(NA,NA)) # If any of the values are null then return null for all the results since we can't perform any calculations on null values
-  }
+  #if(is.na(region)|is.na(percentSlope)|is.na(landscapeType)|is.na(coarseFragments)|is.na(surface)|is.na(subsurface)|is.na(pattern)|is.na(inundationPeriod)|is.na(usableGrowingSeasonLength)|is.na(frequency)){
+  #  return(c(NA,NA)) # If any of the values are null then return null for all the results since we can't perform any calculations on null values
+  #}
 
   t <- topography(region, percentSlope, landscapeType)
   a <- 100 - t

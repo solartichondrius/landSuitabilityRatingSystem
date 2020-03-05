@@ -12,7 +12,7 @@ moistureFactor <- function(ppe){
   #But the text says that it reaches 0 point deduction at -150mm which gives the following formula:
   pointDeduction <- ppe / -5 - 30
   #Prevent negative deductions and deductions greater than 100 points.
-  pointDeduction <- ifelse(pointDeduction < 0, 0, 
-                           ifelse(pointDeduction > 100, 100, pointDeduction))
+  pointDeduction[pointDeduction<0] <- 0
+  pointDeduction[pointDeduction>100] <- 100
   return(pointDeduction)
 }

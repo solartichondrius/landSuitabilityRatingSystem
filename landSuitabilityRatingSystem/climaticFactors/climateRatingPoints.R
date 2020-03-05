@@ -3,39 +3,24 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
+climateRatingPoints <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
 
-  #Calculate moisture and temperature deductions using PPE and EGDD.
-  moistureDeduction <- moistureFactor(PPE)
-  temperatureDeduction <- temperatureFactor(EGDD)
-  
-  #Create a new table containing all columns from clTable and new columns
-  #for the values involved in deduction calculations, which will be used
-  #to find the class.
-  clRatingTable <- clTable
-  clRatingTable$a <- moistureDeduction
-  clRatingTable$h <- temperatureDeduction
-  
-  #Calculate the point values after the moisture and temperature deductions.
-  A <- 100 - moistureDeduction
-  H <- 100 - temperatureDeduction
-  
-  #The basic climate rating (BCR) is the lower value of A and H.
-  basicClimateRating <- ifelse(A < H, A, H)
-  clRatingTable$basicClimateRating <- basicClimateRating
+  moistureDeduction <- moistureFactor(PPE) #calculate moisture deduction
+  temperatureDeduction <- temperatureFactor(EGDD) #calculate temperature deduction
+  A <- 100 - moistureDeduction #subtract the moisture deduction from 100 to get A
+  H <- 100 - temperatureDeduction #subtract the temperature deduction from 100 to get H
 
-  #Calculate deductions for modifying factors.
-  springMoisture <- excessSpringMoisture(springPPE)
-  fallMoisture <- excessFallMoisture(fallPPE)
-  fallFrost <- fallFrost(DBAFF)
-  clRatingTable$springMoisture <- springMoisture
-  clRatingTable$fallMoisture <- fallMoisture
-  clRatingTable$fallFrost <- fallFrost
-  
-  #Calculate the total modification deduction as a percentage of the BCR 
-  #and subtract it from the BCR to get the final point value.
-  modificationDeduction <- ((springMoisture + fallMoisture + fallFrost) / 100) * basicClimateRating
+  basicClimateRating <- min(A,H) #basic climatic rating (BCR) is the lower of A or H
+
+  springMoisture <- excessSpringMoisture(springPPE) #calculate spring moisture percent deduction
+  fallMoisture <- excessFallMoisture(fallPPE) #calculate fall moisture percent deduction
+  fallFrost <- fallFrost(DBAFF) #calculate fall frost percent deduction
+
+  #add upp all of the percent deductions (springMoisture, fallMoisture, and fallFrost) then divide by 100 to get the percentage as a decimal,
+  #then multiply that decimal by the basic climate rating to get the modification deduction
+  modificationDeduction <- (springMoisture + fallMoisture + fallFrost)/100 * basicClimateRating
+  #the final climate rating is the basic climate rating minus the modification deduction
   finalClimateRating <- basicClimateRating - modificationDeduction
-  clRatingTable$points <- finalClimateRating
-  return(clRatingTable)
+
+  return(c(finalClimateRating,moistureDeduction,temperatureDeduction))
 }

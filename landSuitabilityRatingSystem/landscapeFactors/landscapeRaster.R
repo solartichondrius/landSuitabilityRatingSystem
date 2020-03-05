@@ -8,6 +8,8 @@ landscapeRaster <- function(regionR, percentSlopeR, landscapeTypeR, coarseFragme
   region <- loadRaster(regionR)
   percentSlope <- loadRaster(percentSlopeR)
   landscapeType <- loadRaster(landscapeTypeR)
+  landscapeType[landscapeType==1] <- "simple"
+  landscapeType[landscapeType==0] <- "complex"
   coarseFragments <- loadRaster(coarseFragmentsR)
   surface <- loadRaster(surfaceR)
   subsurface <- loadRaster(subsurfaceR)

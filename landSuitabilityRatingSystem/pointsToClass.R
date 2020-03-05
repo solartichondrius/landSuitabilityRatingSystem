@@ -4,21 +4,15 @@
 # Created on: 2020-01-21
 
 pointsToClass <- function(number){
-    
-  if(number >= 80){
-    return(1)
-  } else if(number >= 60){
-    return(2)
-  } else if(number >= 45){
-    return(3)
-  } else if(number >= 30){
-    return(4)
-  } else if(number >= 20){
-    return(5)
-  } else if(number >= 10){
-    return(6)
-  } else {
-    return(7)
-  }
+
+  number[number<10] <- 7
+  number[number>=10&number<20] <- 6
+  number[number>=20&number<30] <- 5
+  number[number>=30&number<45] <- 4
+  number[number>=45&number<60] <- 3
+  number[number>=60&number<80] <- 2
+  number[number>=80] <- 1
+
+  return(number)
 
 }

@@ -9,7 +9,7 @@ excessSpringMoisture <- function(esm){
   #calculate the percent deduction based on excess spring moisture.
   percentDeduction <- esm / 10 + 5
   #Prevent negative deductions and deductions greater than 10.
-  percentDeduction <- ifelse(percentDeduction < 0, 0, 
-                           ifelse(percentDeduction > 10, 10, percentDeduction))
+  percentDeduction[percentDeduction<0] <- 0
+  percentDeduction[percentDeduction>10] <- 10
   return(percentDeduction)
 }

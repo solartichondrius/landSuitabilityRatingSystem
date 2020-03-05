@@ -4,6 +4,8 @@
 # Created on: 2020-01-21
 source("loadFiles.R",echo=FALSE) #function I made to make it easier to load many files at once
 
+library(raster)
+
 mainFolder <- "/home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #main folder
 
 mainFiles <- list.files(mainFolder,"\\.R$") #files in the main folder

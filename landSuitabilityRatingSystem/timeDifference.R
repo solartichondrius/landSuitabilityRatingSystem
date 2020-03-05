@@ -1,6 +1,6 @@
 # Title     : Time Difference
 # Objective : returns a string telling the time in the appropriate units
-# Created by: test
+# Created by: Thomas Curtis
 # Created on: 2020-02-25
 
 timeDifference <- function(finish,start){ #takes a start and finish time as arguments to compare
