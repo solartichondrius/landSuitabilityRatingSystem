@@ -26,7 +26,7 @@ organicSoilRatingPoints <- function(egdd, ppe, surfaceFibre, subsurfaceFibre,
   n <- organicSalinity(surfaceEC)
   #Only the larger of the two deductions for reaction and salinity is used.
   chem <- ifelse(v > n, v, n)
-  #Total percent deduction
+  #Total percent deduction for surface factor.
   b <- ((s + chem) / 100) * a
   #Basic Rating
   c <- a - b
@@ -45,7 +45,7 @@ organicSoilRatingPoints <- function(egdd, ppe, surfaceFibre, subsurfaceFibre,
   #the surface chemistry deduction.
   sChem <- ifelse(sv > sn, sv, sn)
   sChem <- ifelse(sChem > chem, sChem, 0)
-  #Total percent deduction
+  #Total percent deduction for subsurface factor.
   d <- sb + g + sChem
   #Interim Final Rating
   e <- c - d
@@ -55,6 +55,8 @@ organicSoilRatingPoints <- function(egdd, ppe, surfaceFibre, subsurfaceFibre,
   f <- (w / 100) * e
   #Final Organic Soil Rating
   points <- e - f
+  points <- ifelse(points < 0, 0, 
+                   ifelse(points > 100, 100, points))
   
   #Assign a numeric class based on the points value.
   class <- pointsToClass(numbers)

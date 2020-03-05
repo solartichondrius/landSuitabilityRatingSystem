@@ -3,7 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-soilRatingPoints <- function(claySurface, claySubsurface,
+soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
                              sandSurface, sandSubsurface,
                              siltSurface, siltSubsurface,
                              cfSurface, cfSubsurface, 
@@ -82,7 +82,7 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   #Create a new table containing all relevant columns from slTable
   #and the new columns for point calculations, which will be used
   #to find the class.
-  slRatingTable <- slTable[c("slc", "claySurface", "claySubsurface",
+  slRatingTableM <- slTableM[c("slc", "soilType", "claySurface", "claySubsurface",
                              "sandSurface", "sandSubsurface",
                              "siltSurface", "siltSubsurface", 
                              "cfSurface", "cfSubsurface", "awhcSurface", 
@@ -91,19 +91,19 @@ soilRatingPoints <- function(claySurface, claySubsurface,
                              "surfaceEC", "subsurfaceEC",
                              "sarSurface", "sarSubsurface", 
                              "E_DEPTH", "bd", "egdd", "a")]
-  slRatingTable$m <- m
-  slRatingTable$f <- f
-  slRatingTable$v <- v
-  slRatingTable$n <- n
-  slRatingTable$y <- y
-  slRatingTable$d <- d
-  slRatingTable$sv <- sv
-  slRatingTable$sn <- sn
-  slRatingTable$sy <- sy
-  slRatingTable$c <- c
-  slRatingTable$surfaceDeduction <- surfaceDeduction
-  slRatingTable$prelimRating <- prelimRating
-  #slRatingTable$w <- w
-  slRatingTable$points <- points
-  return(slRatingTable)
+  slRatingTableM$m <- m
+  slRatingTableM$f <- f
+  slRatingTableM$v <- v
+  slRatingTableM$n <- n
+  slRatingTableM$y <- y
+  slRatingTableM$d <- d
+  slRatingTableM$sv <- sv
+  slRatingTableM$sn <- sn
+  slRatingTableM$sy <- sy
+  slRatingTableM$c <- c
+  slRatingTableM$surfaceDeduction <- surfaceDeduction
+  slRatingTableM$prelimRating <- prelimRating
+  #slRatingTableM$w <- w
+  slRatingTableM$points <- points
+  return(slRatingTableM)
 }

@@ -5,9 +5,9 @@
 
 organicSoilRatingClass <- function(points, z, m, s, v, n, sb, g, sv, sn, w){
   #Loop through the soil table and assign a class to each row.
-  for (i in 1:length(slRatingTable$points)) {
+  for (i in 1:length(slRatingTableO$points)) {
     #Assign a numeric class based on the points value.
-    numbers <- slRatingTable$points[i]
+    numbers <- slRatingTableO$points[i]
     class <- pointsToClass(numbers)
     #Add subclasses to the class to indicate which deductions were made.
     if(z[i]>15){class <- paste(class, "Z", sep="")}
@@ -17,7 +17,7 @@ organicSoilRatingClass <- function(points, z, m, s, v, n, sb, g, sv, sn, w){
     if(n[i]>15 || sn[i]>15){class <- paste(class, "N", sep="")}
     if(g[i]>15){class <- paste(class, "G", sep="")}
     if(w[i]>15){class <- paste(class, "W", sep="")}
-    slRatingTable$class[i] <- class
+    slRatingTableO$class[i] <- class
   }
-  return(slRatingTable$class)
+  return(slRatingTableO$class)
 }
