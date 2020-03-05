@@ -12,11 +12,12 @@ results <- function(dataType,fileType,cropType,input,output){
       #climateDF <- climateRaster(input[1],input[2],input[3],input[4],input[5])
       climateR <- stack(input)
       climateDF <- as.data.frame(climateR, na.rm=TRUE)
+      climateDF <- unique(climateDF)
       names(climateDF)[1] <- "ppe"
       names(climateDF)[2] <- "esm"
       names(climateDF)[3] <- "efm"
       names(climateDF)[4] <- "egdd"
-      names(climateDF)[5] <- "eff"
+      #names(climateDF)[5] <- "eff"
     }
     climateResults(climateDF,output)
   }

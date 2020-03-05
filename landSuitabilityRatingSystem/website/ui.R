@@ -18,11 +18,7 @@ ui <- fluidPage( #code for the webpage's UI (user interface)
   conditionalPanel(condition = "input.fileType == 'Vector'", uiOutput("vectorFiles")),
 
   conditionalPanel(condition = "input.fileType == 'Raster' && input.dataType == 'Climate'", #if the raster file type radio button and climate radio button are selected create a dropdown box containing the following
-                   uiOutput("PPERaster"),
-                   uiOutput("springPPERaster"),
-                   uiOutput("fallPPERaster"),
-                   uiOutput("EGDDRaster"),
-                   uiOutput("DBAFFRaster")
+                   uiOutput("climateRaster")
   ),
   conditionalPanel(condition = "input.fileType == 'Raster' && input.dataType == 'Landscape'", #if the raster file type radio button and landscape radio button are selected create a panel containing the following
                    fileInput(inputId = "region", label = "Choose a raster file for region:", multiple = FALSE),

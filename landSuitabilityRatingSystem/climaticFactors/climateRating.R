@@ -3,9 +3,9 @@
 # Created by: CurtisTh
 # Created on: 2020-01-31
 
-climateRating <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
+climateRating <- function(PPE, springPPE, fallPPE, EGDD){
 
-  if(is.na(PPE)|is.na(springPPE)|is.na(fallPPE)|is.na(EGDD)|is.na(DBAFF)){
+  if(is.na(PPE)|is.na(springPPE)|is.na(fallPPE)|is.na(EGDD)){
     return(c(NA,NA)) #BATMAN! If any of the values are null then return null for all the results since we can't perform any calculations on null values
   }
 
@@ -23,9 +23,9 @@ climateRating <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
 
   springMoisture <- excessSpringMoisture(springPPE)
   fallMoisture <- excessFallMoisture(fallPPE)
-  fallFrost <- fallFrost(DBAFF)
+  #fallFrost <- fallFrost(DBAFF)
 
-  modificationDeduction <- (springMoisture + fallMoisture + fallFrost)/100 * basicClimateRating
+  modificationDeduction <- (springMoisture + fallMoisture)/100 * basicClimateRating
   finalClimateRating <- basicClimateRating - modificationDeduction
 
   class <- pointsToClass(finalClimateRating)
