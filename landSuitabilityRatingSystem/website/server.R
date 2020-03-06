@@ -78,17 +78,18 @@ server <- function(input,output){ #code which runs on the server
     # }
     withProgress(message="Processing file:",value=0, { #track the progress of the following code
       if(input$fileType == "Vector"){ #if the selected file type is Vector then
-        climateResults("Vector", input$cropType, paste0(vectorPath,input$vectorFile), fileOUT) #process the input file and save the results to the output file
+        if(input$dataType == "Climate") climateResults("Vector", input$cropType, paste0(vectorPath,input$vectorFile), fileOUT) #process the input file and save the results to the output file
+        if(input$dataType == "Landscape") landscapeResults("Vector", input$cropType, paste0(vectorPath,input$vectorFile), fileOUT)
       } else { #if the selected file type is Raster then
         if(input$dataType == "Climate"){ #if the climate data type is selected then
           climateResults("Raster", input$cropType, paste0(rasterPath,"climate/",c(
-            paste0("PPE/",input$PPE),paste0("springPPE/",input$springPPE),paste0("fallPPE/",input$fallPPE),paste0("EGDD/",input$EGDD),paste0("DBAFF/",input$DBAFF))), fileOUT) #process the input file and save the results to the output file
+            paste0("PPE/",input$PPE),paste0("springPPE/",input$springPPE),paste0("fallPPE/",input$fallPPE),paste0("EGDD/",input$EGDD),paste0("DBAFF/",input$DBAFF))), fileOUT, TRUE) #process the input file and save the results to the output file
         }
         if(input$dataType == "Landscape"){ #if the landscape data type is selected then
-          results("Landscape", "Raster", input$cropType, paste0(rasterPath,"landscape/",c(
+          landscapeResults("Raster", input$cropType, paste0(rasterPath,"landscape/",c(
             paste0("region/",input$region),paste0("percentSlope/",input$percentSlope),paste0("landscapeType/",input$landscapeType),paste0("coarseFragments/",input$coarseFragments),paste0("surfaceWood/",input$surface),
             paste0("subsurfaceWood/",input$subsurface),paste0("pattern/",input$pattern),paste0("inundationPeriod/",input$inundationPeriod),paste0("usableGrowingSeasonLength/",input$usableGrowingSeasonLength),paste0("frequency/",input$frequency))),
-                  fileOUT) #process the input file and save the results to the output file
+                  fileOUT, TRUE) #process the input file and save the results to the output file
         }
         if(input$dataType == "Soil"){ #if the soil data type is selected then
           results("Soil","Raster", input$cropType,
