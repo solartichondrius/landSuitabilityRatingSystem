@@ -17,6 +17,7 @@ server <- function(input,output){ #code which runs on the server
   # if(getwd() != homePath){ #if we are not currently in the correct directory
   #   setwd(homePath) #then put us in the correct directory
   # }
+  #Test paths
   homePath <- "D:/lsrsHayden/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #where this project is located on the filesystem
   vectorPath <- paste0(homePath,"/../../ab_vector/") #where all the vector files are located on the filesystem
   rasterPath <- paste0(homePath, "/../../ab_raster/") #where all the raster files are located on the filesystem
@@ -34,6 +35,7 @@ server <- function(input,output){ #code which runs on the server
   source("landscapeFactors/woodContent.R")
   source("landscapeFactors/flooding.R")
   source("pointsToClass.R")
+  source("timeDifference.R")
   source("climaticFactors/climateRatingPoints.R")
   source("climaticFactors/climateRatingClass.R")
   source("climaticFactors/climateResults.R")
@@ -90,26 +92,26 @@ server <- function(input,output){ #code which runs on the server
     if(input$fileType=="Vector") fileName <- paste0(input$fileOutput,".csv") #add the .csv extension to the end of the file name if it's a vector
     if(input$fileType=="Raster") fileName <- paste0(input$fileOutput,".tif") #add the .tif extension to the end of the file name if it's a raster
     fileOUT <- paste0(resultsPath,fileName) #full path of the output file
-    # if(is.null(fileOUT)  #if the output file is null
-    #   | (input$fileType == "Vector" & is.null(input$vectorFile)) #or if the selected file type is Vector but the vector file is null
-    #   | (input$fileType == "Raster" & ( #or if the selected file type is Raster and
-    #   (input$dataType == "Climate" & (is.null(input$PPE)|is.null(input$springPPE)|is.null(input$fallPPE)|is.null(input$EGGD)|is.null(input$DBAFF))) #if the Climate data type is selected but all its required files are null
-    #   | (input$dataType == "Landscape" & (is.null(input$region)|is.null(input$percentSlope)|is.null(input$landscapeType)|is.null(input$coarseFragments)|is.null(input$surface)|is.null(input$subsurface)
-    #     |is.null(input$pattern)|is.null(input$inundationPeriod)|is.null(input$usableGrowingSeasonLength)|is.null(input$frequency))) #if the Landscape data type is selected but all its required files are null
-    #   | (input$dataType == "Soil" & (is.null(input$claySurface)|is.null(input$claySubsurface)|is.null(input$sandSurface)|is.null(input$sandSubsurface)|is.null(input$siltSurface)|is.null(input$siltSubsurface)
-    #     |is.null(input$cfSurface)|is.null(input$cfSubsurface)|is.null(input$awhcSurface)|is.null(input$awhcSubsurface)|is.null(input$ppe)|is.null(input$ocSurfacePerc)|is.null(input$surfacePH)
-    #     |is.null(input$subsurfacePH)|is.null(input$surfaceEC)|is.null(input$subsurfaceEC)|is.null(input$sarSurface)|is.null(input$sarSubsurface)|is.null(input$E_DEPTH)|is.null(input$bd)))
-    #   ))){
-    #   showModal(modalDialog(title="ERROR: Missing fields.","Make sure you have filled in all the required fields.",easyClose=TRUE,footer=NULL)) #display popup message notifying that there are missing fields
-    #   return(NULL) #then return without doing anything else
-    # }
+    
+    if(input$climateRaster == "AB_250m"){
+      # PPE <- rasterPath + "climate/PPE/AB_PPE_250m_lcc.tif"
+      # springPPE <- rasterPath + "climate/springPPE/ab_250m_climate_esm_lcc.tif"
+      # fallPPE <- rasterPath + "climate/fallPPE/ab_250m_climate_fsm_lcc.tif"
+      # EGDD <- rasterPath + "climate/EGDD/AB_EGDD_250m_lcc.tif"
+      # DBAFF <- rasterPath + "AB_ALL_0.tif
+      #Test values
+      PPE <- paste0(rasterPath, "AB_PPE_250m_lcc.tif")
+      springPPE <- paste0(rasterPath, "ab_250m_climate_esm_lcc.tif")
+      fallPPE <- paste0(rasterPath, "ab_250m_climate_fsm_lcc.tif")
+      EGDD <- paste0(rasterPath, "AB_EGDD_250m_lcc.tif")
+    }
+    
     withProgress(message="Processing file:",value=0, { #track the progress of the following code
       if(input$fileType == "Vector"){ #if the selected file type is Vector then
         climateResults("Vector", input$cropType, paste0(vectorPath,input$vectorFile), fileOUT) #process the input file and save the results to the output file
       } else { #if the selected file type is Raster then
         if(input$dataType == "Climate"){ #if the climate data type is selected then
-          climateResults("Raster", input$cropType, paste0(rasterPath,"climate/",c(
-            paste0("PPE/",input$PPE),paste0("springPPE/",input$springPPE),paste0("fallPPE/",input$fallPPE),paste0("EGDD/",input$EGDD),paste0("DBAFF/",input$DBAFF))), fileOUT) #process the input file and save the results to the output file
+          climateResults("Raster", input$cropType, c(PPE,springPPE,fallPPE,EGDD), fileOUT) #process the input file and save the results to the output file
         }
         if(input$dataType == "Landscape"){ #if the landscape data type is selected then
           results("Landscape", "Raster", input$cropType, paste0(rasterPath,"landscape/",c(

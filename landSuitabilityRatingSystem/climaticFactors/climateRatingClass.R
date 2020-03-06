@@ -3,9 +3,9 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-climateRatingClass <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
+climateRatingClass <- function(PPE, springPPE, fallPPE, EGDD){
 
-  crp <- climateRatingPoints(PPE, springPPE, fallPPE, EGDD, DBAFF) #calculate the cliamte rating points
+  crp <- climateRatingPoints(PPE, springPPE, fallPPE, EGDD) #calculate the cliamte rating points
   points <- crp[[1]] #the first value returned is the final rating points
   md <- crp[[2]] #the second value returned is the moisture deduction, which we want to know if it's 15 or more
   md[md<15] <- 0 #if it's less than 15 then we give it a value of 0 as in "FALSE"

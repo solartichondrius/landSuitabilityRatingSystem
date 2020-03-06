@@ -3,7 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-climateRatingPoints <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
+climateRatingPoints <- function(PPE, springPPE, fallPPE, EGDD){
 
   moistureDeduction <- moistureFactor(PPE) #calculate moisture deduction
   temperatureDeduction <- temperatureFactor(EGDD) #calculate temperature deduction
@@ -14,11 +14,11 @@ climateRatingPoints <- function(PPE, springPPE, fallPPE, EGDD, DBAFF){
 
   springMoisture <- excessSpringMoisture(springPPE) #calculate spring moisture percent deduction
   fallMoisture <- excessFallMoisture(fallPPE) #calculate fall moisture percent deduction
-  fallFrost <- fallFrost(DBAFF) #calculate fall frost percent deduction
+  #fallFrost <- fallFrost(DBAFF) #calculate fall frost percent deduction
 
-  #add upp all of the percent deductions (springMoisture, fallMoisture, and fallFrost) then divide by 100 to get the percentage as a decimal,
+  #add up all of the percent deductions (springMoisture, fallMoisture, and fallFrost) then divide by 100 to get the percentage as a decimal,
   #then multiply that decimal by the basic climate rating to get the modification deduction
-  modificationDeduction <- (springMoisture + fallMoisture + fallFrost)/100 * basicClimateRating
+  modificationDeduction <- (springMoisture + fallMoisture)/100 * basicClimateRating
   #the final climate rating is the basic climate rating minus the modification deduction
   finalClimateRating <- basicClimateRating - modificationDeduction
 
