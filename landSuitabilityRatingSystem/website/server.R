@@ -63,26 +63,8 @@ server <- function(input,output){ #code which runs on the server
   # outputOptions(output, "DBAFFRaster", suspendWhenHidden = FALSE)
 
   #Dropboxes for selecting landscape raster files from the server:
-  output$regionRaster <- renderUI({selectInput(inputId = "region", label = "Choose a raster file for region:", list.files(paste0(rasterPath,"landscape/region"),"\\.tif$"))})
-  outputOptions(output, "regionRaster", suspendWhenHidden = FALSE)
-  output$percentSlopeRaster <- renderUI({selectInput(inputId = "percentSlope", label = "Choose a raster file for percent slope:", list.files(paste0(rasterPath,"landscape/percentSlope"),"\\.tif$"))})
-  outputOptions(output, "percentSlopeRaster", suspendWhenHidden = FALSE)
-  output$landscapeTypeRaster <- renderUI({selectInput(inputId = "landscapeType", label = "Choose a raster file for landscape type:", list.files(paste0(rasterPath,"landscape/landscapeType"),"\\.tif$"))})
-  outputOptions(output, "landscapeTypeRaster", suspendWhenHidden = FALSE)
-  output$coarseFragmentsRaster <- renderUI({selectInput(inputId = "coarseFragments", label = "Choose a raster file for coarse fragments:", list.files(paste0(rasterPath,"landscape/coarseFragments"),"\\.tif$"))})
-  outputOptions(output, "coarseFragmentsRaster", suspendWhenHidden = FALSE)
-  output$surfaceRaster <- renderUI({selectInput(inputId = "surface", label = "Choose a raster file for surface wood content:", list.files(paste0(rasterPath,"landscape/surfaceWood"),"\\.tif$"))})
-  outputOptions(output, "surfaceRaster", suspendWhenHidden = FALSE)
-  output$subsurfaceRaster <- renderUI({selectInput(inputId = "subsurface", label = "Choose a raster file for subsurface wood content:", list.files(paste0(rasterPath,"landscape/subsurfaceWood"),"\\.tif$"))})
-  outputOptions(output, "subsurfaceRaster", suspendWhenHidden = FALSE)
-  output$patternRaster <- renderUI({selectInput(inputId = "pattern", label = "Choose a raster file for pattern:", list.files(paste0(rasterPath,"landscape/pattern"),"\\.tif$"))})
-  outputOptions(output, "patternRaster", suspendWhenHidden = FALSE)
-  output$inundationPeriodRaster <- renderUI({selectInput(inputId = "inundationPeriod", label = "Choose a raster file for inundation period:", list.files(paste0(rasterPath,"landscape/inundationPeriod"),"\\.tif$"))})
-  outputOptions(output, "inundationPeriodRaster", suspendWhenHidden = FALSE)
-  output$usableGrowingSeasonLengthRaster <- renderUI({selectInput(inputId = "usableGrowingSeasonLength", label = "Choose a raster file for usable growing season length:", list.files(paste0(rasterPath,"landscape/usableGrowingSeasonLength"),"\\.tif$"))})
-  outputOptions(output, "usableGrowingSeasonLengthRaster", suspendWhenHidden = FALSE)
-  output$frequencyRaster <- renderUI({selectInput(inputId = "frequency", label = "Choose a raster file for frequency of flooding:", list.files(paste0(rasterPath,"landscape/frequency"),"\\.tif$"))})
-  outputOptions(output, "frequencyRaster", suspendWhenHidden = FALSE)
+  output$landscapeRaster <- renderUI({selectInput(inputId = "landscapeRaster", label = "Select a climate scenario:", "AB_250m")})
+  outputOptions(output, "landscapeRaster", suspendWhenHidden = FALSE)
 
   #Dropboxes for selecting soil raster files from the server:
   #TODO: Add dropboxes for selecting soil raster files from the server
@@ -105,6 +87,12 @@ server <- function(input,output){ #code which runs on the server
       fallPPE <- paste0(rasterPath, "ab_250m_climate_fsm_lcc.tif")
       EGDD <- paste0(rasterPath, "AB_EGDD_250m_lcc.tif")
     }
+    
+    if(input$landscapeRaster == "AB_250m"){
+      percentSlope <- paste0(rasterPath, "ab_250m_slope_percent_lcc.tif")
+      lsFactor <- paste0(rasterPath, "ab_250m_ls_factor_lcc.tif")
+    }
+    
     
     withProgress(message="Processing file:",value=0, { #track the progress of the following code
       if(input$fileType == "Vector"){ #if the selected file type is Vector then
