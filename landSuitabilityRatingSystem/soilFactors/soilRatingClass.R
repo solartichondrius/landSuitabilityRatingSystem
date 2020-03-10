@@ -5,9 +5,9 @@
 
 soilRatingClass <- function(points, m, a, d, f, v, sv, n, sn, y, sy){
   #Loop through the soil table and assign a class to each row.
-  for (i in 1:length(slRatingTable$points)) {
+  for (i in 1:length(slRatingTableM$points)) {
     #Assign a numeric class based on the points value.
-    numbers <- slRatingTable$points[i]
+    numbers <- slRatingTableM$points[i]
     class <- pointsToClass(numbers)
     #Add subclasses to the class to indicate which deductions were made.
     #Only add subclass M if its deduction is more than 15 points greater
@@ -22,7 +22,7 @@ soilRatingClass <- function(points, m, a, d, f, v, sv, n, sn, y, sy){
     if(y[i]>15 || sy[i]>15){class <- paste(class, "Y", sep="")}
     #if(o[i]>15){class <- paste(class, "O", sep="")}
     #if(w[n]>15){class <- paste(class, "W", sep="")}
-    slRatingTable$class[i] <- class
+    slRatingTableM$class[i] <- class
   }
-  return(slRatingTable$class)
+  return(slRatingTableM$class)
 }

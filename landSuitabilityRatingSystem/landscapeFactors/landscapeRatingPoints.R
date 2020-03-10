@@ -4,11 +4,11 @@
 # Created on: 2020-01-21
 
 landscapeRatingPoints <- function(cropType, region, ps, lt, cf,
-                                  surface, subsurface, pattern, 
-                                  inundationPeriod, usableGrowingSeasonLength, 
+                                  surface, subsurface, pattern,
+                                  inundationPeriod, usableGrowingSeasonLength,
                                   frequency, printProgress=FALSE) {
 
-  #Calculate point deduction from topography/slope and 
+  #Calculate point deduction from topography/slope and
   #subtract it from 100 to find the basic landscape rating (a).
   if(printProgress) incProgress(0.1, detail = ("calculating topography deduction")) #print the progress to the website
   t <- topography(cropType, region, ps, lt)
@@ -24,7 +24,7 @@ landscapeRatingPoints <- function(cropType, region, ps, lt, cf,
   b <- (P + J)
   #Subtract b from a to find the interim landscape rating (c).
   c <- a - b
-  #Calculate the landscape pattern and flooding deductions 
+  #Calculate the landscape pattern and flooding deductions
   #(like wood content, these are currently unused).
   K <- pattern
   if(printProgress) incProgress(0.1, detail = ("calculating flooding deduction")) #print the progress to the website

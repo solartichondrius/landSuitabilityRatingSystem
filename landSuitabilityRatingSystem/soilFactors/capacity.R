@@ -1,3 +1,5 @@
+#February 2020
+#Hayden McAdam
 #Available Water Holding Capacity
 #The awhc values are already provided, so this function will probably
 #not be used.

@@ -1,6 +1,7 @@
 #February 21, 2020
 #Hayden McAdam
-#Organic Surface Structure Deduction (B)
+#Calculate surface structure/consistence deduction (B) for organic soils
+#based on surface fibre and P-PE (Table 5.5).
 organicSurfaceStructure <- function(surfaceFibre, ppe){
   pointDeduction <- (40.00874 + -2.391297 * surfaceFibre + 0.213398 * ppe + 
     0.045354*surfaceFibre^2 + 0.0006141 * ppe ^ 2 +-0.009623 * surfaceFibre * ppe +

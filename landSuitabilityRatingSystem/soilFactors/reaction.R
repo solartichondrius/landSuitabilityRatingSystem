@@ -1,5 +1,5 @@
 # Title     : Reaction
-# Objective : Calculate the point deductions based on the soil PH value
+# Objective : Calculate the point deduction for mineral soils based on the soil PH value.
 # Created by: CurtisTh
 # Created on: 2020-01-22
 

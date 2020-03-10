@@ -1,22 +1,24 @@
-# Title     : Soil Rating Points
-# Objective : Calculate the point deduction for the mineral soil factor.
-# Created by: CurtisTh
-# Created on: 2020-01-22
+#March 2, 2020
+#Hayden McAdam
+#Mineral Soil Rating
+#Calculate the point deduction for the mineral soil factor
+#and assign each row a suitability class from 1-7 based on it.
 
-soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
+soilRating <- function(claySurface, claySubsurface,
                              sandSurface, sandSubsurface,
                              siltSurface, siltSubsurface,
                              cfSurface, cfSubsurface, 
                              awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
                              surfacePH, subsurfacePH, 
                              surfaceEC, subsurfaceEC, 
-                             sarSurface, sarSubsurface, E_DEPTH, bd, egdd){
+                             sarSurface, sarSubsurface, 
+                             E_DEPTH, bd, egdd, a){
   
   #Surface AWHC deduction
   subtotalTextureDeduction <- moisture(siltSurface, siltSubsurface, 
-                                              claySurface, claySubsurface, 
-                                              cfSurface, cfSubsurface, 
-                                              awhcSurface, ppe)
+                                       claySurface, claySubsurface, 
+                                       cfSurface, cfSubsurface, 
+                                       awhcSurface, ppe)
   #Subsurface texture deduction
   #subsurfaceTexture <- subsurfaceMoisture()
   #Water table deduction
@@ -42,7 +44,6 @@ soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
   #Organic surfaces (O)
   # slRatingTable$bd <- with(slRatingTable, replace(bd, bd == 0, 0.12))
   # o <- organicSurface(P_DEPTH, bd)
-  # slRatingTable$o <- o
   #Structure and consistency deductions (D)
   d <- surfaceStructure(claySurface, siltSurface, ocSurfacePerc)
   
@@ -79,31 +80,21 @@ soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
   points <- ifelse(points < 0, 0, 
                    ifelse(points > 100, 100, points))
   
-  #Create a new table containing all relevant columns from slTable
-  #and the new columns for point calculations, which will be used
-  #to find the class.
-  slRatingTableM <- slTableM[c("slc", "soilType", "claySurface", "claySubsurface",
-                             "sandSurface", "sandSubsurface",
-                             "siltSurface", "siltSubsurface", 
-                             "cfSurface", "cfSubsurface", "awhcSurface", 
-                             "awhcSubsurface", "ppe", "ocSurfacePerc",
-                             "surfacePH", "subsurfacePH",
-                             "surfaceEC", "subsurfaceEC",
-                             "sarSurface", "sarSubsurface", 
-                             "E_DEPTH", "bd", "egdd", "a")]
-  slRatingTableM$m <- m
-  slRatingTableM$f <- f
-  slRatingTableM$v <- v
-  slRatingTableM$n <- n
-  slRatingTableM$y <- y
-  slRatingTableM$d <- d
-  slRatingTableM$sv <- sv
-  slRatingTableM$sn <- sn
-  slRatingTableM$sy <- sy
-  slRatingTableM$c <- c
-  slRatingTableM$surfaceDeduction <- surfaceDeduction
-  slRatingTableM$prelimRating <- prelimRating
-  #slRatingTableM$w <- w
-  slRatingTableM$points <- points
-  return(slRatingTableM)
+  #Assign a numeric class based on the points value.
+  class <- pointsToClass(points)
+  
+  #Add subclasses to the class to indicate which deductions were made.
+  #Only add subclass M if its deduction is more than 15 points greater
+  #than the A deduction. Rows can't have both M and A subclasses.
+  if(m > 15 && m > a+15){class <- paste(class, "M", sep="")}
+  if(a > 15 && m <= a+15){class <- paste(class, "A", sep="")}
+  if(d>15){class <- paste(class, "D", sep="")}
+  if(f>15){class <- paste(class, "F", sep="")}
+  #if(e>15){class <- paste(class, "E", sep="")}
+  if(v>15 || sv>15){class <- paste(class, "V", sep="")}
+  if(n>15 || sn>15){class <- paste(class, "N", sep="")}
+  if(y>15 || sy>15){class <- paste(class, "Y", sep="")}
+  #if(o>15){class <- paste(class, "O", sep="")}
+  #if(w[n]>15){class <- paste(class, "W", sep="")}
+  return(c(points, class))
 }

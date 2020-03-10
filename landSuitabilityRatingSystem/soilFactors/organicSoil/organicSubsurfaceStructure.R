@@ -1,6 +1,7 @@
 #February 21, 2020
 #Hayden McAdam
-#Organic Subsurface Structure Deduction
+#Calculates subsurface structure/consistence deduction (B)
+#using subsurface fibre content (Table 5.8).
 organicSubsurfaceStructure <- function(subsurfaceFibre){
   pointDeduction <- ifelse(subsurfaceFibre >= 40, -20+0.5*subsurfaceFibre,
                            ifelse(subsurfaceFibre <= 20, (20+-1*subsurfaceFibre)

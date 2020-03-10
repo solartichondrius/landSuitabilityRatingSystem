@@ -19,7 +19,6 @@ climateRatingPoints <- function(cropType, PPE, springPPE, fallPPE, EGDD, DBAFF, 
   fallMoisture <- excessFallMoisture(cropType, fallPPE) #calculate fall moisture percent deduction
   if(printProgress) incProgress(0.1, detail = ("calculating fall frost deduction")) #print the progress to the website
   fallFrost <- fallFrost(cropType, DBAFF) #calculate fall frost percent deduction
-
   #add upp all of the percent deductions (springMoisture, fallMoisture, and fallFrost) then divide by 100 to get the percentage as a decimal,
   #then multiply that decimal by the basic climate rating to get the modification deduction
   if(printProgress) incProgress(0.1, detail = ("calculating modification deduction")) #print the progress to the website

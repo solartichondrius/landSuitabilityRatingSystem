@@ -1,3 +1,5 @@
+#February 2020
+#Hayden McAdam
 #Moisture Factor (M)
 #Calculate the surface moisture point deduction based on table 4.2.
 moisture <- function(siltSurface, siltSubsurface, claySurface, 
