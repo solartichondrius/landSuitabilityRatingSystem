@@ -88,10 +88,10 @@ server <- function(input,output){ #code which runs on the server
       EGDD <- paste0(rasterPath, "AB_EGDD_250m_lcc.tif")
     }
     
-    if(input$landscapeRaster == "AB_250m"){
-      percentSlope <- paste0(rasterPath, "ab_250m_slope_percent_lcc.tif")
-      lsFactor <- paste0(rasterPath, "ab_250m_ls_factor_lcc.tif")
-    }
+    # if(input$landscapeRaster == "AB_250m"){
+    #   percentSlope <- paste0(rasterPath, "ab_250m_slope_percent_lcc.tif")
+    #   lsFactor <- paste0(rasterPath, "ab_250m_ls_factor_lcc.tif")
+    # }
     
     
     withProgress(message="Processing file:",value=0, { #track the progress of the following code

@@ -24,6 +24,7 @@ climateResults <- function(fileType, cropType, input, output) { #takes dataframe
     egdd <- raster(input[4])
     #eff <- raster(input[5])
     results <- climateRatingClass(ppe, esm, efm, egdd)
-    writeRaster(results, output)
+    climateRaster <- stack(ppe, esm, efm, egdd, results)
+    writeRaster(climateRaster, output)
   }
 }
