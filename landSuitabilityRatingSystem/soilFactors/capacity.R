@@ -1,15 +1,15 @@
 #February 2020
 #Hayden McAdam
-#Available Water Holding Capacity
-#The awhc values are already provided, so this function will probably
-#not be used.
-capacity <- function(clayAndSilt){
-  awhc <- if(clayAndSilt <= 40) {
-    clayAndSilt * 2 + 20
-  } else if (clayAndSilt <= 85) {
-    clayAndSilt * 2 + 30
+#Calculate available water holding capacity 
+#using clay and silt content (Table 4.1).
+
+capacity <- function(claySurface, siltSurface){
+  awhc <- if((claySurface + siltSurface) <= 40) {
+    (claySurface + siltSurface) * 2 + 20
+  } else if ((claySurface + siltSurface) <= 85) {
+    (claySurface + siltSurface) * 2 + 30
   } else {
-    clayAndSilt * 2 + 35
+    (claySurface + siltSurface) * 2 + 35
   }
   return(awhc)
 }

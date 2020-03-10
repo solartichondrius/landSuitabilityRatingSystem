@@ -14,12 +14,12 @@ soilRatingClass <- function(points, m, a, d, f, v, sv, n, sn, y, sy){
     #than the A deduction. Rows can't have both M and A subclasses.
     if(m[i] > 15 && m[i] > a[i]+15){class <- paste(class, "M", sep="")}
     if(a[i] > 15 && m[i] <= a[i]+15){class <- paste(class, "A", sep="")}
-    if(d[i]>15){class <- paste(class, "D", sep="")}
+    #if(d[i]>15){class <- paste(class, "D", sep="")}
     if(f[i]>15){class <- paste(class, "F", sep="")}
     #if(e[i]>15){class <- paste(class, "E", sep="")}
     if(v[i]>15 || sv[i]>15){class <- paste(class, "V", sep="")}
     if(n[i]>15 || sn[i]>15){class <- paste(class, "N", sep="")}
-    if(y[i]>15 || sy[i]>15){class <- paste(class, "Y", sep="")}
+    #if(y[i]>15 || sy[i]>15){class <- paste(class, "Y", sep="")}
     #if(o[i]>15){class <- paste(class, "O", sep="")}
     #if(w[n]>15){class <- paste(class, "W", sep="")}
     slRatingTableM$class[i] <- class

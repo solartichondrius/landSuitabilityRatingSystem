@@ -26,10 +26,12 @@ moisture <- function(siltSurface, siltSubsurface, claySurface,
   
   #Surface moisture (Table 4.2)
   surfaceMoisture <- (claySurface + siltSurface) * (1 - cfSurface / 100)
+  #surfaceAwhcDeduction1 <- (coeff.AWHCa + ppe) * -0.2
   surfaceAwhcDeduction1 <- (awhcSurface + ppe) * -0.2
   surfaceAwhcDeduction2 <- ifelse(surfaceMoisture < 0, 60 - 1.5 * surfaceMoisture, 
                            28 - (1 / sqrt(min(ppe) / -100)) * (surfaceMoisture - 20))
   surfaceAwhcDeduction <- surfaceAwhcDeduction1 + surfaceAwhcDeduction2
+  
   #Subsurface texture (Table 4.3)
   subsurfaceMoisture <- (claySubsurface + siltSubsurface) * (1 - cfSubsurface / 100)
   totalMoisture <- (surfaceMoisture + subsurfaceMoisture) / 2

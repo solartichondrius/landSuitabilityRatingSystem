@@ -4,5 +4,8 @@
 #the water table depth, P-PE, and the clay and silt content in the surface.
 #This deduction is applied as a percentage of the surface rating.
 drainage <- function(wt, ppe, claySurface, siltSurface){
-  pointDeduction <- (100 - ((100 + ppe) / -100) *3) - (wt * (1.65 / log10(claySurface + siltSurface)))
+  pointDeduction <- ((100 - ((100 + ppe) / -100) * 3) - (wt * (1.65 / log10(claySurface + siltSurface))))
+  #Prevent negative deductions and deductions greater than 100 points.
+  pointDeduction <- ifelse(pointDeduction < 0, 0, 
+                           ifelse(pointDeduction > 100, 100, pointDeduction))
 }

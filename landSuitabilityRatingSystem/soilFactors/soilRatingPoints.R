@@ -3,22 +3,21 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
+soilRatingPoints <- function(claySurface, claySubsurface,
                              sandSurface, sandSubsurface,
                              siltSurface, siltSubsurface,
                              cfSurface, cfSubsurface, 
-                             awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
+                             ppe, ocSurfacePerc,
                              surfacePH, subsurfacePH, 
-                             surfaceEC, subsurfaceEC, 
-                             sarSurface, sarSubsurface, E_DEPTH, bd, egdd){
+                             surfaceEC, subsurfaceEC, egdd){
   
-  #Surface AWHC deduction
+  #Water Retention Factor
+  #AWHC
+  awhc <- capacity(claySurface, siltSurface)
+  #Texture deduction
   subtotalTextureDeduction <- moisture(siltSurface, siltSubsurface, 
                                               claySurface, claySubsurface, 
-                                              cfSurface, cfSubsurface, 
-                                              awhcSurface, ppe)
-  #Subsurface texture deduction
-  #subsurfaceTexture <- subsurfaceMoisture()
+                                              cfSurface, cfSubsurface, ppe)
   #Water table deduction
   #wt <- waterTable(waterTableDepth, claySurface, siltSurface)
   #wtDeduction <- (wt / 100) * subtotalTextureDeduction 
@@ -36,15 +35,16 @@ soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
   n <- salinity(surfaceEC)
   #Sodicity (Y)
   #sarSurface <- ksatSurface / 10
-  y <- sodicity(sarSurface)
+  #y <- sodicity(sarSurface)
   #Chemistry deduction (c)
-  c <- chemistry(v, n, y)
+  #c <- chemistry(v, n, y)
+  c <- ifelse(v > n, v, n)
   #Organic surfaces (O)
   # slRatingTable$bd <- with(slRatingTable, replace(bd, bd == 0, 0.12))
   # o <- organicSurface(P_DEPTH, bd)
   # slRatingTable$o <- o
   #Structure and consistency deductions (D)
-  d <- surfaceStructure(claySurface, siltSurface, ocSurfacePerc)
+  #d <- surfaceStructure(claySurface, siltSurface, ocSurfacePerc)
   
   #Subsurface Factors
   #Subsurface impedence (sD)
@@ -56,14 +56,14 @@ soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
   sn <- salinity(subsurfaceEC)
   #Sodicity (sY)
   #sarSubsurface <- ksatSubsurface / 10
-  sy <- sodicity(sarSubsurface)
+  #sy <- sodicity(sarSubsurface)
   #Chemistry deduction (sC)
   sc <- chemistry(sv, sn, sy)
   #Only the largest chemistry deduction is used.
   c <- ifelse(c > sc, c, sc)
   #Total surface deduction (d)
   #surfaceDeduction <- d + f + e + c + o
-  surfaceDeduction <- d + f + c
+  surfaceDeduction <- f + c
   #Preliminary Soil Rating
   prelimRating <- 100 - m - surfaceDeduction
   #Basic Soil Rating (g)
@@ -95,8 +95,8 @@ soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
   slRatingTableM$f <- f
   slRatingTableM$v <- v
   slRatingTableM$n <- n
-  slRatingTableM$y <- y
-  slRatingTableM$d <- d
+  #slRatingTableM$y <- y
+  #slRatingTableM$d <- d
   slRatingTableM$sv <- sv
   slRatingTableM$sn <- sn
   slRatingTableM$sy <- sy
