@@ -12,7 +12,7 @@ landscapeResults <- function(fileType, cropType, input, output, printProgress=FA
     size <- nrow(df) #save the size (number of rows) of the dataframe
 
     results <- apply(df, 1, function(row) { #apply the following code to every row in the dataframe
-      results <- landscapeNumbersToLetters(landscapeRatingClass(as.numeric(row["region"]), as.numeric(row["ps"]), as.numeric(row["lt"]), as.numeric(row["cf"]),
+      results <- landscapeNumbersToLetters(landscapeRatingClass(cropType, as.numeric(row["region"]), as.numeric(row["ps"]), as.numeric(row["lt"]), as.numeric(row["cf"]),
                                  as.numeric(row["surface"]), as.numeric(row["subsurface"]), as.numeric(row["pattern"]),
                                  as.numeric(row["inundationPeriod"]), as.numeric(row["usableGrowingSeasonLength"]),
                                  as.numeric(row["frequency"]))) #save the results of the climate rating function applied to the relevant columns of the dataframe
@@ -37,7 +37,7 @@ landscapeResults <- function(fileType, cropType, input, output, printProgress=FA
     inundationPeriod <- raster(input[8])
     usableGrowingSeasonLength <- raster(input[9])
     frequency <- raster(input[10])
-    results <- landscapeRatingClass(region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
+    results <- landscapeRatingClass(cropType, region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
     writeRaster(results, output)
   }
 }

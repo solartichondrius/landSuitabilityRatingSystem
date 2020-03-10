@@ -56,43 +56,31 @@ server <- function(input,output){ #code which runs on the server
   outputOptions(output, "frequencyRaster", suspendWhenHidden = FALSE)
 
   #Dropboxes for selecting soil raster files from the server:
-  #TODO: Add dropboxes for selecting soil raster files from the server
+  output$soilTypeRaster <- renderUI({selectInput(inputId = "soilType", label = "Choose a raster file for soil type:", list.files(paste0(rasterPath,"landscape/frequency"),"\\.tif$"))})
+  outputOptions(output, "frequencyRaster", suspendWhenHidden = FALSE)
 
   observeEvent(eventExpr = input[["processFile"]],handlerExpr = { #runs the following code after the action button is pushed
     startTime <- Sys.time() #save the time we started at so we can check the difference after it's finished to see how long it took
     if(input$fileType=="Vector") fileName <- paste0(input$fileOutput,".csv") #add the .csv extension to the end of the file name if it's a vector
     if(input$fileType=="Raster") fileName <- paste0(input$fileOutput,".tif") #add the .tif extension to the end of the file name if it's a raster
     fileOUT <- paste0(resultsPath,fileName) #full path of the output file
-    # if(is.null(fileOUT)  #if the output file is null
-    #   | (input$fileType == "Vector" & is.null(input$vectorFile)) #or if the selected file type is Vector but the vector file is null
-    #   | (input$fileType == "Raster" & ( #or if the selected file type is Raster and
-    #   (input$dataType == "Climate" & (is.null(input$PPE)|is.null(input$springPPE)|is.null(input$fallPPE)|is.null(input$EGGD)|is.null(input$DBAFF))) #if the Climate data type is selected but all its required files are null
-    #   | (input$dataType == "Landscape" & (is.null(input$region)|is.null(input$percentSlope)|is.null(input$landscapeType)|is.null(input$coarseFragments)|is.null(input$surface)|is.null(input$subsurface)
-    #     |is.null(input$pattern)|is.null(input$inundationPeriod)|is.null(input$usableGrowingSeasonLength)|is.null(input$frequency))) #if the Landscape data type is selected but all its required files are null
-    #   | (input$dataType == "Soil" & (is.null(input$claySurface)|is.null(input$claySubsurface)|is.null(input$sandSurface)|is.null(input$sandSubsurface)|is.null(input$siltSurface)|is.null(input$siltSubsurface)
-    #     |is.null(input$cfSurface)|is.null(input$cfSubsurface)|is.null(input$awhcSurface)|is.null(input$awhcSubsurface)|is.null(input$ppe)|is.null(input$ocSurfacePerc)|is.null(input$surfacePH)
-    #     |is.null(input$subsurfacePH)|is.null(input$surfaceEC)|is.null(input$subsurfaceEC)|is.null(input$sarSurface)|is.null(input$sarSubsurface)|is.null(input$E_DEPTH)|is.null(input$bd)))
-    #   ))){
-    #   showModal(modalDialog(title="ERROR: Missing fields.","Make sure you have filled in all the required fields.",easyClose=TRUE,footer=NULL)) #display popup message notifying that there are missing fields
-    #   return(NULL) #then return without doing anything else
-    # }
     withProgress(message="Processing file:",value=0, { #track the progress of the following code
       if(input$fileType == "Vector"){ #if the selected file type is Vector then
-        if(input$dataType == "Climate") climateResults("Vector", input$cropType, paste0(vectorPath,input$vectorFile), fileOUT) #process the input file and save the results to the output file
-        if(input$dataType == "Landscape") landscapeResults("Vector", input$cropType, paste0(vectorPath,input$vectorFile), fileOUT)
+        if(input$dataType == "Climate") climateResults("Vector", toString(input$cropType), paste0(vectorPath,input$vectorFile), fileOUT) #process the input file and save the results to the output file
+        if(input$dataType == "Landscape") landscapeResults("Vector", toString(input$cropType), paste0(vectorPath,input$vectorFile), fileOUT)
       } else { #if the selected file type is Raster then
         if(input$dataType == "Climate"){ #if the climate data type is selected then
-          climateResults("Raster", input$cropType, paste0(rasterPath,"climate/",c(
+          climateResults("Raster", toString(input$cropType), paste0(rasterPath,"climate/",c(
             paste0("PPE/",input$PPE),paste0("springPPE/",input$springPPE),paste0("fallPPE/",input$fallPPE),paste0("EGDD/",input$EGDD),paste0("DBAFF/",input$DBAFF))), fileOUT, TRUE) #process the input file and save the results to the output file
         }
         if(input$dataType == "Landscape"){ #if the landscape data type is selected then
-          landscapeResults("Raster", input$cropType, paste0(rasterPath,"landscape/",c(
+          landscapeResults("Raster", toString(input$cropType), paste0(rasterPath,"landscape/",c(
             paste0("region/",input$region),paste0("percentSlope/",input$percentSlope),paste0("landscapeType/",input$landscapeType),paste0("coarseFragments/",input$coarseFragments),paste0("surfaceWood/",input$surface),
             paste0("subsurfaceWood/",input$subsurface),paste0("pattern/",input$pattern),paste0("inundationPeriod/",input$inundationPeriod),paste0("usableGrowingSeasonLength/",input$usableGrowingSeasonLength),paste0("frequency/",input$frequency))),
                   fileOUT, TRUE) #process the input file and save the results to the output file
         }
         if(input$dataType == "Soil"){ #if the soil data type is selected then
-          results("Soil","Raster", input$cropType,
+          soilResults("Soil","Raster", input$cropType,
           c(input$claySurface,input$claySubsurface,input$sandSurface,input$sandSubsurface,input$siltSurface,input$siltSubsurface,input$cfsurface,input$cdSubsurface,input$awhcSurface,input$awhcSubsurface,input$ppe,
           input$ocSurfacePerc,input$surfacePH,input$subsurfacePH,input$surfaceEC,input$subsurfaceEC,input$sarSurface,input$sarSubsurface,input$E_DEPTH,input$bd),
                   fileOUT)

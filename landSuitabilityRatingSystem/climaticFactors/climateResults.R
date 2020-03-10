@@ -12,7 +12,7 @@ climateResults <- function(fileType, cropType, input, output, printProgress=FALS
     size <- nrow(df) #save the size (number of rows) of the dataframe
 
     results <- apply(df, 1, function(row) { #apply the following code to every row in the dataframe
-      results <- climateNumbersToLetters(climateRatingClass(row["ppe"], row["esm"], row["efm"], row["egdd"], row["eff"])) #save the results of the climate rating function applied to the relevant columns of the dataframe
+      results <- climateNumbersToLetters(climateRatingClass(cropType, row["ppe"], row["esm"], row["efm"], row["egdd"], row["eff"])) #save the results of the climate rating function applied to the relevant columns of the dataframe
       #print(paste(row["rowNumber"],"out of",size,"completed")) #print the progress to the server
       incProgress(1/size, detail = (paste(row["rowNumber"], "out of", size, "completed"))) #print the progress to the website
       results #return the results
@@ -28,7 +28,7 @@ climateResults <- function(fileType, cropType, input, output, printProgress=FALS
     efm <- raster(input[3])
     egdd <- raster(input[4])
     eff <- raster(input[5])
-    results <- climateRatingClass(ppe, esm, efm, egdd, eff, printProgress)
+    results <- climateRatingClass(cropType, ppe, esm, efm, egdd, eff, printProgress)
     writeRaster(results, output)
   }
 }

@@ -3,13 +3,13 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingClass <- function(region, ps, lt, cf,
+landscapeRatingClass <- function(cropType, region, ps, lt, cf,
                                   surface, subsurface, pattern,
                                   inundationPeriod, usableGrowingSeasonLength,
                                   frequency, printProgress=FALSE) {
 
   #calculate the landscape rating points:
-  lrp <- landscapeRatingPoints(region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
+  lrp <- landscapeRatingPoints(cropType, region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
   points <- lrp[[1]] #the first value returned is the final rating points
   if(printProgress) incProgress(0.1, detail = ("converting points to class")) #print the progress to the website
   class <- pointsToClass(points)*100000 #calculate the class based on the points, then multiply it by 100000 so it's in the first digit on the left

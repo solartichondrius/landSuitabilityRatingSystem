@@ -3,10 +3,10 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-fallFrost <- function(DBAFF){
+fallFrost <- function(cropType, DBAFF){
 
   #calculate the percent deduction based on the days before average fall frost (DBAFF)
-  percentDeduction <-  DBAFF / 3
+  if(cropType=="SSSG") percentDeduction <-  DBAFF / 3
   #Prevent negative deductions and deductions greater than 10 points.
   percentDeduction[percentDeduction<0] <- 0
   percentDeduction[percentDeduction>10] <- 10
