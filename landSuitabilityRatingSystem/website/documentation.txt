@@ -1,0 +1,17 @@
+Address: 10.117.202.30:4949/website/
+This is what to type into the address bar in a web browser to access the website.
+
+Configuration file: etc/shiny-server/shiny-server.conf
+This file defines where the file for the website is located, what port to listen on, and where to save the log files.
+For the changes to take effect you must restart the server by entering the following into the commandline on the server:
+sudo systemctl restart shiny-server
+
+Make sure the folder(s) you are reading/writing to are owned by shiny or else shiny won't have permission to do anything:
+sudo chown shiny:shiny /full/path/to/directory
+
+The following line of code will delete all files in the results folder that are at least 1 day old:
+find /home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem/dataFiles/test_data/results -mtime +1 -delete
+All scripts in the /etc/cron.daily will be run every day, so I put the above line of code in a file called "lsrs" in that folder
+Another way is to type crontab -e into the terminal and enter the following line of code:
+1 0 * * * find /home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem/dataFiles/test_data/results -mtime +1 -delete
+

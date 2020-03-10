@@ -3,14 +3,32 @@
 # Created by: CurtisTh
 # Created on: 2020-01-27
 
-soilResults <- function(input,output,save=TRUE){
-  df <- read.csv(input) #put the data from the CSV file into a dataframe
-  for(i in 1:nrow(df)){ #loop through every row and assign a value to the soil rating class
-    #df$soilRating[i] <- soilRatingClass(df$region[i],df$percentSlope[i],df$landscapeType[i],df$annualRemoval[i],df$coarseFragments[i],df$woodContent[i],df$pattern[i],df$flooding[i])
-  } #values are just placeholders for now since I don't have any soil data to work with yet so I don't know what all the columns and their names will be yet
-  if(save==TRUE){ #if the save argument is set to TRUE (which it is by default)
-    write.csv(df,output) #then write the dataframe to a file
-  } else { #if the save argument is set to false
-    return(df) #simply return the dataframe that was just created
+soilResults <- function(fileType, cropType, input, output, printProgress=FALSE) { #takes dataframe as input, and outputs results either as a dataframe or to a file depending on the boolean value "save" (TRUE by default)
+
+  if (fileType == "Vector") { #if the file type is a vector
+
+    df <- read.csv(input) #read the file into a data frame
+    df$rowNumber <- 1:nrow(df) #add column to number every row in the dataframe
+    size <- nrow(df) #save the size (number of rows) of the dataframe
+
+    results <- apply(df, 1, function(row) { #apply the following code to every row in the dataframe
+      results <- soilNumbersToLetters(soilRatingClass(row["ppe"], row["esm"], row["efm"], row["egdd"], row["eff"])) #save the results of the climate rating function applied to the relevant columns of the dataframe
+      #print(paste(row["rowNumber"],"out of",size,"completed")) #print the progress to the server
+      incProgress(1/size, detail = (paste(row["rowNumber"], "out of", size, "completed"))) #print the progress to the website
+      results #return the results
+    })
+
+    df["soilRating"] <- results #add the results to a new column in the data frame called "climateRating"
+    df <- subset(df, select = -c(rowNumber)) #remove the column numbering the rows
+    write.csv(df, output) #write the dataframe to a csv file
+
+  } else { #if the input is a raster
+    ppe <- raster(input[1])
+    esm <- raster(input[2])
+    efm <- raster(input[3])
+    egdd <- raster(input[4])
+    eff <- raster(input[5])
+    results <- soilRatingClass(ppe, esm, efm, egdd, eff, printProgress)
+    writeRaster(results, output)
   }
 }
