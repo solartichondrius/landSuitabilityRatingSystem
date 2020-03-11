@@ -5,6 +5,6 @@
 
 loadRaster <- function(rasterFile){ #takes a raster file as an argument
   library(raster) #load the raster library
-  rasterAsDF <- as.data.frame(raster(rasterFile)) #create data frame created from raster
+  rasterAsDF <- as.data.frame(raster(rasterFile),na.rm=TRUE) #create data frame created from raster
   return(rasterAsDF) #return the dataframe
 }
