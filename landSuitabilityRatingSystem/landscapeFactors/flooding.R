@@ -3,10 +3,10 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-flooding <- function(cropType, inundationPeriod, usableGrowingSeasonLength, frequency){
+flooding <- function(cropType, inundation, ugsl, floodFreq){
 #This information would be specified manually. See LSRS manual. See table below. Is not currently part of the Agrasid database.
   #combine the 3 variables into one 6 digit integer with 2 digits representing each variable
-  pd <- usableGrowingSeasonLength*10000 + inundationPeriod*100 + frequency
+  pd <- ugsl * 10000 + inundation * 100 + floodFreq
   if(cropType=="SSSG"){
     #when the frequency is less than 5% and the inundation period is less than 2 days, the percent deduction is 0.
     pd[pd>10000&pd%%100<5&floor((pd/100)%%100)<2] <- 0
