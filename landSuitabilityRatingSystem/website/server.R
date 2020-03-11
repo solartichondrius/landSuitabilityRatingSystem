@@ -49,21 +49,11 @@ server <- function(input,output){ #code which runs on the server
   outputOptions(output, "vectorFiles", suspendWhenHidden = FALSE) #dropbox to select one of the vector files from the server
 
   #Dropboxes for selecting climate raster files from the server:
-  output$climateRaster <- renderUI({selectInput(inputId = "climateRaster", label = "Select a climate scenario:", "AB_250m")})
+  output$climateRaster <- renderUI({selectInput(inputId = "climateRaster", label = "Select a data set:", "AB_250m")})
   outputOptions(output, "climateRaster", suspendWhenHidden = FALSE)
-  # output$PPERaster <- renderUI({selectInput(inputId = "PPE", label = "Choose a raster file for PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/PPE"),"\\.tif$"))})
-  # outputOptions(output, "PPERaster", suspendWhenHidden = FALSE)
-  # output$springPPERaster <- renderUI({selectInput(inputId = "springPPE", label = "Choose a raster file for Spring PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/springPPE"),"\\.tif$"))})
-  # outputOptions(output, "springPPERaster", suspendWhenHidden = FALSE)
-  # output$fallPPERaster <- renderUI({selectInput(inputId = "fallPPE", label = "Choose a raster file for Fall PPE (Precipitation-Potential Evapotranspiration):", list.files(paste0(rasterPath,"climate/fallPPE"),"\\.tif$"))})
-  # outputOptions(output, "fallPPERaster", suspendWhenHidden = FALSE)
-  # output$EGDDRaster <- renderUI({selectInput(inputId = "EGDD", label = "Choose a raster file for EGDD (Effective Growing Degree Days):", list.files(paste0(rasterPath,"climate/EGDD"),"\\.tif$"))})
-  # outputOptions(output, "EGDDRaster", suspendWhenHidden = FALSE)
-  # output$DBAFFRaster <- renderUI({selectInput(inputId = "DBAFF", label = "Choose a raster file for The Number of Days Before Average Fall Frost:", list.files(paste0(rasterPath,"climate/DBAFF"),"\\.tif$"))})
-  # outputOptions(output, "DBAFFRaster", suspendWhenHidden = FALSE)
 
   #Dropboxes for selecting landscape raster files from the server:
-  output$landscapeRaster <- renderUI({selectInput(inputId = "landscapeRaster", label = "Select a climate scenario:", "AB_250m")})
+  output$landscapeRaster <- renderUI({selectInput(inputId = "landscapeRaster", label = "Select a data set:", "AB_250m")})
   outputOptions(output, "landscapeRaster", suspendWhenHidden = FALSE)
 
   #Dropboxes for selecting soil raster files from the server:
@@ -80,7 +70,7 @@ server <- function(input,output){ #code which runs on the server
       # springPPE <- rasterPath + "climate/springPPE/ab_250m_climate_esm_lcc.tif"
       # fallPPE <- rasterPath + "climate/fallPPE/ab_250m_climate_fsm_lcc.tif"
       # EGDD <- rasterPath + "climate/EGDD/AB_EGDD_250m_lcc.tif"
-      # DBAFF <- rasterPath + "AB_ALL_0.tif
+      # DBAFF <- rasterPath + "AB_ALL_0.tif"
       #Test values
       PPE <- paste0(rasterPath, "AB_PPE_250m_lcc.tif")
       springPPE <- paste0(rasterPath, "ab_250m_climate_esm_lcc.tif")
@@ -88,10 +78,11 @@ server <- function(input,output){ #code which runs on the server
       EGDD <- paste0(rasterPath, "AB_EGDD_250m_lcc.tif")
     }
     
-    # if(input$landscapeRaster == "AB_250m"){
-    #   percentSlope <- paste0(rasterPath, "ab_250m_slope_percent_lcc.tif")
-    #   lsFactor <- paste0(rasterPath, "ab_250m_ls_factor_lcc.tif")
-    # }
+    if(input$landscapeRaster == "AB_250m"){
+      percentSlope <- paste0(rasterPath, "ab_250m_slope_percent_lcc.tif")
+      lsFactor <- paste0(rasterPath, "ab_250m_ls_factor_lcc.tif")
+      #cf <- paste0(rasterPath, "")
+    }
     
     
     withProgress(message="Processing file:",value=0, { #track the progress of the following code

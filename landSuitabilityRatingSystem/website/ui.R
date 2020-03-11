@@ -26,16 +26,17 @@ ui <- fluidPage( #code for the webpage's UI (user interface)
                    # uiOutput("DBAFFRaster")
   ),
   conditionalPanel(condition = "input.fileType == 'Raster' && input.dataType == 'Landscape'", #if the raster file type radio button and landscape radio button are selected create a panel containing the following
-                   uiOutput("regionRaster"),
-                   uiOutput("percentSlopeRaster"),
-                   uiOutput("landscapeTypeRaster"),
-                   uiOutput("coarseFragmentsRaster"),
-                   uiOutput("surfaceRaster"),
-                   uiOutput("subsurfaceRaster"),
-                   uiOutput("patternRaster"),
-                   uiOutput("inundationPeriodRaster"),
-                   uiOutput("usableGrowingSeasonLengthRaster"),
-                   uiOutput("frequencyRaster")
+                   uiOutput("landscapeRaster")
+                   # uiOutput("regionRaster"),
+                   # uiOutput("percentSlopeRaster"),
+                   # uiOutput("landscapeTypeRaster"),
+                   # uiOutput("coarseFragmentsRaster"),
+                   # uiOutput("surfaceRaster"),
+                   # uiOutput("subsurfaceRaster"),
+                   # uiOutput("patternRaster"),
+                   # uiOutput("inundationPeriodRaster"),
+                   # uiOutput("usableGrowingSeasonLengthRaster"),
+                   # uiOutput("frequencyRaster")
   ),
   # conditionalPanel(condition = "input.fileType == 'Raster' && input.dataType == 'Soil'", #if the raster file type radio button and soil radio button are selected create a panel containing the following
   #                  uiOutput("claySurfaceRaster"),
