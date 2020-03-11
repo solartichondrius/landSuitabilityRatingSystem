@@ -5,6 +5,7 @@
 
 library(shiny)
 library(shinyjs)
+library(raster)
 
 server <- function(input,output){ #code which runs on the server
   shinyjs::useShinyjs() #use shiny javascript functions

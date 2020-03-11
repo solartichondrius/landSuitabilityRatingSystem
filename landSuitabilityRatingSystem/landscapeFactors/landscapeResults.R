@@ -38,6 +38,12 @@ landscapeResults <- function(fileType, cropType, input, output, printProgress=FA
     usableGrowingSeasonLength <- raster(input[9])
     frequency <- raster(input[10])
     results <- landscapeRatingClass(cropType, region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
-    writeRaster(results, output)
+    #Create output file by combining all raster files into a stack.
+    landscapePoints <- results[[1]]
+    landscapeClass <- results[[2]]
+    landscapeRaster <- stack(region,ps,lt,cf,surface,subsurface,pattern,
+                             inundationPeriod,usableGrowingSeasonLength,
+                             frequency,landscapePoints,landscapeClass)
+    writeRaster(landscapeRaster, output)
   }
 }

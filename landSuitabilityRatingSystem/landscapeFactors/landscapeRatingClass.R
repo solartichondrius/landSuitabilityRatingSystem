@@ -10,9 +10,9 @@ landscapeRatingClass <- function(cropType, region, ps, lt, cf,
 
   #calculate the landscape rating points:
   lrp <- landscapeRatingPoints(cropType, region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
-  points <- lrp[[1]] #the first value returned is the final rating points
+  landscapePoints <- lrp[[1]] #the first value returned is the final rating points
   if(printProgress) incProgress(0.1, detail = ("converting points to class")) #print the progress to the website
-  class <- pointsToClass(points)*100000 #calculate the class based on the points, then multiply it by 100000 so it's in the first digit on the left
+  class <- pointsToClass(landscapePoints)*100000 #calculate the class based on the points, then multiply it by 100000 so it's in the first digit on the left
   if(printProgress) incProgress(0.1, detail = ("calculating final rating class")) #print the progress to the website
   t <- lrp[[2]] #the second value returned is the topography deduction, which we want to know if it's more or less than 15
   t[t<15] <- 0 #if it's less than 15 then we give it a value of 0 as in "FALSE"
@@ -33,5 +33,5 @@ landscapeRatingClass <- function(cropType, region, ps, lt, cf,
   finalRatingClass <- class + t + P + J + K + I #the final rating class is a combination of the final rating class (a number between 1 and 7),
   #and a 1 or a 0 representign TRUE or FALSE for whether or not each of the different deductions were 15 or more points/percent
 
-  return(finalRatingClass)
+  return(c(landscapePoints, finalRatingClass))
 }
