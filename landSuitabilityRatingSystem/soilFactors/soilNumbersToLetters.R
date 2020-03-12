@@ -4,6 +4,13 @@
 # Created on: 2020-03-09
 
 soilNumbersToLetters <- function(number){
-  #TODO: convert number to letters
-  return(number)
+  soilRating <- floor(number/1000000)
+  if(floor(number%%1000000/100000)==1) soilRating <- paste0(soilRating,"M")
+  if(floor(number%%1000000/100000)==2) soilRating <- paste0(soilRating,"A")
+  if(floor(number%%100000/10000)==1) soilRating <- paste0(soilRating,"D")
+  if(floor(number%%10000/1000)==1) soilRating <- paste0(soilRating,"F")
+  if(floor(number%%1000/100)==1) soilRating <- paste0(soilRating,"V")
+  if(floor(number%%100/10)==1) soilRating <- paste0(soilRating,"N")
+  if(floor(number%%10)==1) soilRating <- paste0(soilRating,"Y")
+  return(soilRating)
 }

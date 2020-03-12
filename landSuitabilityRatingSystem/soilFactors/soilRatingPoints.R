@@ -3,20 +3,11 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
-                             sandSurface, sandSubsurface,
-                             siltSurface, siltSubsurface,
-                             cfSurface, cfSubsurface, 
-                             awhcSurface, awhcSubsurface, ppe, ocSurfacePerc,
-                             surfacePH, subsurfacePH, 
-                             surfaceEC, subsurfaceEC, 
-                             sarSurface, sarSubsurface, E_DEPTH, bd, egdd){
+soilRatingPoints <- function(cropType, soilType, claySurface, claySubsurface, sandSurface, sandSubsurface, siltSurface, siltSubsurface, cfSurface, cfSubsurface, awhcSurface,
+                             awhcSubsurface, ppe, ocSurfacePerc, surfacePH, subsurfacePH, surfaceEC, subsurfaceEC, sarSurface, sarSubsurface, E_DEPTH, bd, egdd, printProgress=FALSE){
   
   #Surface AWHC deduction
-  subtotalTextureDeduction <- moisture(siltSurface, siltSubsurface, 
-                                              claySurface, claySubsurface, 
-                                              cfSurface, cfSubsurface, 
-                                              awhcSurface, ppe)
+  subtotalTextureDeduction <- moisture(cropType, siltSurface, siltSubsurface, claySurface, claySubsurface, cfSurface, cfSubsurface, awhcSurface, ppe,printProgress)
   #Subsurface texture deduction
   #subsurfaceTexture <- subsurfaceMoisture()
   #Water table deduction
@@ -27,44 +18,54 @@ soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
   
   #Surface Factors
   #Organic matter deductions (F)
-  f <- organicMatterContent(ocSurfacePerc)
+  if(printProgress) incProgress(0.05, detail = ("calculating surfaceorganic matter content deduction")) #print the progress to the website
+  f <- organicMatterContent(cropType, ocSurfacePerc)
   #Topsoil depth deductions (E)
   #e <- topsoil(E_DEPTH)
   #Reaction (V)
-  v <- reaction(surfacePH)
+  if(printProgress) incProgress(0.05, detail = ("calculating surface reaction deduction")) #print the progress to the website
+  v <- reaction(cropType, surfacePH)
   #Salinity (N)
-  n <- salinity(surfaceEC)
+  if(printProgress) incProgress(0.05, detail = ("calculating surface salinity deduction")) #print the progress to the website
+  n <- salinity(cropType, surfaceEC)
   #Sodicity (Y)
   #sarSurface <- ksatSurface / 10
-  y <- sodicity(sarSurface)
+  if(printProgress) incProgress(0.05, detail = ("calculating surface sodicity deduction")) #print the progress to the website
+  y <- sodicity(cropType, sarSurface)
   #Chemistry deduction (c)
-  c <- chemistry(v, n, y)
+  c <- max(v, n, y)
   #Organic surfaces (O)
   # slRatingTable$bd <- with(slRatingTable, replace(bd, bd == 0, 0.12))
   # o <- organicSurface(P_DEPTH, bd)
   # slRatingTable$o <- o
   #Structure and consistency deductions (D)
-  d <- surfaceStructure(claySurface, siltSurface, ocSurfacePerc)
+  if(printProgress) incProgress(0.05, detail = ("calculating surface structure deduction")) #print the progress to the website
+  d <- surfaceStructure(cropType, claySurface, siltSurface, ocSurfacePerc)
   
   #Subsurface Factors
   #Subsurface impedence (sD)
   #Impedence modification
   #Chemistry
   #Reaction (sV)
-  sv <- reaction(subsurfacePH)
+  if(printProgress) incProgress(0.05, detail = ("calculating subsurface reaction deduction")) #print the progress to the website
+  sv <- reaction(cropType, subsurfacePH)
   #Salinity (sN)
-  sn <- salinity(subsurfaceEC)
+  if(printProgress) incProgress(0.05, detail = ("calculating subsurface salinity deduction")) #print the progress to the website
+  sn <- salinity(cropType, subsurfaceEC)
   #Sodicity (sY)
   #sarSubsurface <- ksatSubsurface / 10
-  sy <- sodicity(sarSubsurface)
+  if(printProgress) incProgress(0.05, detail = ("calculating subsurface sodicity deduction")) #print the progress to the website
+  sy <- sodicity(cropType, sarSubsurface)
   #Chemistry deduction (sC)
-  sc <- chemistry(sv, sn, sy)
+  sc <- max(sv, sn, sy)
   #Only the largest chemistry deduction is used.
-  c <- ifelse(c > sc, c, sc)
+  c <- max(c, sc)
   #Total surface deduction (d)
   #surfaceDeduction <- d + f + e + c + o
+  if(printProgress) incProgress(0.05, detail = ("processing surface deduction")) #print the progress to the website
   surfaceDeduction <- d + f + c
   #Preliminary Soil Rating
+  if(printProgress) incProgress(0.05, detail = ("provessing preliminary rating")) #print the progress to the website
   prelimRating <- 100 - m - surfaceDeduction
   #Basic Soil Rating (g)
   #basicRating <- prelimRating - sd
@@ -76,34 +77,9 @@ soilRatingPoints <- function(slc, soilType, claySurface, claySubsurface,
   
   #Final Soil Rating
   points <- prelimRating# - w
-  points <- ifelse(points < 0, 0, 
-                   ifelse(points > 100, 100, points))
-  
-  #Create a new table containing all relevant columns from slTable
-  #and the new columns for point calculations, which will be used
-  #to find the class.
-  slRatingTableM <- slTableM[c("slc", "soilType", "claySurface", "claySubsurface",
-                             "sandSurface", "sandSubsurface",
-                             "siltSurface", "siltSubsurface", 
-                             "cfSurface", "cfSubsurface", "awhcSurface", 
-                             "awhcSubsurface", "ppe", "ocSurfacePerc",
-                             "surfacePH", "subsurfacePH",
-                             "surfaceEC", "subsurfaceEC",
-                             "sarSurface", "sarSubsurface", 
-                             "E_DEPTH", "bd", "egdd", "a")]
-  slRatingTableM$m <- m
-  slRatingTableM$f <- f
-  slRatingTableM$v <- v
-  slRatingTableM$n <- n
-  slRatingTableM$y <- y
-  slRatingTableM$d <- d
-  slRatingTableM$sv <- sv
-  slRatingTableM$sn <- sn
-  slRatingTableM$sy <- sy
-  slRatingTableM$c <- c
-  slRatingTableM$surfaceDeduction <- surfaceDeduction
-  slRatingTableM$prelimRating <- prelimRating
-  #slRatingTableM$w <- w
-  slRatingTableM$points <- points
-  return(slRatingTableM)
+  points[points<0] <- 0
+  points[points>100] <- 100
+  a <- 0 #placeholder for a
+
+  return(c(points,m,a,d,f,v,sv,n,sn,y,sy))
 }
