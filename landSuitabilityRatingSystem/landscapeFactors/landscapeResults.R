@@ -27,23 +27,25 @@ landscapeResults <- function(fileType, cropType, input, output, printProgress=FA
 
   } else { #if the input is a raster
     if(printProgress) incProgress(0.1, detail = ("loading raster files")) #print the progress to the website
-    region <- raster(input[1])
-    ps <- raster(input[2])
-    lt <- raster(input[3])
-    cf <- raster(input[4])
-    surface <- raster(input[5])
-    subsurface <- raster(input[6])
-    pattern <- raster(input[7])
-    inundationPeriod <- raster(input[8])
-    usableGrowingSeasonLength <- raster(input[9])
-    frequency <- raster(input[10])
-    results <- landscapeRatingClass(cropType, region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
+    #region <- raster(input[1])
+    ps <- raster(input[1])
+    lsFactor <- raster(input[2])
+    # cf <- raster(input[4])
+    # surface <- raster(input[5])
+    # subsurface <- raster(input[6])
+    # pattern <- raster(input[7])
+    # inundationPeriod <- raster(input[8])
+    # usableGrowingSeasonLength <- raster(input[9])
+    # frequency <- raster(input[10])
+    #results <- landscapeRatingClass(cropType, region,ps,lt,cf,surface,subsurface,pattern,inundationPeriod,usableGrowingSeasonLength,frequency,printProgress)
+    results <- landscapeRatingClass(cropType, ps, lsFactor, printProgress)
     #Create output file by combining all raster files into a stack.
     landscapePoints <- results[[1]]
     landscapeClass <- results[[2]]
-    landscapeRaster <- stack(region,ps,lt,cf,surface,subsurface,pattern,
-                             inundationPeriod,usableGrowingSeasonLength,
-                             frequency,landscapePoints,landscapeClass)
+    # landscapeRaster <- stack(region,ps,lt,cf,surface,subsurface,pattern,
+    #                          inundationPeriod,usableGrowingSeasonLength,
+    #                          frequency,landscapePoints,landscapeClass)
+    landscapeRaster <- stack(ps, lsFactor, landscapePoints, landscapeClass)
     writeRaster(landscapeRaster, output)
   }
 }

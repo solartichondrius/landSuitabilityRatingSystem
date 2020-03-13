@@ -3,14 +3,10 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingClass <- function(cropType, region, ps, lt, cf,
-                                  surfaceWC, subsurfaceWC, pattern,
-                                  inundation, ugsl, floodFreq, 
-                                  printProgress=FALSE) {
+landscapeRatingClass <- function(cropType,ps,lsFactor,printProgress=FALSE) {
 
   #Calculate the landscape rating points:
-  lrp <- landscapeRatingPoints(cropType, region,ps,lt,cf,surface,subsurface,
-                               pattern,ip,ugsl,floodFreq,printProgress)
+  lrp <- landscapeRatingPoints(cropType, ps, lsFactor, printProgress)
   
   #The first value returned is the final rating points
   landscapePoints <- lrp[[1]] 
@@ -27,25 +23,25 @@ landscapeRatingClass <- function(cropType, region, ps, lt, cf,
   t <- lrp[[2]]
   t[t<=15] <- 0 
   t[t>15] <- 10000 
-  P <- lrp[[3]] 
-  P[P<15] <- 0 
-  P[P>=15] <- 1000 
-  J <- lrp[[4]] 
-  J[J<15] <- 0 
-  J[J>=15] <- 100 
-  K <- lrp[[5]] 
-  K[K<15] <- 0 
-  K[K>=15] <- 10 
-  I <- lrp[[6]] 
-  I[I<15] <- 0 
-  I[I>=15] <- 1
+  # P <- lrp[[3]] 
+  # P[P<15] <- 0 
+  # P[P>=15] <- 1000 
+  # J <- lrp[[4]] 
+  # J[J<15] <- 0 
+  # J[J>=15] <- 100 
+  # K <- lrp[[5]] 
+  # K[K<15] <- 0 
+  # K[K>=15] <- 10 
+  # I <- lrp[[6]] 
+  # I[I<15] <- 0 
+  # I[I>=15] <- 1
   
   #Print the progress to the website
   if(printProgress) incProgress(0.1, detail = ("processing final rating class")) 
   #The final rating class is a combination of the final rating class (a number between 1 and 7),
   #and a 1 or a 0 representing TRUE or FALSE for whether or not each of the 
   #different deductions were more than 15 points/percent
-  finalRatingClass <- class + t + P + J + K + I 
+  finalRatingClass <- class + t# + P + J + K + I 
 
   return(c(landscapePoints, finalRatingClass))
 }
