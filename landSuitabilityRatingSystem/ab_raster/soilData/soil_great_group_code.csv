@@ -1,0 +1,32 @@
+order,order_code,GG_code,GG_code_v2_1987,GG_class,GG_description,order_GG,code_ID
+Brunisolic,BR,MB,MB,Melanic Brunisol,Melanic Brunisol,BRMB,1
+Brunisolic,BR,EB,EB,Eutric Brunisol,Eutric Brunisol,BREB,2
+Brunisolic,BR,SB,SB,Sombric Brunisol,Sombric Brunisol,BRSB,3
+Brunisolic,BR,DYB,DYB,Dystric Brunisol,Dystric Brunisol,BRDYB,4
+Chernozemic,CH,BC,B,Brown Chernozem,Brown Chernozem,CHBC,5
+Chernozemic,CH,DBC,DB,Dark Brown Chernozem,Dark Brown Chernozem,CHDBC,6
+Chernozemic,CH,BLC,BL,Black Chernozem,Black Chernozem,CHBLC,7
+Chernozemic,CH,DGC,DG,Dark Gray Chernozem,Dark Gray Chernozem,CHDGC,8
+Cryosolic,CY,TC,TC,Turbic Cryosol,Turbic Cryosol,CYTC,9
+Cryosolic,CY,SC,SC,Static Cryosol,Static Cryosol,CYSC,10
+Cryosolic,CY,OC,OC,Organic Cryosol,Organic Cryosol,CYOC,11
+Gleysolic,GL,LG,LG,Luvic Gleysol,Luvic Gleysol,GLLG,12
+Gleysolic,GL,HG,HG,Humic Gleysol,Humic Gleysol,GLHG,13
+Gleysolic,GL,G,G,Gleysol,Gleysol,GLG,14
+Luvisolic,LU,GBL,GBL,Gray Brown Luvisol,Gray Brown Luvisol,LUGBL,15
+Luvisolic,LU,GL,GL,Gray Luvisol,Gray Luvisol,LUGL,16
+Organic,OR,F,F,Fibrisol,Fibrisol,ORF,17
+Organic,OR,M,M,Mesisol,Mesisol,ORM,18
+Organic,OR,H,H,Humisol,Humisol,ORH,19
+Organic,OR,FO,FO,Folisol,Folisol,ORFO,20
+Podzolic,PZ,HP,HP,Humic Podzol,Humic Podzol,PZHP,21
+Podzolic,PZ,FHP,FHP,Ferro-Humic Podzol,Ferro-Humic Podzol,PZFHP,22
+Podzolic,PZ,HFP,HFP,Humo-Ferric Podzol,Humo-Ferric Podzol,PZHFP,23
+Regosolic,RG,R,R,Regosol,Regosol,RGR,24
+Regosolic,RG,HR,HR,Humic Regosol,Humic Regosol,RGHR,25
+Solonetzic,SZ,SZ,SZ,Solonetz,Solonetz,SZSZ,26
+Solonetzic,SZ,SS,SS,Solodized Solonetz,Solodized Solonetz,SZSS,27
+Solonetzic,SZ,SO,SO,Solod,Solod,SZSO,28
+Solonetzic,SZ,VSZ,VSZ,Vertic Solonetz,Vertic Solonetz,SZVSZ,29
+Vertisolic,VE,V,V,Vertisol,Vertisol,VEV,30
+Vertisolic,VE,HV,HV,Humic Vertisol,Humic Vertisol,VEHV,31
