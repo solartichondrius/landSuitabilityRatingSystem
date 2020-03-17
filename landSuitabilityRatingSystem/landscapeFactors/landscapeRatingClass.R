@@ -14,15 +14,15 @@ landscapeRatingClass <- function(cropType,ps,lsFactor,printProgress=FALSE) {
   if(printProgress) incProgress(0.1, detail = ("converting points to class")) 
   #Calculate the class based on the points, 
   #then multiply it by 100000 so it's the first digit on the left
-  class <- pointsToClass(landscapePoints)*100000 
+  class <- pointsToClass(landscapePoints)*10#0000 
   #Print the progress to the website
   if(printProgress) incProgress(0.1, detail = ("calculating final rating class")) 
   
   #Add subclasses to the class as a numeric value 
   #to indicate which factors resulted in a deduction of more than 15 points.
   t <- lrp[[2]]
-  t[t<=15] <- 0 
-  t[t>15] <- 10000 
+  t[t<15] <- 0 
+  t[t>=15] <- 1#0000 
   # P <- lrp[[3]] 
   # P[P<15] <- 0 
   # P[P>=15] <- 1000 

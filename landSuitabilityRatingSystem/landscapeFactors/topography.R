@@ -18,8 +18,6 @@ topography <- function(cropType, ps, ls) {
     #Set point deduction values equal to lsFactor 
     #so they can be replaced with the appropriate deduction.
     pointDeduction <- ls
-    #For current data only.
-    #ps <- ps * 10
     #Replace point deduction values with the correct equation
     #based on the value of lsFactor.
     pointDeduction[pointDeduction >= 0.7] <- a+b*ps - sqrt((c+b*ps)^2+d^2)
