@@ -3,9 +3,10 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-flooding <- function(cropType, inundationPeriod, usableGrowingSeasonLength, frequency){
-
-  pointDeduction <- frequency
+flooding <- function(cropType, inundation, ugsl, floodFreq){
+#This information would be specified manually. See LSRS manual. See table below. Is not currently part of the Agrasid database.
+  #combine the 3 variables into one 6 digit integer with 2 digits representing each variable
+  pd <- ugsl * 10000 + inundation * 100 + floodFreq
   if(cropType=="SSSG"){
     #when the frequency is less than 5% and the inundation period is less than 2 days, the percent deduction is 0.
     pointDeduction[frequency<5 & inundationPeriod<2] <- 0

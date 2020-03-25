@@ -3,13 +3,21 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-soilRatingPoints <- function(cropType, soilType, claySurface, claySubsurface, sandSurface, sandSubsurface, siltSurface, siltSubsurface, cfSurface, cfSubsurface, awhcSurface,
-                             awhcSubsurface, ppe, ocSurfacePerc, surfacePH, subsurfacePH, surfaceEC, subsurfaceEC, sarSurface, sarSubsurface, E_DEPTH, bd, egdd, printProgress=FALSE){
+soilRatingPoints <- function(soilClass, claySurface, claySubsurface,
+                             sandSurface, sandSubsurface,
+                             siltSurface, siltSubsurface,
+                             cfSurface, cfSubsurface, 
+                             ppe, ocSurfacePerc,
+                             surfacePH, subsurfacePH, 
+                             surfaceEC, subsurfaceEC, egdd){
   
-  #Surface AWHC deduction
-  subtotalTextureDeduction <- moisture(cropType, siltSurface, siltSubsurface, claySurface, claySubsurface, cfSurface, cfSubsurface, awhcSurface, ppe,printProgress)
-  #Subsurface texture deduction
-  #subsurfaceTexture <- subsurfaceMoisture()
+  #Water Retention Factor
+  #AWHC
+  awhc <- capacity(claySurface, siltSurface)
+  #Texture deduction
+  subtotalTextureDeduction <- moisture(siltSurface, siltSubsurface, 
+                                              claySurface, claySubsurface, 
+                                              cfSurface, cfSubsurface, ppe)
   #Water table deduction
   #wt <- waterTable(waterTableDepth, claySurface, siltSurface)
   #wtDeduction <- (wt / 100) * subtotalTextureDeduction 
@@ -34,17 +42,17 @@ soilRatingPoints <- function(cropType, soilType, claySurface, claySubsurface, sa
   y <- sodicity(cropType, sarSurface)
   #Chemistry deduction (c)
   c <- max(v, n, y)
+
   #Organic surfaces (O)
   # slRatingTable$bd <- with(slRatingTable, replace(bd, bd == 0, 0.12))
   # o <- organicSurface(P_DEPTH, bd)
   # slRatingTable$o <- o
   #Structure and consistency deductions (D)
-  if(printProgress) incProgress(0.05, detail = ("calculating surface structure deduction")) #print the progress to the website
-  d <- surfaceStructure(cropType, claySurface, siltSurface, ocSurfacePerc)
+  #if(printProgress) incProgress(0.05, detail = ("calculating surface structure deduction")) #print the progress to the website
+  #d <- surfaceStructure(cropType, claySurface, siltSurface, ocSurfacePerc)
+
   
   #Subsurface Factors
-  #Subsurface impedence (sD)
-  #Impedence modification
   #Chemistry
   #Reaction (sV)
   if(printProgress) incProgress(0.05, detail = ("calculating subsurface reaction deduction")) #print the progress to the website
@@ -73,7 +81,7 @@ soilRatingPoints <- function(cropType, soilType, claySurface, claySubsurface, sa
   #Drainage Factor (W)
   #slRatingTable$claySurface <- with(slRatingTable, replace(claySurface, claySurface == 0, 0.000001))
   #slRatingTable$siltSurface <- with(slRatingTable, replace(siltSurface, siltSurface == 0, 0.000001))
-  #w <- (drainage(wt, ppe, claySurface, siltSurface) / 100) * basicRating
+  w <- (drainage(soilClass, ppe, claySurface, siltSurface) / 100) * basicRating
   
   #Final Soil Rating
   points <- prelimRating# - w
@@ -81,5 +89,5 @@ soilRatingPoints <- function(cropType, soilType, claySurface, claySubsurface, sa
   points[points>100] <- 100
   a <- 0 #placeholder for a
 
-  return(c(points,m,a,d,f,v,sv,n,sn,y,sy))
+  return(c(points,m,a,d,f,v,sv,n,sn,y,sy, w))
 }

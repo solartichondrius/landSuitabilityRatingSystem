@@ -3,6 +3,7 @@
 #Mineral Soil Rating Class
 #Assign each row a suitability class from 1 - 7 based on the value of points.
 
+
 soilRatingClass <- function(cropType, soilType, claySurface, claySubsurface, sandSurface, sandSubsurface, siltSurface, siltSubsurface, cfSurface, cfSubsurface, awhcSurface,
                             awhcSubsurface, ppe, ocSurfacePerc, surfacePH, subsurfacePH, surfaceEC, subsurfaceEC, sarSurface, sarSubsurface, E_DEPTH, bd, egdd, printProgress=FALSE){
 

@@ -21,6 +21,26 @@ moisture <- function(cropType, siltSurface, siltSubsurface, claySurface, claySub
   # cfSubsurface <- 2
   # ppe <- -155.7
   # awhcSurface <- 14
+  
+  #Surface moisture (Table 4.2)
+  # surfaceMoisture <- (claySurface + siltSurface) * (1 - cfSurface / 100)
+  # #surfaceAwhcDeduction1 <- (coeff.AWHCa + ppe) * -0.2
+  # surfaceAwhcDeduction1 <- (awhcSurface + ppe) * -0.2
+  # surfaceAwhcDeduction2 <- ifelse(surfaceMoisture < 0, 60 - 1.5 * surfaceMoisture, 
+  #                          28 - (1 / sqrt(min(ppe) / -100)) * (surfaceMoisture - 20))
+  # surfaceAwhcDeduction <- surfaceAwhcDeduction1 + surfaceAwhcDeduction2
+  # 
+  # #Subsurface texture (Table 4.3)
+  # subsurfaceMoisture <- (claySubsurface + siltSubsurface) * (1 - cfSubsurface / 100)
+  # totalMoisture <- (surfaceMoisture + subsurfaceMoisture) / 2
+  # subsurfaceAwhcDeduction1 <- (150 + ppe) * -0.2
+  # subsurfaceAwhcDeduction2 <- ifelse(totalMoisture <= 20, 60 - 1.5 * totalMoisture,
+  #                                    28 - (1 / sqrt(min(ppe) / -100)) * (totalMoisture - 20))
+  # #Subtotal texture deduction
+  # subsurfaceAwhcDeduction <- subsurfaceAwhcDeduction1 + subsurfaceAwhcDeduction2
+  # subsurfaceAdjustment <- subsurfaceAwhcDeduction - surfaceAwhcDeduction
+  # pointDeduction <- surfaceAwhcDeduction + subsurfaceAdjustment
+
   if (cropType == "SSSG") {
     #Surface moisture (Table 4.2)
     if(printProgress) incProgress(0.05, detail = ("calculating surface moisture deduction")) #print the progress to the website

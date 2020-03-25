@@ -4,7 +4,8 @@
 #climate, landscape, and soil factors.
 
 #TODO: 
-#Complete soil functions.
+#Complete mineral soil functions.
+#Complete organic soil functions.
 #Improve documentation.
 
 library(raster)
@@ -27,6 +28,7 @@ source("climaticFactors/excessFallMoisture.R")
 source("climaticFactors/fallFrost.R")
 source("soilFactors/soilRatingPoints.R")
 source("soilFactors/soilRatingClass.R")
+source("soilFactors/capacity.R")
 source("soilFactors/moisture.R")
 source("soilFactors/surfaceStructure.R")
 source("soilFactors/organicMatterContent.R")
@@ -120,92 +122,87 @@ clRatingTable$class <- climateRatingClass(clRatingTable$points,
 #slTable$slc <- slTable$Value
 #slTable <- join(slTable, clRatingTable, by="slc", type="inner")
 
-# slRatingTable <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
-#                                   slTable$sandSurface, slTable$sandSubsurface,
-#                                   slTable$siltSurface, slTable$siltSubsurface,
-#                                   slTable$cfSurface, slTable$cfSubsurface,
-#                                   slTable$awhcSurface, slTable$awhcSubsurface, 
-#                                   slTable$ppe, slTable$ocSurfacePerc,
-#                                   slTable$surfacePH, slTable$subsurfacePH,
-#                                   slTable$surfaceEC, slTable$subsurfaceEC,
-#                                   slTable$sarSurface, slTable$sarSubsurface,
-#                                   slTable$E_DEPTH, slTable$bd, slTable$egdd)
+slRatingTableM <- soilRatingPoints(slTable$claySurface, slTable$claySubsurface,
+                                  slTable$sandSurface, slTable$sandSubsurface,
+                                  slTable$siltSurface, slTable$siltSubsurface,
+                                  slTable$cfSurface, slTable$cfSubsurface,
+                                  slTable$ppe, slTable$ocSurfacePerc,
+                                  slTable$surfacePH, slTable$subsurfacePH,
+                                  slTable$surfaceEC, slTable$subsurfaceEC,
+                                  slTable$egdd)
 
 #Check whether the soil is mineral or organic 
 #and perform the appropriate calculations.
-slTableM <- subset(slTable, soilType < 17 | soilType > 20)
-slRatingTableM <- soilRatingPoints(slTableM$slc, slTableM$soilType, 
-                                   slTableM$claySurface, slTableM$claySubsurface,
-                                   slTableM$sandSurface, slTableM$sandSubsurface,
-                                   slTableM$siltSurface, slTableM$siltSubsurface,
-                                   slTableM$cfSurface, slTableM$cfSubsurface,
-                                   slTableM$awhcSurface, slTableM$awhcSubsurface,
-                                   slTableM$ppe, slTableM$ocSurfacePerc,
-                                   slTableM$surfacePH, slTableM$subsurfacePH,
-                                   slTableM$surfaceEC, slTableM$subsurfaceEC,
-                                   slTableM$sarSurface, slTableM$sarSubsurface,
-                                   slTableM$E_DEPTH, slTableM$bd, slTableM$egdd)
-slRatingTableM$class <- soilRatingClass(slRatingTableM$points, slRatingTableM$m,
-                                        slRatingTableM$a, slRatingTableM$d,
-                                        slRatingTableM$f, slRatingTableM$v,
-                                        slRatingTableM$sv, slRatingTableM$n,
-                                        slRatingTableM$sn, slRatingTableM$y,
-                                        slRatingTableM$sy)
-
-slTableO <- subset(slTable, soilType >= 17 & soilType <= 20)
-slRatingTableO <- organicSoilRatingPoints(slTableO$slc, slTableO$soilType, 
-                                          slTableO$egdd, slTableO$ppe,
-                                          slTableO$surfaceFibre, slTableO$subsurfaceFibre,
-                                          slTableO$waterTableDepth, slTableO$surfacePH,
-                                          slTableO$subsurfacePH, slTableO$surfaceEC,
-                                          slTableO$subsurfaceEC, slTableO$organicDepth,
-                                          slTableO$masterHorizon, slTableO$substrateCF,
-                                          slTableO$substrateSilt, slTableO$substrateClay)
-slRatingTableO$class <- organicSoilRatingClass(slRatingTableO$points, slRatingTableO$z,
-                                               slRatingTableO$m, slRatingTableO$s,
-                                               slRatingTableO$v, slRatingTableO$n,
-                                               slRatingTableO$sb, slRatingTableO$g,
-                                               slRatingTableO$sv, slRatingTableO$sn, slRatingTableO$w)
+# slTableM <- subset(slTable, soilType < 17 | soilType > 20)
+# slRatingTableM <- soilRatingPoints(slTableM$slc, slTableM$soilType, 
+#                                    slTableM$claySurface, slTableM$claySubsurface,
+#                                    slTableM$sandSurface, slTableM$sandSubsurface,
+#                                    slTableM$siltSurface, slTableM$siltSubsurface,
+#                                    slTableM$cfSurface, slTableM$cfSubsurface,
+#                                    slTableM$awhcSurface, slTableM$awhcSubsurface,
+#                                    slTableM$ppe, slTableM$ocSurfacePerc,
+#                                    slTableM$surfacePH, slTableM$subsurfacePH,
+#                                    slTableM$surfaceEC, slTableM$subsurfaceEC,
+#                                    slTableM$sarSurface, slTableM$sarSubsurface,
+#                                    slTableM$E_DEPTH, slTableM$bd, slTableM$egdd)
+# slRatingTableM$class <- soilRatingClass(slRatingTableM$points, slRatingTableM$m,
+#                                         slRatingTableM$a, slRatingTableM$d,
+#                                         slRatingTableM$f, slRatingTableM$v,
+#                                         slRatingTableM$sv, slRatingTableM$n,
+#                                         slRatingTableM$sn, slRatingTableM$y,
+#                                         slRatingTableM$sy)
+# 
+# slTableO <- subset(slTable, soilType >= 17 & soilType <= 20)
+# slRatingTableO <- organicSoilRatingPoints(slTableO$slc, slTableO$soilType, 
+#                                           slTableO$egdd, slTableO$ppe,
+#                                           slTableO$surfaceFibre, slTableO$subsurfaceFibre,
+#                                           slTableO$waterTableDepth, slTableO$surfacePH,
+#                                           slTableO$subsurfacePH, slTableO$surfaceEC,
+#                                           slTableO$subsurfaceEC, slTableO$organicDepth,
+#                                           slTableO$masterHorizon, slTableO$substrateCF,
+#                                           slTableO$substrateSilt, slTableO$substrateClay)
+# slRatingTableO$class <- organicSoilRatingClass(slRatingTableO$points, slRatingTableO$z,
+#                                                slRatingTableO$m, slRatingTableO$s,
+#                                                slRatingTableO$v, slRatingTableO$n,
+#                                                slRatingTableO$sb, slRatingTableO$g,
+#                                                slRatingTableO$sv, slRatingTableO$sn, slRatingTableO$w)
 
 #Join all the soil tables together.
-slRatingTable1 <- join(slTable, slRatingTableM, by = "slc", type = "left")
-slRatingTable1 <- slRatingTable1[c("slc", "soilType", "claySurface", "claySubsurface",
-                                 "sandSurface", "sandSubsurface",
-                                 "siltSurface", "siltSubsurface", "awhcSurface",
-                                 "awhcSubsurface", "ppe", "ocSurfacePerc",
-                                 "surfacePH", "subsurfacePH",
-                                 "surfaceEC", "subsurfaceEC", "points", "class")]
-
-slRatingTable2 <- join(slTable, slRatingTableO, by = "slc", type = "left")
-slRatingTable2 <- slRatingTable2[c("slc", "points", "class")]
-#slRatingTableFinal <- join(slRatingTable1, slRatingTable2, by = "slc", type = "full")
-slRatingTableFinal <- merge.data.frame(slRatingTable1, slRatingTable2, by="slc", all=TRUE)
+# slRatingTable1 <- join(slTable, slRatingTableM, by = "slc", type = "left")
+# slRatingTable1 <- slRatingTable1[c("slc", "soilType", "claySurface", "claySubsurface",
+#                                  "sandSurface", "sandSubsurface",
+#                                  "siltSurface", "siltSubsurface", "awhcSurface",
+#                                  "awhcSubsurface", "ppe", "ocSurfacePerc",
+#                                  "surfacePH", "subsurfacePH",
+#                                  "surfaceEC", "subsurfaceEC", "points", "class")]
+# 
+# slRatingTable2 <- join(slTable, slRatingTableO, by = "slc", type = "left")
+# slRatingTable2 <- slRatingTable2[c("slc", "points", "class")]
+# slRatingTableFinal <- merge.data.frame(slRatingTable1, slRatingTable2, by="slc", all=TRUE)
 
 #Combine both points columns and both class columns.
-slRatingTableFinal$points.x <- ifelse(is.na(slRatingTableFinal$points.x), 
-                                      slRatingTableFinal$points.y,
-                                      slRatingTableFinal$points.x)
-slRatingTableFinal$class.x <- ifelse(is.na(slRatingTableFinal$class.x), 
-                                      slRatingTableFinal$class.y,
-                                      slRatingTableFinal$class.x)
-slRatingTableFinal <- subset(slRatingTableFinal, select=-c(points.y, class.y))
-names(slRatingTableFinal)[17] <- "points"
-names(slRatingTableFinal)[18] <- "class"
+# slRatingTableFinal$points.x <- ifelse(is.na(slRatingTableFinal$points.x), 
+#                                       slRatingTableFinal$points.y,
+#                                       slRatingTableFinal$points.x)
+# slRatingTableFinal$class.x <- ifelse(is.na(slRatingTableFinal$class.x), 
+#                                       slRatingTableFinal$class.y,
+#                                       slRatingTableFinal$class.x)
+# slRatingTableFinal <- subset(slRatingTableFinal, select=-c(points.y, class.y))
+# names(slRatingTableFinal)[17] <- "points"
+# names(slRatingTableFinal)[18] <- "class"
 
-# slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
-#                                        slRatingTable$a, slRatingTable$d,
-#                                        slRatingTable$f, slRatingTable$v,
-#                                        slRatingTable$sv, slRatingTable$n,
-#                                        slRatingTable$sn, slRatingTable$y,
-#                                        slRatingTable$sy)
+slRatingTable$class <- soilRatingClass(slRatingTable$points, slRatingTable$m,
+                                       slRatingTable$a, slRatingTable$f, 
+                                       slRatingTable$v, slRatingTable$sv, 
+                                       slRatingTable$n, slRatingTable$sn)
 
-# slRatingTable <- slRatingTable[c("slc",
-#                            "claySurface", "claySubsurface",
-#                            "sandSurface", "sandSubsurface",
-#                            "siltSurface", "siltSubsurface", "awhcSurface",
-#                            "awhcSubsurface", "ppe", "ocSurfacePerc",
-#                            "surfacePH", "subsurfacePH",
-#                            "surfaceEC", "subsurfaceEC", "points", "class")]
+slRatingTable <- slRatingTable[c("slc",
+                           "claySurface", "claySubsurface",
+                           "sandSurface", "sandSubsurface",
+                           "siltSurface", "siltSubsurface", "awhcSurface",
+                           "awhcSubsurface", "ppe", "ocSurfacePerc",
+                           "surfacePH", "subsurfacePH",
+                           "surfaceEC", "subsurfaceEC", "points", "class")]
 
 #Write the results into csv files.
 # write.csv(lsRatingTable, file="dataFiles/testResults.csv", row.names=FALSE)
