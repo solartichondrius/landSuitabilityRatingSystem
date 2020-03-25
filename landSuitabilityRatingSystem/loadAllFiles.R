@@ -2,12 +2,11 @@
 # Objective : Run all the scripts in this directory
 # Created by: CurtisTh
 # Created on: 2020-01-21
-source("loadFiles.R",echo=FALSE) #function I made to make it easier to load many files at once
 
 mainFolder <- "/home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #main folder
-
+setwd(mainFolder)
 mainFiles <- list.files(mainFolder,"\\.R$") #files in the main folder
-mainFiles <- mainFiles[mainFiles != "lsrsMain.R" & mainFiles != "plotGraphs.R" & mainFiles != "test.R" & mainFiles != "loadFiles.R" & mainFiles != "loadAllFiles.R"] #files to exclude
+mainFiles <- mainFiles[mainFiles != "lsrsMain.R" & mainFiles != "plotGraphs.R" & mainFiles != "test.R" & mainFiles != "loadAllFiles.R" & mainFiles != "lsrsMainRaster.R"] #files to exclude
 
 climateFolder <- paste0(mainFolder,"/climaticFactors")
 climateFiles <- list.files(climateFolder,"\\.R$")
@@ -25,4 +24,5 @@ organicSoilFolder <- paste0(mainFolder,"/soilFactors/organicSoil")
 organicSoilFiles <- list.files(organicSoilFolder,"\\.R$")
 organicSoilFiles <- paste0(organicSoilFolder,"/",organicSoilFiles)
 
-loadFiles(ECHO=FALSE,reload=TRUE,c(mainFiles,climateFiles,landscapeFiles,soilFiles,organicSoilFiles))
+allFiles <- c(mainFiles,climateFiles,landscapeFiles,soilFiles,organicSoilFiles)
+for(file in allFiles) source(file)

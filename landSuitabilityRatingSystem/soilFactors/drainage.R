@@ -2,6 +2,7 @@
 #Hayden McAdam
 #Calculates the drainage factor (W) deduction for mineral soils based on the soil class, P-PE,
 #and surface clay and silt content. This deduction is applied as a percentage of the surface rating.
+
 drainage <- function(soilType, ppe, claySurface, siltSurface){
   #Assign drainage codes from 1 - 5 to indicate the drainage category based on the soil type.
   dc <- soilType
