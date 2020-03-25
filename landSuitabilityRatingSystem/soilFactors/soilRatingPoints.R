@@ -3,7 +3,7 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-soilRatingPoints <- function(claySurface, claySubsurface,
+soilRatingPoints <- function(soilClass, claySurface, claySubsurface,
                              sandSurface, sandSubsurface,
                              siltSurface, siltSubsurface,
                              cfSurface, cfSubsurface, 
@@ -72,7 +72,7 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   #Drainage Factor (W)
   #slRatingTable$claySurface <- with(slRatingTable, replace(claySurface, claySurface == 0, 0.000001))
   #slRatingTable$siltSurface <- with(slRatingTable, replace(siltSurface, siltSurface == 0, 0.000001))
-  #w <- (drainage(wt, ppe, claySurface, siltSurface) / 100) * basicRating
+  w <- (drainage(soilClass, ppe, claySurface, siltSurface) / 100) * basicRating
   
   #Final Soil Rating
   points <- prelimRating# - w
@@ -82,28 +82,29 @@ soilRatingPoints <- function(claySurface, claySubsurface,
   #Create a new table containing all relevant columns from slTable
   #and the new columns for point calculations, which will be used
   #to find the class.
-  slRatingTableM <- slTableM[c("slc", "soilType", "claySurface", "claySubsurface",
-                             "sandSurface", "sandSubsurface",
-                             "siltSurface", "siltSubsurface", 
-                             "cfSurface", "cfSubsurface", "awhcSurface", 
-                             "awhcSubsurface", "ppe", "ocSurfacePerc",
-                             "surfacePH", "subsurfacePH",
-                             "surfaceEC", "subsurfaceEC",
-                             "sarSurface", "sarSubsurface", 
-                             "E_DEPTH", "bd", "egdd", "a")]
-  slRatingTableM$m <- m
-  slRatingTableM$f <- f
-  slRatingTableM$v <- v
-  slRatingTableM$n <- n
-  #slRatingTableM$y <- y
-  #slRatingTableM$d <- d
-  slRatingTableM$sv <- sv
-  slRatingTableM$sn <- sn
-  slRatingTableM$sy <- sy
-  slRatingTableM$c <- c
-  slRatingTableM$surfaceDeduction <- surfaceDeduction
-  slRatingTableM$prelimRating <- prelimRating
-  #slRatingTableM$w <- w
-  slRatingTableM$points <- points
-  return(slRatingTableM)
+  # slRatingTableM <- slTableM[c("slc", "soilType", "claySurface", "claySubsurface",
+  #                            "sandSurface", "sandSubsurface",
+  #                            "siltSurface", "siltSubsurface", 
+  #                            "cfSurface", "cfSubsurface", "awhcSurface", 
+  #                            "awhcSubsurface", "ppe", "ocSurfacePerc",
+  #                            "surfacePH", "subsurfacePH",
+  #                            "surfaceEC", "subsurfaceEC",
+  #                            "sarSurface", "sarSubsurface", 
+  #                            "E_DEPTH", "bd", "egdd", "a")]
+  # slRatingTableM$m <- m
+  # slRatingTableM$f <- f
+  # slRatingTableM$v <- v
+  # slRatingTableM$n <- n
+  # #slRatingTableM$y <- y
+  # #slRatingTableM$d <- d
+  # slRatingTableM$sv <- sv
+  # slRatingTableM$sn <- sn
+  # slRatingTableM$sy <- sy
+  # slRatingTableM$c <- c
+  # slRatingTableM$surfaceDeduction <- surfaceDeduction
+  # slRatingTableM$prelimRating <- prelimRating
+  # slRatingTableM$w <- w
+  # slRatingTableM$points <- points
+  # return(slRatingTableM)
+  return(c(points, m, f, v, n, sv, sn, sy, w))
 }

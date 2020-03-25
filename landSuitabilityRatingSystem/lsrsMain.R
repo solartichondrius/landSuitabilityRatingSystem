@@ -4,7 +4,8 @@
 #climate, landscape, and soil factors.
 
 #TODO: 
-#Complete soil functions.
+#Complete mineral soil functions.
+#Complete organic soil functions.
 #Improve documentation.
 
 library(raster)
