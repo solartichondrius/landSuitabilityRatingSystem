@@ -47,12 +47,12 @@ server <- function(input,output){ #code which runs on the server
   outputOptions(output, "subsurfaceRaster", suspendWhenHidden = FALSE)
   output$patternRaster <- renderUI({selectInput(inputId = "pattern", label = "Choose a raster file for pattern:", list.files(paste0(rasterPath,"landscape/pattern"),"\\.tif$"))})
   outputOptions(output, "patternRaster", suspendWhenHidden = FALSE)
-  output$inundationPeriodRaster <- renderUI({selectInput(inputId = "inundationPeriod", label = "Choose a raster file for inundation period:", list.files(paste0(rasterPath,"landscape/inundationPeriod"),"\\.tif$"))})
-  outputOptions(output, "inundationPeriodRaster", suspendWhenHidden = FALSE)
-  output$usableGrowingSeasonLengthRaster <- renderUI({selectInput(inputId = "usableGrowingSeasonLength", label = "Choose a raster file for usable growing season length:", list.files(paste0(rasterPath,"landscape/usableGrowingSeasonLength"),"\\.tif$"))})
-  outputOptions(output, "usableGrowingSeasonLengthRaster", suspendWhenHidden = FALSE)
-  output$frequencyRaster <- renderUI({selectInput(inputId = "frequency", label = "Choose a raster file for frequency of flooding:", list.files(paste0(rasterPath,"landscape/frequency"),"\\.tif$"))})
-  outputOptions(output, "frequencyRaster", suspendWhenHidden = FALSE)
+  output$inundationRaster <- renderUI({selectInput(inputId = "inundation", label = "Choose a raster file for inundation period:", list.files(paste0(rasterPath,"landscape/inundationPeriod"),"\\.tif$"))})
+  outputOptions(output, "inundationRaster", suspendWhenHidden = FALSE)
+  output$ugslRaster <- renderUI({selectInput(inputId = "ugsl", label = "Choose a raster file for usable growing season length:", list.files(paste0(rasterPath,"landscape/usableGrowingSeasonLength"),"\\.tif$"))})
+  outputOptions(output, "ugslRaster", suspendWhenHidden = FALSE)
+  output$floodFreqRaster <- renderUI({selectInput(inputId = "floodFreq", label = "Choose a raster file for frequency of flooding:", list.files(paste0(rasterPath,"landscape/frequency"),"\\.tif$"))})
+  outputOptions(output, "floodFreqRaster", suspendWhenHidden = FALSE)
 
   #Dropboxes for selecting soil raster files from the server:
   output$soilTypeRaster <- renderUI({selectInput(inputId = "soilType", label = "Choose a raster file for soil type:", list.files(paste0(rasterPath,"soil/soilType"),"\\.tif$"))})
@@ -61,10 +61,6 @@ server <- function(input,output){ #code which runs on the server
   outputOptions(output, "claySurfaceRaster", suspendWhenHidden = FALSE)
   output$claySubsurfaceRaster <- renderUI({selectInput(inputId = "claySubsurface", label = "Choose a raster file for subsurface clay:", list.files(paste0(rasterPath,"soil/claySubsurface"),"\\.tif$"))})
   outputOptions(output, "claySubsurfaceRaster", suspendWhenHidden = FALSE)
-  output$sandSurfaceRaster <- renderUI({selectInput(inputId = "sandSurface", label = "Choose a raster file for surface sand:", list.files(paste0(rasterPath,"soil/sandSurface"),"\\.tif$"))})
-  outputOptions(output, "sandSurfaceRaster", suspendWhenHidden = FALSE)
-  output$sandSubsurfaceRaster <- renderUI({selectInput(inputId = "sandSubsurface", label = "Choose a raster file for subsurface sand:", list.files(paste0(rasterPath,"soil/sandSubsurface"),"\\.tif$"))})
-  outputOptions(output, "sandSubsurfaceRaster", suspendWhenHidden = FALSE)
   output$siltSurfaceRaster <- renderUI({selectInput(inputId = "siltSurface", label = "Choose a raster file for surface silt:", list.files(paste0(rasterPath,"soil/siltSurface"),"\\.tif$"))})
   outputOptions(output, "siltSurfaceRaster", suspendWhenHidden = FALSE)
   output$siltSubsurfaceRaster <- renderUI({selectInput(inputId = "siltSubsurface", label = "Choose a raster file for subsurface silt:", list.files(paste0(rasterPath,"soil/siltSubsurface"),"\\.tif$"))})
@@ -73,10 +69,6 @@ server <- function(input,output){ #code which runs on the server
   outputOptions(output, "cfSurfaceRaster", suspendWhenHidden = FALSE)
   output$cfSubsurfaceRaster <- renderUI({selectInput(inputId = "cfSubsurface", label = "Choose a raster file for subsurface coarse fragments:", list.files(paste0(rasterPath,"soil/cfSubsurface"),"\\.tif$"))})
   outputOptions(output, "cfSubsurfaceRaster", suspendWhenHidden = FALSE)
-  output$awhcSurfaceRaster <- renderUI({selectInput(inputId = "awhcSurface", label = "Choose a raster file for surface available water holding capacity:", list.files(paste0(rasterPath,"soil/awhcSurface"),"\\.tif$"))})
-  outputOptions(output, "awhcSurfaceRaster", suspendWhenHidden = FALSE)
-  output$awhcSubsurfaceRaster <- renderUI({selectInput(inputId = "awhcSubsurface", label = "Choose a raster file for subsurface available water holding capacity:", list.files(paste0(rasterPath,"soil/awhcSubsurface"),"\\.tif$"))})
-  outputOptions(output, "awhcSubsurfaceRaster", suspendWhenHidden = FALSE)
   output$ppeRaster <- renderUI({selectInput(inputId = "ppe", label = "Choose a raster file for ppe (precipitation minus potential evapotranspiration):", list.files(paste0(rasterPath,"soil/ppe"),"\\.tif$"))})
   outputOptions(output, "ppeRaster", suspendWhenHidden = FALSE)
   output$ocSurfacePercRaster <- renderUI({selectInput(inputId = "ocSurfacePerc", label = "Choose a raster file for oc surface percent:", list.files(paste0(rasterPath,"soil/ocSurfacePerc"),"\\.tif$"))})
@@ -89,17 +81,6 @@ server <- function(input,output){ #code which runs on the server
   outputOptions(output, "surfaceECRaster", suspendWhenHidden = FALSE)
   output$subsurfaceECRaster <- renderUI({selectInput(inputId = "subsurfaceEC", label = "Choose a raster file for subsurfaceEC:", list.files(paste0(rasterPath,"soil/subsurfaceEC"),"\\.tif$"))})
   outputOptions(output, "subsurfaceECRaster", suspendWhenHidden = FALSE)
-  output$sarSurfaceRaster <- renderUI({selectInput(inputId = "sarSurface", label = "Choose a raster file for surface SAR:", list.files(paste0(rasterPath,"soil/sarSurface"),"\\.tif$"))})
-  outputOptions(output, "sarSurfaceRaster", suspendWhenHidden = FALSE)
-  output$sarSubsurfaceRaster <- renderUI({selectInput(inputId = "sarSubsurface", label = "Choose a raster file for subsurface SAR:", list.files(paste0(rasterPath,"soil/sarSubsurface"),"\\.tif$"))})
-  outputOptions(output, "sarSubsurfaceRaster", suspendWhenHidden = FALSE)
-  output$E_DEPTHRaster <- renderUI({selectInput(inputId = "E_DEPTH", label = "Choose a raster file for E_DEPTH:", list.files(paste0(rasterPath,"soil/E_DEPTH"),"\\.tif$"))})
-  outputOptions(output, "E_DEPTHRaster", suspendWhenHidden = FALSE)
-  output$bdRaster <- renderUI({selectInput(inputId = "bd", label = "Choose a raster file for bd:", list.files(paste0(rasterPath,"soil/bd"),"\\.tif$"))})
-  outputOptions(output, "bdRaster", suspendWhenHidden = FALSE)
-  output$egddRaster <- renderUI({selectInput(inputId = "egdd", label = "Choose a raster file for effective growing degree days:", list.files(paste0(rasterPath,"soil/EGDD"),"\\.tif$"))})
-  outputOptions(output, "egddRaster", suspendWhenHidden = FALSE)
-
 
   observeEvent(eventExpr = input[["processFile"]],handlerExpr = { #runs the following code after the action button is pushed
     startTime <- Sys.time() #save the time we started at so we can check the difference after it's finished to see how long it took
@@ -119,16 +100,16 @@ server <- function(input,output){ #code which runs on the server
         if(input$dataType == "Landscape"){ #if the landscape data type is selected then
           landscapeResults("Raster", toString(input$cropType), paste0(rasterPath,"landscape/",c(
             paste0("region/",input$region),paste0("percentSlope/",input$percentSlope),paste0("landscapeType/",input$landscapeType),paste0("coarseFragments/",input$coarseFragments),paste0("surfaceWood/",input$surface),
-            paste0("subsurfaceWood/",input$subsurface),paste0("pattern/",input$pattern),paste0("inundationPeriod/",input$inundationPeriod),paste0("usableGrowingSeasonLength/",input$usableGrowingSeasonLength),paste0("frequency/",input$frequency))),
+            paste0("subsurfaceWood/",input$subsurface),paste0("pattern/",input$pattern),paste0("inundationPeriod/",input$inundation),paste0("usableGrowingSeasonLength/",input$ugsl),paste0("frequency/",input$floodFreq))),
                   fileOUT, TRUE) #process the input file and save the results to the output file
         }
         if(input$dataType == "Soil"){ #if the soil data type is selected then
           soilResults("Raster", toString(input$cropType), paste0(rasterPath,"soil/",c(
-          paste0("soilType/",input$soilType),paste0("claySurface/",input$claySurface),paste0("claySubsurface/",input$claySubsurface),paste0("sandSurface/",input$sandSurface),paste0("sandSubsurface/",input$sandSubsurface),
-          paste0("siltSurface/",input$siltSurface),paste0("siltSubsurface/",input$siltSubsurface),paste0("cfSurface/",input$cfSurface),paste0("cfSubsurface/",input$cfSubsurface),paste0("awhcSurface/",input$awhcSurface),
-          paste0("awhcSubsurface/",input$awhcSubsurface),paste0("ppe/",input$ppe), paste0("ocSurfacePerc/",input$ocSurfacePerc),paste0("surfacePH/",input$surfacePH),paste0("subsurfacePH/",input$subsurfacePH),
-          paste0("surfaceEC/",input$surfaceEC),paste0("subsurfaceEC/",input$subsurfaceEC),paste0("sarSurface/",input$sarSurface),paste0("sarSubsurface/",input$sarSubsurface),paste0("E_DEPTH/",input$E_DEPTH),
-          paste0("bd/",input$bd), paste0("EGDD/",input$egdd))), fileOUT, TRUE)
+          paste0("soilType/",input$soilType),paste0("claySurface/",input$claySurface),paste0("claySubsurface/",input$claySubsurface),
+          paste0("siltSurface/",input$siltSurface),paste0("siltSubsurface/",input$siltSubsurface),
+          paste0("cfSurface/",input$cfSurface),paste0("cfSubsurface/",input$cfSubsurface),
+          paste0("ppe/",input$ppe), paste0("ocSurfacePerc/",input$ocSurfacePerc),paste0("surfacePH/",input$surfacePH),paste0("subsurfacePH/",input$subsurfacePH),
+          paste0("surfaceEC/",input$surfaceEC),paste0("subsurfaceEC/",input$subsurfaceEC))), fileOUT, TRUE)
         }
       }
     })
