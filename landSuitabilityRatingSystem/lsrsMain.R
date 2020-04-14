@@ -6,6 +6,7 @@
 #TODO: 
 #Complete mineral soil functions.
 #Complete organic soil functions.
+#Add other crops.
 #Improve documentation.
 
 library(raster)
@@ -21,7 +22,7 @@ source("landscapeFactors/flooding.R")
 source("pointsToClass.R")
 source("climaticFactors/climateRatingPoints.R")
 source("climaticFactors/climateRatingClass.R")
-source("climaticFactors/moistureFactor.R")
+source("climaticFactors/climateMoisture.R")
 source("climaticFactors/temperatureFactor.R")
 source("climaticFactors/excessSpringMoisture.R")
 source("climaticFactors/excessFallMoisture.R")
@@ -29,7 +30,7 @@ source("climaticFactors/fallFrost.R")
 source("soilFactors/soilRatingPoints.R")
 source("soilFactors/soilRatingClass.R")
 source("soilFactors/capacity.R")
-source("soilFactors/moisture.R")
+source("soilFactors/soilMoisture.R")
 source("soilFactors/surfaceStructure.R")
 source("soilFactors/organicMatterContent.R")
 source("soilFactors/reaction.R")

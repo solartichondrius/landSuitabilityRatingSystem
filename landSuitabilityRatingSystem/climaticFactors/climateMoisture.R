@@ -1,9 +1,9 @@
-# Title     : Moisture Factor (A)
+# Title     : Climate Moisture Factor (A)
 # Objective : Calculate the deduction points for the moisture factor from May to August
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-moistureFactor <- function(cropType, ppe){
+climateMoisture <- function(cropType, ppe){
 
   #Calculate the point deduction number based on the moisture component (A)
   #The graph in figure 3.1 on page 8 reaches 0 point deduction at 0mm which gives the following formula:

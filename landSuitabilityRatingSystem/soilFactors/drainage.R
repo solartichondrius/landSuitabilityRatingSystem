@@ -1,7 +1,11 @@
 #February 14, 2020
 #Hayden McAdam
-#Calculates the drainage factor (W) deduction for mineral soils based on the soil class, P-PE,
+#Calculates the drainage factor (W) deduction for mineral soils based on the soil type, P-PE,
 #and surface clay and silt content. This deduction is applied as a percentage of the surface rating.
+
+#NOTE: This function is based partly on the Ruby code, but also uses new code
+#for calculating drainage codes based on the soil type. These calculations are
+#not confirmed to be accurate yet and may need to be changed in the future.
 
 drainage <- function(soilType, ppe, claySurface, siltSurface){
   #Assign drainage codes from 1 - 5 to indicate the drainage category based on the soil type.
@@ -18,6 +22,11 @@ drainage <- function(soilType, ppe, claySurface, siltSurface){
   wt[wt == 3] <- 75
   wt[wt == 4] <- 50
   wt[wt == 5] <- 25
+  #Replace NA and 0 values in claySurface and siltSurface with 0.000001 to avoid math errors.
+  claySurface[is.na(claySurface[])] <- 0.000001
+  claySurface[claySurface == 0] <- 0.000001
+  siltSurface[is.na(siltSurface[])] <- 0.000001
+  siltSurface[siltSurface == 0] <- 0.000001
   #Calculate drainage point deduction.
   pointDeduction <- ((100 - ((100 + ppe) / -100) * 3) - (wt * (1.65 / log10(claySurface + siltSurface))))
   #Prevent negative deductions and deductions greater than 100 points.
