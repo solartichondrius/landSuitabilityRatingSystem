@@ -4,24 +4,9 @@
 #Calculate the surface moisture point deduction based on table 4.2.
 soilMoisture <- function(cropType, siltSurface, siltSubsurface, claySurface, claySubsurface, 
                      cfSurface, cfSubsurface, awhcSurface, ppe, printProgress=FALSE) {
-  #Test values
-  # claySurface <- 48
-  # siltSurface <- 41
-  # cfSurface <- 0
-  # claySubsurface <- 60
-  # siltSubsurface <- 30
-  # cfSubsurface <- 0
-  # ppe <- -253
-  # awhcSurface <- (claySurface + siltSurface) * 2 + 35
-
-  # claySurface <- 25.33
-  # siltSurface <- 24.67
-  # cfSurface <- 1.33
-  # claySubsurface <- 39
-  # siltSubsurface <- 29.5
-  # cfSubsurface <- 2
-  # ppe <- -155.7
-  # awhcSurface <- 14
+  
+  #NOTE: This function is not finished since some of the values used in the Ruby code 
+  #for this function haven't been identified yet.
   
   #Surface moisture (Table 4.2)
   # surfaceMoisture <- (claySurface + siltSurface) * (1 - cfSurface / 100)

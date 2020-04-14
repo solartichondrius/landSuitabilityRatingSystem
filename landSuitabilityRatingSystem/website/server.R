@@ -7,7 +7,7 @@ library(shiny)
 library(shinyjs)
 library(raster)
 
-server <- function(input,output){ #code which runs on the server
+server <- function(input,output){
   shinyjs::useShinyjs() #use shiny javascript functions
   options(shiny.maxRequestSize=2^32) #Allows files up to 4GB (default limit was only 5MB)
   homePath <- "/home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #where this project is located on the filesystem
