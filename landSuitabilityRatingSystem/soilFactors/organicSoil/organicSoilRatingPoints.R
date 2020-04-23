@@ -26,7 +26,7 @@ organicSoilRatingPoints <- function(slc, soilType, egdd, ppe,
   v <- organicReaction(surfaceFibre, surfacePH)
   n <- organicSalinity(surfaceEC)
   #Only the larger of the two deductions for reaction and salinity is used.
-  chem <- ifelse(v > n, v, n)
+  chem <- max(v, n)
   #Total percent deduction
   b <- ((s + chem) / 100) * a
   #Basic Rating
@@ -45,7 +45,7 @@ organicSoilRatingPoints <- function(slc, soilType, egdd, ppe,
   sn <- organicSubsurfaceSalinity(subsurfaceEC)
   #Subsurface chemistry deduction is only used if it is greater than
   #the surface chemistry deduction.
-  sChem <- ifelse(sv > sn, sv, sn)
+  sChem <- max(sv, sn)
   sChem <- ifelse(sChem > chem, sChem, 0)
   #Total percent deduction
   d <- sb + g + sChem

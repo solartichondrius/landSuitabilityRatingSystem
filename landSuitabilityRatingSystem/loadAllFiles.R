@@ -3,8 +3,6 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-library(raster)
-
 mainFolder <- "/home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem" #main folder
 setwd(mainFolder)
 mainFiles <- list.files(mainFolder,"\\.R$") #files in the main folder

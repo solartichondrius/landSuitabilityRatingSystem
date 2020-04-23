@@ -1,10 +1,12 @@
 #February 2020
 #Hayden McAdam
-#Available Water Holding Capacity
-#The awhc values are already provided, so this function will probably
-#not be used.
-capacity <- function(cropType, clayAndSilt) {
+
+#Calculate available water holding capacity 
+#using clay and silt content (Table 4.1).
+
+capacity <- function(cropType, claySurface, siltSurface) {
   if (cropType == "SSSG") {
+    clayAndSilt <- claySurface + siltSurface
     awhc <- clayAndSilt
     awhc[clayAndSilt>85] <- clayAndSilt[awhc>85] * 2 + 35
     awhc[clayAndSilt<=85 & clayAndSilt>40] <- clayAndSilt[clayAndSilt<=85 & clayAndSilt>40] * 2 + 30
