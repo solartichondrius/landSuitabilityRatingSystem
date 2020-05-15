@@ -12,13 +12,14 @@ climateResults <- function(fileType, cropType, input, output, printProgress=FALS
     size <- nrow(df) #save the size (number of rows) of the dataframe
 
     results <- apply(df, 1, function(row) { #apply the following code to every row in the dataframe
-      results <- climateNumbersToLetters(climateRatingClass(cropType, row["ppe"], row["esm"], row["efm"], row["egdd"], row["eff"])) #save the results of the climate rating function applied to the relevant columns of the dataframe
+      results <- climateRatingClass(cropType, row["ppe"], row["esm"], row["efm"], row["egdd"], row["eff"]) #save the results of the climate rating function applied to the relevant columns of the dataframe
       #print(paste(row["rowNumber"],"out of",size,"completed")) #print the progress to the server
       incProgress(1/size, detail = (paste(row["rowNumber"], "out of", size, "completed"))) #print the progress to the website
       results #return the results
     })
 
-    df["climateRating"] <- results #add the results to a new column in the data frame called "climateRating"
+    df["climateRatingPoints"] <- results[1] #add the results to a new column in the data frame called "climateRating"
+    df["climateRatingClass"] <- results[2]
     df <- subset(df, select = -c(rowNumber)) #remove the column numbering the rows
     write.csv(df, output) #write the dataframe to a csv file
 
