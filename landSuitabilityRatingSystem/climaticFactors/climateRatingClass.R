@@ -3,17 +3,28 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-climateRatingClass <- function(points, a, h){
+climateRatingClass <- function(cropType, PPE, springPPE, fallPPE, EGDD, DBAFF, printProgress = FALSE) {
+
+  #Calculate the climate rating points.
+  crp <- climateRatingPoints(cropType, PPE, springPPE, fallPPE, EGDD, DBAFF, printProgress)
+  climatePoints <- crp[[1]]
   
-  #Loop through the climate table and assign a class to each row.
-  for (n in 1:length(clRatingTable$points)) {
-    #Assign a numeric class based on the points value.
-    number <- clRatingTable$points[n]
-    class <- pointsToClass(number)
-    #Add subclasses to the class to indicate which deductions were made.
-    if (a[n]>15){class <- paste(class, "A", sep="")}
-    if (h[n]>15){class <- paste(class, "H", sep="")}
-    clRatingTable$class[n] <- class
-  }
-  return(clRatingTable$class)
-  }
+  #Print the progress to the website.
+  if (printProgress) incProgress(0.1, detail = ("converting points to class"))
+  #Calculate the class based on the points, 
+  #then multiply it by 100 so it's the first digit on the left
+  class <- pointsToClass(climatePoints) * 100
+  
+  #Add subclasses to the class as a numeric value 
+  #to indicate which factors resulted in a deduction of more than 15 points.
+  md <- crp[[2]] 
+  md[md < 15] <- 0 
+  md[md >= 15] <- 10 
+  td <- crp[[3]] 
+  td[td < 15] <- 0 
+  td[td >= 15] <- 1
+  if (printProgress) incProgress(0.1, detail = ("calculating final rating class")) 
+  finalRatingClass <- class + md + td 
+
+  return(c(climatePoints, finalRatingClass))
+}

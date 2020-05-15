@@ -1,12 +1,17 @@
 #February 21, 2020
 #Hayden McAdam
-#Organic Subsurface Structure Deduction
-organicSubsurfaceStructure <- function(subsurfaceFibre){
-  pointDeduction <- ifelse(subsurfaceFibre >= 40, -20+0.5*subsurfaceFibre,
-                           ifelse(subsurfaceFibre <= 20, (20+-1*subsurfaceFibre)
-                                  /(1+0.1*subsurfaceFibre), 0))
+#Calculates subsurface structure/consistence deduction (B)
+#using subsurface fibre content (Table 5.8).
+organicSubsurfaceStructure <- function(cropType, subsurfaceFibre){
+  if(cropType=="SSSG") {
+    pointDeduction <- subSurfaceFibre
+    pointDeduction[pointDeduction>=40] <- pointDeduction/2 -20 +256
+    pointDeduction[pointDeduction<=20] <- (20-pointDeduction)/(1+pointDeduction/10) +256
+    pointDeduction[pointDeduction>20&pointDeduction<40] <- 0 +256
+    pointDeduction <- pointDeduction -256
+}
   #Prevent negative deductions and deductions greater than 100 points.
-  pointDeduction <- ifelse(pointDeduction < 0, 0, 
-                           ifelse(pointDeduction > 100, 100, pointDeduction))
+  pointDeduction[pointDeduction<0] <- 0
+  pointDeduction[pointDeduction>100] <- 100
   return(pointDeduction)
 }

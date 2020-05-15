@@ -1,0 +1,24 @@
+To install shiny server on a linux server enter the following commands into the commandline:
+sudo su - \
+-c "R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\""
+sudo apt install gdebi-core
+wget https://download3.rstudio.org/ubuntu-12.04/x86_64/shiny-server-1.5.6.875-amd64.deb
+sudo gdebi shiny-server-1.5.6.875-amd64.deb
+
+Address: 10.117.202.30:4949/website/
+This is what to type into the address bar in a web browser to access the website.
+
+Configuration file: etc/shiny-server/shiny-server.conf
+This file defines where the file for the website is located, what port to listen on, and where to save the log files.
+For the changes to take effect you must restart the server by entering the following into the commandline on the server:
+sudo systemctl restart shiny-server
+
+Make sure the folder(s) you are reading/writing to are owned by shiny or else shiny won't have permission to do anything:
+sudo chown shiny:shiny /full/path/to/directory
+
+The following line of code will delete all files in the results folder that are at least 1 day old:
+find /home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem/dataFiles/test_data/results -mtime +1 -delete
+All scripts in the /etc/cron.daily will be run every day, so I put the above line of code in a file called "lsrs" in that folder
+Another way is to type crontab -e into the terminal and enter the following line of code:
+1 0 * * * find /home/test/PycharmProjects/landSuitabilityRatingSystem/landSuitabilityRatingSystem/dataFiles/test_data/results -mtime +1 -delete
+

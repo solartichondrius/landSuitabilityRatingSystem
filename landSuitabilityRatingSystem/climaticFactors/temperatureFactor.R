@@ -3,11 +3,15 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-temperatureFactor <- function(EGDD){
-
-  pointDeduction <- ifelse(EGDD < 900, -0.05 * EGDD + 115, -0.10 * EGDD + 160.00)
-  #Prevent negative deductions and deductions greater than 100 points.
-  pointDeduction <- ifelse(pointDeduction < 0, 0, 
-                           ifelse(pointDeduction > 100, 100, pointDeduction))
+temperatureFactor <- function(cropType, EGDD) {
+  if (cropType == "SSSG") {
+    pointDeduction <- EGDD #load all of the values from the given EGDD values into "pointDeduction"
+    #all values less than 900 are multiplied by -0.05 and increased by 115:
+    pointDeduction[pointDeduction < 900] <- pointDeduction[pointDeduction < 900] * -0.05 + 115
+    #all values equal to or more than 900 are multiplied by -0.1 and increased by 160:
+    pointDeduction[pointDeduction >= 900] <- pointDeduction[pointDeduction >= 900] * -0.10 + 160
+  }
+  pointDeduction[pointDeduction < 0] <- 0 #all values less than 0 become 0
+  pointDeduction[pointDeduction > 100] <- 100 #all values greater than 100 become 100
   return(pointDeduction)
 }

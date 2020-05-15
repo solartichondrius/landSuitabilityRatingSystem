@@ -3,41 +3,37 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-landscapeRatingPoints <- function(region, ps, lt, cf,
-                                  surface, subsurface, pattern, 
-                                  inundationPeriod, usableGrowingSeasonLength, 
-                                  frequency) {
+landscapeRatingPoints <- function(cropType,ps,lsFactor,printProgress=FALSE) {
 
-  #Calculate point deduction from topography/slope and 
+  #Print the progress to the website
+  if(printProgress) incProgress(0.1, detail = ("calculating topography deduction")) 
+  #Calculate point deduction from topography/slope and
   #subtract it from 100 to find the basic landscape rating (a).
-  t <- topography(region, ps, lt)
+  t <- topography(cropType, ps, lsFactor)
   a <- 100 - t
   #Calculate point deduction from coarse fragments as a percentage of a.
-  P <- (stoniness(cf) / 100) * a
+  if(printProgress) incProgress(0.1, detail = ("calculating stoniness deduction"))
+  #P <- (stoniness(cropType, cf) / 100) * a
   #Calculate point deduction from wood content (currently unused).
-  J <- woodContent(surface, subsurface)
+  if(printProgress) incProgress(0.1, detail = ("calculating wood content deduction"))
+  #J <- woodContent(cropType, surfaceWC, subsurfaceWC)
   #Add the coarse fragment and wood content deductions together to find
   #the large fragments deduction (b).
-  b <- (P + J)
+  #b <- (P + J)
   #Subtract b from a to find the interim landscape rating (c).
-  c <- a - b
-  #Calculate the landscape pattern and flooding deductions 
+  #c <- a - b
+  #Calculate the landscape pattern and flooding deductions
   #(like wood content, these are currently unused).
-  K <- pattern
-  I <- flooding(inundationPeriod, usableGrowingSeasonLength, frequency)
-  d <- K + I
+  #K <- pattern
+  if(printProgress) incProgress(0.1, detail = ("calculating flooding deduction"))
+  #I <- flooding(cropType, inundation, ugsl, floodFreq)
+  #d <- K + I
   #Subtract the pattern and flooding deductions from c to calculate the
   #final landscape point value.
-  L <- c - d
-  #Create a new table containing all columns from lsTable and new columns
-  #for the values involved in deduction calculations, which will be used
-  #to find the class.
-  lsRatingTable <- lsTable
-  lsRatingTable$t <- t
-  lsRatingTable$p <- P
-  lsRatingTable$j <- J
-  lsRatingTable$k <- K
-  lsRatingTable$i <- I
-  lsRatingTable$points <- L
-  return(lsRatingTable)
+  if(printProgress) incProgress(0.1, detail = ("calculating final landscape points"))
+  #L <- c - d
+  L <- a
+  
+  return(c(L,t))
+  #return(c(L,t,P,J,K,I))
 }

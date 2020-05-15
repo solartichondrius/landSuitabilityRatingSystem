@@ -3,10 +3,10 @@
 # Created by: CurtisTh
 # Created on: 2020-01-22
 
-organicMatterContent <- function(organicCarbon){ #organic carbon as a percentage
-  pointDeduction <- 9.9928375 - 7.229321 * log(organicCarbon)
+organicMatterContent <- function(cropType, organicCarbon) {
+  if (cropType == "SSSG") pointDeduction <- 9.9928375 - 7.229321 * log(organicCarbon)
   #Prevent negative deductions and deductions greater than 15 points.
-  pointDeduction <- ifelse(pointDeduction < 0, 0, 
-                           ifelse(pointDeduction > 15, 15, pointDeduction))
+  pointDeduction[pointDeduction<0] <- 0
+  pointDeduction[pointDeduction>100] <- 100
   return(pointDeduction)
 }

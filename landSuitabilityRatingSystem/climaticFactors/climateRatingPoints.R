@@ -3,39 +3,37 @@
 # Created by: CurtisTh
 # Created on: 2020-01-20
 
-climateRatingPoints <- function(PPE, EGDD, springPPE, fallPPE, DBAFF){
+climateRatingPoints <- function(cropType, PPE, springPPE, fallPPE, EGDD, DBAFF, printProgress=FALSE){
 
-  #Calculate moisture and temperature deductions using PPE and EGDD.
-  moistureDeduction <- moistureFactor(PPE)
-  temperatureDeduction <- temperatureFactor(EGDD)
-  
-  #Create a new table containing all columns from clTable and new columns
-  #for the values involved in deduction calculations, which will be used
-  #to find the class.
-  clRatingTable <- clTable
-  clRatingTable$a <- moistureDeduction
-  clRatingTable$h <- temperatureDeduction
+  #Print the progress to the website.
+  if(printProgress) incProgress(0.1, detail = ("calculating moisture deduction"))
+  #Calculate moisture and temperature deductions using P-PE and EGDD.
+  moistureDeduction <- climateMoisture(cropType, PPE)
+  if(printProgress) incProgress(0.1, detail = ("calculating temperature deduction"))
+  temperatureDeduction <- temperatureFactor(cropType, EGDD)
   
   #Calculate the point values after the moisture and temperature deductions.
   A <- 100 - moistureDeduction
   H <- 100 - temperatureDeduction
   
-  #The basic climate rating (BCR) is the lower value of A and H.
-  basicClimateRating <- ifelse(A < H, A, H)
-  clRatingTable$basicClimateRating <- basicClimateRating
-
+  #The basic climatic rating (BCR) is the lower value of A and H.
+  if(printProgress) incProgress(0.1, detail = ("calculating basic climate rating"))
+  basicClimateRating <- min(A,H) 
+  
   #Calculate deductions for modifying factors.
-  springMoisture <- excessSpringMoisture(springPPE)
-  fallMoisture <- excessFallMoisture(fallPPE)
-  fallFrost <- fallFrost(DBAFF)
-  clRatingTable$springMoisture <- springMoisture
-  clRatingTable$fallMoisture <- fallMoisture
-  clRatingTable$fallFrost <- fallFrost
+  if(printProgress) incProgress(0.1, detail = ("calculating spring moisture deduction"))
+  springMoisture <- excessSpringMoisture(cropType, springPPE) #calculate spring moisture percent deduction
+  if(printProgress) incProgress(0.1, detail = ("calculating fall moisture deduction"))
+  fallMoisture <- excessFallMoisture(cropType, fallPPE) #calculate fall moisture percent deduction
+  if(printProgress) incProgress(0.1, detail = ("calculating fall frost deduction"))
+  fallFrost <- fallFrost(cropType, DBAFF) #calculate fall frost percent deduction
   
   #Calculate the total modification deduction as a percentage of the BCR 
   #and subtract it from the BCR to get the final point value.
-  modificationDeduction <- ((springMoisture + fallMoisture + fallFrost) / 100) * basicClimateRating
+  if(printProgress) incProgress(0.1, detail = ("calculating modification deduction")) #print the progress to the website
+  modificationDeduction <- (springMoisture + fallMoisture + fallFrost)/100 * basicClimateRating
+  if(printProgress) incProgress(0.1, detail = ("calculating final climate rating")) #print the progress to the website
   finalClimateRating <- basicClimateRating - modificationDeduction
-  clRatingTable$points <- finalClimateRating
-  return(clRatingTable)
+
+  return(c(finalClimateRating,moistureDeduction,temperatureDeduction))
 }

@@ -3,54 +3,49 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-flooding <- function(inundationPeriod, usableGrowingSeasonLength, frequency){
+flooding <- function(cropType, inundation, ugsl, floodFreq){
 #This information would be specified manually. See LSRS manual. See table below. Is not currently part of the Agrasid database.
-  if(any(frequency < 5)){
-    if(any(inundationPeriod < 2)){
-      percentDeduction <- 0
-    } else if(inundationPeriod <= 28){
-      percentDeduction <- 5
-    } else {
-      percentDeduction <- 10
-    }
-  } else if(frequency <= 25){
-    if(inundationPeriod < 2){
-      percentDeduction <- 0
-    } else if(inundationPeriod <= 7){
-      percentDeduction <- 5
-    } else if(inundationPeriod <= 28){
-      percentDeduction <- 10
-    } else {
-      percentDeduction <- 20
-    }
-  } else if(frequency < 50){
-    if(inundationPeriod < 2){
-      percentDeduction <- 10
-    } else if(inundationPeriod <= 7){
-      percentDeduction <- 30
-    } else if(inundationPeriod <= 28){
-      percentDeduction <- 65
-    } else {
-      percentDeduction <- 75
-    }
-  } else {
-    if(inundationPeriod < 2){
-      percentDeduction <- 30
-    } else if(inundationPeriod <= 7){
-      percentDeduction <- 65
-    } else if(inundationPeriod <= 28){
-      percentDeduction <- 70
-    } else {
-      if(usableGrowingSeasonLength > 5){
-        percentDeduction <- 85
-      } else {
-        percentDeduction <- 95
-      }
-    }
+  #combine the 3 variables into one 6 digit integer with 2 digits representing each variable
+  pd <- ugsl * 10000 + inundation * 100 + floodFreq
+  if(cropType=="SSSG"){
+    #when the frequency is less than 5% and the inundation period is less than 2 days, the percent deduction is 0.
+    pointDeduction[frequency<5 & inundationPeriod<2] <- 0
+    #when the frequency is less than 5% and the inundation period is between 2 days and 28 days the percent deduction is 5
+    pointDeduction[frequency<5 & inundationPeriod<=28 & inundationPeriod>=2] <- 5
+    #when the frequency is less than 5% and the inundation period is more than 28 days the percent deduction is 10
+    pointDeduction[frequency<5 & inundationPeriod>28] <- 10
+    #when the frequency is between 5% and 25% and the inundation period is less than 2 days the percent deduction is 0
+    pointDeduction[frequency>=5 & frequency<=25 & inundationPeriod<2] <- 0
+    #when the frequency is between 5% and 25% and the inundation period is between 2 and 7 days the percent deduction is 5
+    pointDeduction[frequency>=5 & frequency<=25 & inundationPeriod>=2 & inundationPeriod<=7] <- 5
+    #when the frequency is between 5% and 25% and the inundation period is between 7 and 28 days the percent deduction is 10
+    pointDeduction[frequency>=5 & frequency<=25 & inundationPeriod>7 & inundationPeriod<=28] <- 10
+    #when the frequency is between 5% and 25% and the inundation period is greater than 28 days the percent deduction is 20
+    pointDeduction[frequency>=5 & frequency<=25 & inundationPeriod>28] <- 20
+    #when the frequency is between 25% and 50% and the inundation period is less than 2 days the percent deduction is 10
+    pointDeduction[frequency>25 & frequency<50 & inundationPeriod<2] <- 10
+    #when the frequency is between 25% and 50% and the inundation period is between 2 and 7 days the percent deduction is 30
+    pointDeduction[frequency>25 & frequency<50 & inundationPeriod>=2 & inundationPeriod<=7] <- 30
+    #when the frequency is between 25% and 50% and the inundation period is between 7 and 28 days the percent deduction is 65
+    pointDeduction[frequency>25 & frequency<50 & inundationPeriod>7 & inundationPeriod<=28] <- 65
+    #when the frequency is between 25% and 50% and the inundation period is greater than 28 days the percent deduction is 75
+    pointDeduction[frequency>25 & frequency<50 & inundationPeriod>28] <- 75
+    #when the frequency is 50% or more and the inundation period is less than 2 days the percent deduction is 30
+    pointDeduction[frequency>=50 & inundationPeriod<2] <- 30
+    #when the frequency is 50% or more and the inundation period is between 2 and 7 days the percent deduction is 65
+    pointDeduction[frequency>=50 & inundationPeriod>=2 & inundationPeriod<=7] <- 65
+    #when the frequency is 50% or more and the inundation period is between 7 and 28 days the percent deduction is 70
+    pointDeduction[frequency>=50 & inundationPeriod>7 & inundationPeriod<=28] <- 70
+    #when the frequency is 50% or more and the inundation period is greater than 28 days
+    #and the usable growing season length is 5 weeks or more the percent deduction is 85
+    pointDeduction[frequency>=50 & inundationPeriod>28 & usableGrowingSeasonLength>=5] <- 85
+    #when the frequency is 50% or more and the inundation period is greater than 28 days
+    #and the usable growing season length is less than 5 weeks the percent deduction is 95
+    pointDeduction[frequency>=50 & inundationPeriod>28 & usableGrowingSeasonLength<5] <- 95
   }
+  #Prevent negative deductions and deductions greater than 100 percent
+  pointDeduction[pointDeduction<0] <- 0
+  pointDeduction[pointDeduction>100] <- 100
 
-  if(percentDeduction<0) percentDeduction <- 0 #can't have a negative deduction (when it's subtracted that would result in adding points)
-
-  return(percentDeduction)
-
+  return(pointDeduction)
 }
