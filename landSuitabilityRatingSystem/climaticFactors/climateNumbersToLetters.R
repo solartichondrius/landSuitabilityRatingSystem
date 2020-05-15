@@ -6,8 +6,8 @@
 climateNumbersToLetters <- function(number){
   climateRating <- floor(number/100) #get the number in the hundreds column, which is the climate rating (a number from 1 to 7)
   #if the number in the tens column is a 1 (as in "TRUE" for "is the moisture deduction 15 or more?") then add an "A" to the climate rating
-  if(floor(number%%100/10)==1) climateRating <- paste0(climateRating,"A")
+  climateRating[(number%%100/10)==1]  <- paste0(climateRating,"A")
   #if the number in the ones column is a 1 (as in "TRUE" for "is the temperature deduction 15 or more?") then add a "H" to the climate rating
-  if(number%%10==1) climateRating <- paste0(climateRating,"H")
+  climateRating[(number%%10==1)] <- paste0(climateRating,"H")
   return(climateRating)
 }

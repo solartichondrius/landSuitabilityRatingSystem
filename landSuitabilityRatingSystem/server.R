@@ -15,7 +15,7 @@ server <- function(input,output){
   vectorPath <- paste0(homePath, "/dataFiles/test_data/ab_vector/") #where all the vector files are located on the filesystem
   rasterPath <- paste0(homePath, "/dataFiles/test_data/ab_raster/") #where all the raster files are located on the filesystem
   resultsPath <- paste0(homePath, "/dataFiles/test_data/results/") #where all the results files are located on the filesystem
-  source("loadAllFiles.R") #load all the required files
+  source(paste(homePath,"loadAllFiles.R",sep="/")) #load all the required files
 
   output$vectorFiles <- renderUI({selectInput(inputId = "vectorFile",  label = "Choose a vector file:", list.files(vectorPath,"\\.csv$"))})
   outputOptions(output, "vectorFiles", suspendWhenHidden = FALSE) #dropbox to select one of the vector files from the server

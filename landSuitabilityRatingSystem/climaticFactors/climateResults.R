@@ -18,8 +18,8 @@ climateResults <- function(fileType, cropType, input, output, printProgress=FALS
       results #return the results
     })
 
-    df["climateRatingPoints"] <- results[1] #add the results to a new column in the data frame called "climateRating"
-    df["climateRatingClass"] <- results[2]
+    df["climateRatingPoints"] <- results[1,] #add the results to a new column in the data frame called "climateRating"
+    df["climateRatingClass"] <- climateNumbersToLetters(results[2,])
     df <- subset(df, select = -c(rowNumber)) #remove the column numbering the rows
     write.csv(df, output) #write the dataframe to a csv file
 
