@@ -6,6 +6,7 @@
 mainFolder <- paste0(here(),"/landSuitabilityRatingSystem") #main folder
 mainFiles <- list.files(mainFolder,"\\.R$") #files in the main folder
 mainFiles <- mainFiles[mainFiles != "lsrsMain.R" & mainFiles != "plotGraphs.R" & mainFiles != "test.R" & mainFiles != "loadAllFiles.R" & mainFiles != "lsrsMainRaster.R"] #files to exclude
+mainFiles <- paste(mainFolder,mainFiles,sep="/")
 
 climateFolder <- paste0(mainFolder,"/climaticFactors")
 climateFiles <- list.files(climateFolder,"\\.R$")
