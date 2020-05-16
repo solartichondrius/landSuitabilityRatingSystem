@@ -6,14 +6,14 @@
 landscapeNumbersToLetters <- function(number){
   landscapeRating <- floor(number/100000) #get the leftmost digit, which is the landscape rating (a number from 1 to 7)
   #if the second digit from the left is a 1 (as in "TRUE" for "is the topography deduction 15 or more?") then add a "T" to the landscape rating
-  landscapeRating[(floor(number%%100000/10000)==1)] <- paste0(landscapeRating,"T")
+  landscapeRating[(floor(number%%100000/10000)==1)] <- paste0(landscapeRating[(floor(number%%100000/10000)==1)],"T")
   #if the second digit from the left is a 1 (as in "TRUE" for "is the stoniness deduction 15 or more?") then add a "P" to the landscape rating
-  landscapeRating[(floor(number%%10000/1000)==1)] <- paste0(landscapeRating,"P")
+  landscapeRating[(floor(number%%10000/1000)==1)] <- paste0(landscapeRating[(floor(number%%10000/1000)==1)],"P")
   #if the second digit from the left is a 1 (as in "TRUE" for "is the wood content deduction 15 or more?") then add a "J" to the landscape rating
-  landscapeRating[(floor(number%%1000/100)==1)] <- paste0(landscapeRating,"J")
+  landscapeRating[(floor(number%%1000/100)==1)] <- paste0(landscapeRating[(floor(number%%1000/100)==1)],"J")
   #if the second digit from the left is a 1 (as in "TRUE" for "is the pattern deduction 15 or more?") then add a "K" to the landscape rating
-  landscapeRating[(floor(number%%100/10)==1)] <- paste0(landscapeRating,"K")
+  landscapeRating[(floor(number%%100/10)==1)] <- paste0(landscapeRating[(floor(number%%100/10)==1)],"K")
   #if the second digit from the left is a 1 (as in "TRUE" for "is the inundation deduction 15 or more?") then add a "I" to the landscape rating
-  landscapeRating[(floor(number%%10)==1)] <- paste0(landscapeRating,"I")
+  landscapeRating[(floor(number%%10)==1)] <- paste0(landscapeRating[(floor(number%%10)==1)],"I")
   return(landscapeRating)
 }

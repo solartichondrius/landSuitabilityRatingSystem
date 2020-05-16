@@ -5,12 +5,12 @@
 
 soilNumbersToLetters <- function(number){
   soilRating <- floor(number/1000000)
-  soilRating[(floor(number%%1000000/100000)==1)] <- paste0(soilRating,"M")
-  soilRating[(floor(number%%1000000/100000)==2)] <- paste0(soilRating,"A")
-  soilRating[(floor(number%%100000/10000)==1)] <- paste0(soilRating,"D")
-  soilRating[(floor(number%%10000/1000)==1)] <- paste0(soilRating,"F")
-  soilRating[(floor(number%%1000/100)==1)] <- paste0(soilRating,"V")
-  soilRating[(floor(number%%100/10)==1)] <- paste0(soilRating,"N")
-  soilRating[(floor(number%%10)==1)] <- paste0(soilRating,"Y")
+  soilRating[(floor(number%%1000000/100000)==1)] <- paste0(soilRating[(floor(number%%1000000/100000)==1)],"M")
+  soilRating[(floor(number%%1000000/100000)==2)] <- paste0(soilRating[(floor(number%%1000000/100000)==2)],"A")
+  soilRating[(floor(number%%100000/10000)==1)] <- paste0(soilRating[(floor(number%%100000/10000)==1)],"D")
+  soilRating[(floor(number%%10000/1000)==1)] <- paste0(soilRating[(floor(number%%10000/1000)==1)],"F")
+  soilRating[(floor(number%%1000/100)==1)] <- paste0(soilRating[(floor(number%%1000/100)==1)],"V")
+  soilRating[(floor(number%%100/10)==1)] <- paste0(soilRating[(floor(number%%100/10)==1)],"N")
+  soilRating[(floor(number%%10)==1)] <- paste0(soilRating[(floor(number%%10)==1)],"Y")
   return(soilRating)
 }
