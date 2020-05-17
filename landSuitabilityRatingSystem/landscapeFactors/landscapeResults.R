@@ -12,16 +12,17 @@ landscapeResults <- function(fileType, cropType, input, output, printProgress=FA
     size <- nrow(df) #save the size (number of rows) of the dataframe
 
     results <- apply(df, 1, function(row) { #apply the following code to every row in the dataframe
-      results <- landscapeNumbersToLetters(landscapeRatingClass(cropType, as.numeric(row["region"]), as.numeric(row["ps"]), as.numeric(row["lt"]), as.numeric(row["cf"]),
+      results <- landscapeRatingClass(cropType, as.numeric(row["region"]), as.numeric(row["ps"]), as.numeric(row["lt"]), as.numeric(row["cf"]),
                                  as.numeric(row["surface"]), as.numeric(row["subsurface"]), as.numeric(row["pattern"]),
                                  as.numeric(row["inundationPeriod"]), as.numeric(row["usableGrowingSeasonLength"]),
-                                 as.numeric(row["frequency"]))) #save the results of the climate rating function applied to the relevant columns of the dataframe
+                                 as.numeric(row["frequency"])) #save the results of the climate rating function applied to the relevant columns of the dataframe
       #print(paste(row["rowNumber"],"out of",size,"completed")) #print the progress to the server
       incProgress(1/size, detail = (paste(row["rowNumber"], "out of", size, "completed"))) #print the progress to the website
       results #return the results
     })
 
-    df["landscapeRating"] <- results #add the results to a new column in the data frame called "landscapeRating"
+    df["landscapeRatingPoints"] <- results[1,] #add the results to a new column in the data frame called "landscapeRating"
+    df["landscapeRatingClass"] <- landscapeNumbersToLetters(results[2,])
     df <- subset(df, select = -c(rowNumber)) #remove the column numbering the rows
     write.csv(df, output) #write the dataframe to a csv file
 

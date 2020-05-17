@@ -3,7 +3,8 @@
 # Created by: CurtisTh
 # Created on: 2020-01-21
 
-mainFolder <- paste0(here(),"/landSuitabilityRatingSystem") #main folder
+mainFolder <- here() #main folder for local computer
+#mainFolder <- paste(here(),"landSuitabilityRatingSystem",sep="/") #main folder for server
 mainFiles <- list.files(mainFolder,"\\.R$") #files in the main folder
 mainFiles <- mainFiles[mainFiles != "lsrsMain.R" & mainFiles != "plotGraphs.R" & mainFiles != "test.R" & mainFiles != "loadAllFiles.R" & mainFiles != "lsrsMainRaster.R"] #files to exclude
 mainFiles <- paste(mainFolder,mainFiles,sep="/")

@@ -11,10 +11,11 @@ library(here)
 server <- function(input,output){
   shinyjs::useShinyjs() #use shiny javascript functions
   options(shiny.maxRequestSize=2^32) #Allows files up to 4GB (default limit was only 5MB)
-  homePath <- paste0(here(),"/landSuitabilityRatingSystem")
+  #homePath <- paste(here(),"landSuitabilityRatingSystem",sep="/") #home path for local computer
+  homePath <- here() #home path for server
   vectorPath <- paste0(homePath, "/dataFiles/test_data/ab_vector/") #where all the vector files are located on the filesystem
   rasterPath <- paste0(homePath, "/dataFiles/test_data/ab_raster/") #where all the raster files are located on the filesystem
-  resultsPath <- paste0(homePath, "/dataFiles/test_data/results/") #where all the results files are located on the filesystem
+  resultsPath <- paste0("results/") #where all the results files are located on the filesystem
   source(paste(homePath,"loadAllFiles.R",sep="/")) #load all the required files
 
   output$vectorFiles <- renderUI({selectInput(inputId = "vectorFile",  label = "Choose a vector file:", list.files(vectorPath,"\\.csv$"))})
